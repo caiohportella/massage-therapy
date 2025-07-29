@@ -13,9 +13,9 @@ import { StepWithForm, useFormMap } from "@/lib/FormMap";
 import { DatePickerWithAvailabilityStep } from "@/components/steps/DatePickerWithAvailabilityStep";
 import { ServicePickerStep } from "@/components/steps/ServicePickerStep";
 import { PersonalDataStep } from "@/components/steps/PersonalDataStep";
-import { ClinicalProfileStep } from "@/components/steps/ClinicalProfileStep";
-import { GeneralConsiderationsStep } from "@/components/steps/GeneralConsiderationsStep";
-import { MtcAnamneseStep } from "@/components/steps/MtcAnamneseStep";
+// import { ClinicalProfileStep } from "@/components/steps/ClinicalProfileStep";
+// import { GeneralConsiderationsStep } from "@/components/steps/GeneralConsiderationsStep";
+// import { MtcAnamneseStep } from "@/components/steps/MtcAnamneseStep";
 import { BookingReviewStep } from "@/components/steps/BookingReviewStep";
 
 export function MultiStepForm() {
@@ -36,9 +36,9 @@ export function MultiStepForm() {
   const {
     formMap,
     personalDataForm,
-    clinicalProfileForm,
-    generalConsiderationsForm,
-    mtcAnamneseForm,
+    // clinicalProfileForm,
+    // generalConsiderationsForm,
+    // mtcAnamneseForm,
   } = useFormMap();
 
   async function handleNext() {
@@ -64,6 +64,39 @@ export function MultiStepForm() {
 
   function handleBack() {
     prevStep();
+  }
+
+  function handleFinalize() {
+    // Coleta os dados do bookingStore
+    const bookingData = {
+      date: selectedDate?.toISOString().split("T")[0],
+      time: useBookingStore.getState().selectedTime,
+      services: useBookingStore.getState().selectedServices.map((s) => ({
+        productId: s.productId,
+        quantity: s.quantity,
+        name: s.name,
+        duration: s.duration,
+      })),
+      personalData: useBookingStore.getState().personalData,
+      // clinicalProfile: useBookingStore.getState().clinicalProfile,
+      // generalConsiderations: useBookingStore.getState().generalConsiderations,
+      // mtcAnamnese: useBookingStore.getState().mtcAnamnese,
+    };
+
+    fetch("/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bookingData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          console.error("Erro ao iniciar o pagamento:", data.error);
+        }
+      })
+      .catch((err) => console.error(err));
   }
 
   return (
@@ -99,12 +132,13 @@ export function MultiStepForm() {
         {step === 0 && <DatePickerWithAvailabilityStep />}
         {step === 1 && <ServicePickerStep />}
         {step === 2 && <PersonalDataStep form={personalDataForm} />}
-        {step === 3 && <ClinicalProfileStep form={clinicalProfileForm} />}
+        {step === 3 && <BookingReviewStep />}
+        {/* {step === 3 && <ClinicalProfileStep form={clinicalProfileForm} />}
         {step === 4 && (
           <GeneralConsiderationsStep form={generalConsiderationsForm} />
         )}
         {step === 5 && <MtcAnamneseStep form={mtcAnamneseForm} />}
-        {step === 6 && <BookingReviewStep />}
+        {step === 6 && <BookingReviewStep />} */}
       </motion.div>
 
       {/* Footer */}
@@ -122,12 +156,12 @@ export function MultiStepForm() {
         <div className="flex items-center gap-6">
           {selectedDate && (
             <span className="text-sm text-muted-foreground">
-              Etapa {step + 1} de {STEPS.length}
+              {step + 1} de {STEPS.length}
             </span>
           )}
 
           {step === STEPS.length - 1 ? (
-            <Button onClick={() => console.log("Finalizar")}>
+            <Button onClick={handleFinalize}>
               Finalizar <Check className="w-4 h-4 ml-2" />
             </Button>
           ) : (

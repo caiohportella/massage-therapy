@@ -19,7 +19,19 @@ import {
 } from "@/components/ui/select";
 
 interface ClinicalProfileFormProps {
-  form: UseFormReturn<any>;
+  form: UseFormReturn<{
+    hasChronicDisease: string;
+    chronicDiseaseDescription: string;
+    usesMedication: string;
+    medicationDescription: string;
+    hasAllergies: string;
+    allergiesDescription: string;
+    hadSurgery: string;
+    surgeryDescription: string;
+    hasPain: string;
+    painDescription: string;
+    isPregnant: string;
+  }>;
 }
 
 export function ClinicalProfileForm({ form }: ClinicalProfileFormProps) {

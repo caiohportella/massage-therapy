@@ -6,7 +6,6 @@ import { useMtcAnamneseForm } from "./hooks/useMtcAnamneseForm";
 
 export type StepWithForm = 2 | 3 | 4 | 5;
 
-// 🔥 Hook que instancia todos os forms
 export function useFormMap() {
   const personalDataForm = usePersonalDataForm();
   const clinicalProfileForm = useClinicalProfileForm();

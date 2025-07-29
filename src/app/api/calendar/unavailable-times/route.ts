@@ -1,44 +1,46 @@
-import { getAvailableSlotsForDate } from "@/lib/schedule";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { getBusyTimes } from "@/lib/GoogleCalendar";
+import { eachDayOfInterval, format } from "date-fns";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const year = parseInt(searchParams.get("year") ?? "");
-  const month = parseInt(searchParams.get("month") ?? "");
+  const year = Number(searchParams.get("year"));
+  const month = Number(searchParams.get("month")); // 1-indexed
 
   if (!year || !month) {
     return NextResponse.json(
-      { error: "Parâmetros year e month são obrigatórios" },
+      { error: "Parâmetros 'year' e 'month' são obrigatórios." },
       { status: 400 }
     );
   }
 
-  const unavailable: string[] = [];
-
+  // Verifica se a data está dentro dos 20 dias permitidos (conforme regra anterior)
   const today = new Date();
+  const monthStart = new Date(year, month - 1, 1);
+  const monthEnd = new Date(year, month, 0);
+
   today.setHours(0, 0, 0, 0);
 
-  const datesInMonth = Array.from({ length: 31 }, (_, i) => {
-    const date = new Date(year, month - 1, i + 1);
-    return date.getMonth() === month - 1 ? date : null;
-  }).filter(Boolean) as Date[];
-
-  await Promise.all(
-    datesInMonth.map(async (date) => {
-      const isoDate = date.toISOString().split("T")[0];
-
-      if (date < today) {
-        unavailable.push(isoDate);
-        return;
-      }
-
-      const available = await getAvailableSlotsForDate(isoDate);
-
-      if (available.length === 0) {
-        unavailable.push(isoDate);
-      }
-    })
+  const days = eachDayOfInterval({ start: monthStart, end: monthEnd }).filter(
+    (day) => day >= today
   );
+  const unavailableDates: string[] = [];
 
-  return NextResponse.json({ unavailable });
+  // Checar cada dia individualmente (pode ser paralelo, mas limitado para evitar burst)
+  for (const day of days) {
+    const formattedDate = format(day, "yyyy-MM-dd");
+
+    try {
+      const busy = await getBusyTimes(formattedDate);
+
+      // Regra: se já houverem 5 atendimentos ou mais → dia indisponível
+      if (busy.length >= 5) {
+        unavailableDates.push(formattedDate);
+      }
+    } catch (err) {
+      console.error(`Erro ao buscar busy times para ${formattedDate}:`, err);
+    }
+  }
+
+  return NextResponse.json({ unavailable: unavailableDates });
 }

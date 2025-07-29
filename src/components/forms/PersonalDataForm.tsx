@@ -15,7 +15,22 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { FetchAddressByCep } from "@/lib/api/FetchAddressByCep";
 
 interface PersonalDataFormProps {
-  form: UseFormReturn<any>;
+  form: UseFormReturn<{
+    fullName: string;
+    preferredName?: string;
+    email: string;
+    phone: string;
+    birthDate: string;
+    gender: string;
+    profession?: string;
+    zipCode: string;
+    address: string;
+    number: string;
+    complement?: string;
+    district: string;
+    city: string;
+    state: string;
+  }>;
 }
 
 export function PersonalDataForm({ form }: PersonalDataFormProps) {

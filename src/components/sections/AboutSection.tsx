@@ -13,7 +13,7 @@ export function AboutSection() {
         <SectionHeader title="Quem sou eu" background="Sobre" align="center" />
 
         {/* Content */}
-        <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-16 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-8 md:gap-24 items-center">
           {/* Image */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -22,12 +22,13 @@ export function AboutSection() {
             viewport={{ once: true }}
             className="
               relative 
-              w-full h-64 
+              w-full h-96 
               md:w-[400px] md:h-[500px] 
               rounded-[var(--radius-lg)] 
-              overflow-hidden"
+              overflow-hidden
+              "
           >
-            <Image src="/ritha.png" alt="About" fill className="object-cover" />
+            <Image src="/about.jpg" alt="About" fill className="object-cover" />
           </motion.div>
 
           {/* Text */}
@@ -38,19 +39,31 @@ export function AboutSection() {
             viewport={{ once: true }}
             className="flex flex-col gap-6"
           >
-            <p className="text-muted-foreground text-base md:text-2xl leading-relaxed">
-              Sendo formada em massoterapia pelo Senac Jundiaí, sou
-              massoterapeuta há 1 ano e meio, tendo concluído cursos de renome
-              dentro da área da medicina chinesa. Atualmente, atendo em
-              domicílio, em clínicas parceiras e na minha residência.
-            </p>
-            <p className="text-muted-foreground text-base md:text-2xl leading-relaxed">
-              Atuo com técnicas de massagem relaxante, terapêutica, drenagem
-              linfática, shiatsu e reflexologia.
+            <p className="text-muted-foreground text-base md:text-[22px] leading-relaxed">
+              Sou Ritha Portella, massoterapeuta integrativa, apaixonada pelo
+              poder do toque e pela sabedoria milenar da Medicina Tradicional
+              Chinesa. <br /> <br />
+              Sendo formada em massoterapia pelo Senac Jundiaí, atuo como
+              massoterapeuta desde 2021, tendo concluído cursos de renome dentro
+              da área da medicina chinesa. <br /> <br />
+              Minha missão é promover bem-estar físico, equilíbrio emocional e
+              presença interior, unindo técnicas terapêuticas com uma escuta
+              atenta e um olhar individualizado para cada pessoa que passa por
+              minhas mãos. <br /> <br />
+              Acredito que cuidar do corpo é também cuidar da alma, e que cada
+              dor ou tensão traz uma mensagem do que precisa ser olhado com mais
+              carinho e consciência. <br /> <br />
+              Atendo mulheres e homens que desejam aliviar dores, ansiedade,
+              estresse, inchaços e desconfortos — mas, acima de tudo, que
+              desejam se reconectar com seu corpo e com sua
+              própria energia vital.
             </p>
 
-            <div className="mt-24 text-start">
-              <ActionButton href="/contact" span="Entre em contato" />
+            <div className="mt-6 text-center md:text-start">
+              <ActionButton
+                href="https://wa.me/5511986999989"
+                span="Entre em contato"
+              />
             </div>
           </motion.div>
         </div>

@@ -13,7 +13,7 @@ export async function sendWhatsAppMessage({
   to: string;
   message: string;
 }) {
-  const formattedTo = `whatsapp:+55${to.replace(/\D/g, "")}`; // 🔥 Formata para WhatsApp Brasil
+  const formattedTo = `whatsapp:+55${to.replace(/\D/g, "")}`;
 
   const res = await client.messages.create({
     from,

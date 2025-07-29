@@ -1,31 +1,21 @@
 "use client";
 
 import { useBookingStore } from "@/store/booking-store";
-import { SERVICES } from "@/lib/constants";
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
 export function BookingReviewStep() {
   const { selectedDate, selectedTime, selectedServices, personalData } =
     useBookingStore();
 
-  // Lista de serviços com preço
-  const serviceList = selectedServices.map((service) => {
-    const serviceData = SERVICES.find((s) => s.name === service);
-    return {
-      ...serviceData,
-      price: serviceData?.price ?? 0,
-    };
-  });
+  // Calcula subtotal somando os preços dos serviços
+  const subtotal = selectedServices.reduce((acc, service) => {
+    const serviceTotal = (service.price || 0) * (service.quantity || 1);
+    return acc + serviceTotal;
+  }, 0);
 
-  const subtotal = serviceList.reduce((acc, item) => acc + item.price, 0);
-
-  // Frete (placeholder, será dinâmico no backend)
   const deliveryFee: number = 0;
-
   const total = subtotal + deliveryFee;
 
   return (
@@ -41,7 +31,7 @@ export function BookingReviewStep() {
             alt="Logo"
             width={96}
             height={48}
-            className="w-20 h-10 object-contain text-black"
+            className="w-40 h-10 object-contain text-black"
             priority
           />
         </div>
@@ -71,12 +61,21 @@ export function BookingReviewStep() {
           <h3 className="font-semibold flex items-center gap-2">
             <span>💆‍♀️</span>Serviços selecionados
           </h3>
-          {serviceList.map((service) => (
+
+          {selectedServices.map((service) => (
             <div
-              key={service.name}
+              key={service.productId}
               className="flex justify-between items-center"
             >
-              <span>{service.name}</span>
+              <span>
+                {service.name}{" "}
+                {service.durationLabel && (
+                  <span className="text-muted-foreground">
+                    {" "}
+                    ({service.durationLabel})
+                  </span>
+                )}
+              </span>
               <span className="font-semibold text-accent">
                 {service.price.toLocaleString("pt-BR", {
                   style: "currency",

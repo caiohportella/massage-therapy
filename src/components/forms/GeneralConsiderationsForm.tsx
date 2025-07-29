@@ -19,7 +19,23 @@ import {
 } from "@/components/ui/select";
 
 interface GeneralConsiderationsFormProps {
-  form: UseFormReturn<any>;
+  form: UseFormReturn<
+    {
+      underMedicalCare: string;
+      medicalCareDescription: string;
+      hasCirculatoryProblem: string;
+      circulatoryProblemDescription: string;
+      hasPressureProblem: string;
+      pressureProblemDescription: string;
+      hasRespiratoryProblem: string;
+      respiratoryProblemDescription: string;
+      hasVaricoseVeins: string;
+      hasThrombosisHistory: string;
+      hasSpineProblem: string;
+      spineProblemDescription: string;
+      additionalInfo: string;
+    }
+  >;
 }
 
 export function GeneralConsiderationsForm({

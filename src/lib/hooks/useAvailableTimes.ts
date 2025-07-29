@@ -35,15 +35,17 @@ export async function GET(req: Request) {
     );
     const end = new Date(start.getTime() + 60 * 60 * 1000);
 
-    const hasConflict = busy.some((b) => {
-      if (!b.start || !b.end) return false;
-      const busyStart = new Date(b.start);
-      const busyEnd = new Date(b.end);
-      const bufferStart = new Date(busyStart.getTime() - 15 * 60 * 1000);
-      const bufferEnd = new Date(busyEnd.getTime() + 15 * 60 * 1000);
+    const hasConflict = busy.some(
+      (b: { start: string | number | Date; end: string | number | Date }) => {
+        if (!b.start || !b.end) return false;
+        const busyStart = new Date(b.start);
+        const busyEnd = new Date(b.end);
+        const bufferStart = new Date(busyStart.getTime() - 15 * 60 * 1000);
+        const bufferEnd = new Date(busyEnd.getTime() + 15 * 60 * 1000);
 
-      return start < bufferEnd && end > bufferStart;
-    });
+        return start < bufferEnd && end > bufferStart;
+      }
+    );
 
     return !hasConflict;
   });

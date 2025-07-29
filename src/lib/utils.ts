@@ -36,13 +36,17 @@ export const isValidBirthDate = (date: string) => {
   const parsed = parseISO(date);
   const age = differenceInYears(new Date(), parsed);
 
-  return (
-    !isFuture(parsed) &&
-    age >= 1 &&
-    age <= 100
-  );
+  return !isFuture(parsed) && age >= 1 && age <= 100;
 };
 
 export function convertToSubcurrency(amount: number, factor = 100) {
   return Math.round(amount * factor);
 }
+
+export const debounce = <T extends (...args: any[]) => void>(func: T, delay: number) => {
+  let timeoutId: NodeJS.Timeout | null;
+  return (...args: Parameters<T>) => {
+    if (timeoutId) clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func(...args), delay);
+  };
+};

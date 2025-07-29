@@ -9,11 +9,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import { GlassBackground } from "@/components/layout/GlassBackground";
 
 const links = [
-  { href: "/", label: "Início" },
   { href: "#about", label: "Sobre" },
   { href: "#services", label: "Serviços" },
   { href: "#testimonials", label: "Depoimentos" },
-  { href: "#contact", label: "Contato" },
+  { href: "#vouchers", label: "Vouchers" },
+  { href: "#booking", label: "Booking" },
 ];
 
 export function Header() {
@@ -50,7 +50,7 @@ export function Header() {
               alt="Logo"
               width={256}
               height={256}
-              className="w-36 h-20"
+              className="w-32 h-16 object-contain"
             />
           </Link>
 

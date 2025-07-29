@@ -1,36 +1,18 @@
 import { create } from "zustand";
 
-type PersonalData = {
-  fullName: string;
-  preferredName?: string;
-  email: string;
-  phone: string;
-  birthDate: string;
-  gender: string;
-  profession?: string;
-
-  address: string;
-  number: string;
-  complement?: string;
-  district: string;
-  city: string;
-  state: string;
-  zipCode: string;
-};
-
-type ClinicalProfile = Record<string, any>;
-type GeneralConsiderations = Record<string, any>;
-type MtcAnamnese = Record<string, any>;
+// type ClinicalProfile = Record<string, any>;
+// type GeneralConsiderations = Record<string, any>;
+// type MtcAnamnese = Record<string, any>;
 
 type BookingState = {
   step: number;
   selectedDate?: Date;
   selectedTime?: string;
-  selectedServices: string[];
+  selectedServices: SelectedService[];
   personalData: PersonalData;
-  clinicalProfile: ClinicalProfile;
-  generalConsiderations: GeneralConsiderations;
-  mtcAnamnese: MtcAnamnese;
+  // clinicalProfile: ClinicalProfile;
+  // generalConsiderations: GeneralConsiderations;
+  // mtcAnamnese: MtcAnamnese;
 
   // Navegação
   setStep: (step: number) => void;
@@ -40,15 +22,16 @@ type BookingState = {
   // Dados do booking
   setDate: (date: Date) => void;
   setTime: (time: string) => void;
-  setServices: (services: string[]) => void;
+  setServices: (services: SelectedService[]) => void;
+
   setSelectedDate: (date: Date | undefined) => void;
   setSelectedTime: (time: string) => void;
 
   // Dados dos formulários
   setPersonalData: (data: PersonalData) => void;
-  setClinicalProfile: (data: ClinicalProfile) => void;
-  setGeneralConsiderations: (data: GeneralConsiderations) => void;
-  setMtcAnamnese: (data: MtcAnamnese) => void;
+  // setClinicalProfile: (data: ClinicalProfile) => void;
+  // setGeneralConsiderations: (data: GeneralConsiderations) => void;
+  // setMtcAnamnese: (data: MtcAnamnese) => void;
 
   saveDataToStore: (step: number, data: any) => void;
 
@@ -94,9 +77,9 @@ export const useBookingStore = create<BookingState>((set) => ({
   setSelectedTime: (time) => set({ selectedTime: time }),
   // Dados dos formulários
   setPersonalData: (data) => set({ personalData: data }),
-  setClinicalProfile: (data) => set({ clinicalProfile: data }),
-  setGeneralConsiderations: (data) => set({ generalConsiderations: data }),
-  setMtcAnamnese: (data) => set({ mtcAnamnese: data }),
+  // setClinicalProfile: (data) => set({ clinicalProfile: data }),
+  // setGeneralConsiderations: (data) => set({ generalConsiderations: data }),
+  // setMtcAnamnese: (data) => set({ mtcAnamnese: data }),
 
   // Salvar dados do formulário
   saveDataToStore: (step, data) => {
@@ -104,15 +87,15 @@ export const useBookingStore = create<BookingState>((set) => ({
       case 2:
         set({ personalData: data });
         break;
-      case 3:
-        set({ clinicalProfile: data });
-        break;
-      case 4:
-        set({ generalConsiderations: data });
-        break;
-      case 5:
-        set({ mtcAnamnese: data });
-        break;
+      // case 3:
+      //   set({ clinicalProfile: data });
+      //   break;
+      // case 4:
+      //   set({ generalConsiderations: data });
+      //   break;
+      // case 5:
+      //   set({ mtcAnamnese: data });
+      //   break;
       default:
         console.warn(`Step ${step} não possui dados associados.`);
     }
@@ -141,8 +124,8 @@ export const useBookingStore = create<BookingState>((set) => ({
         state: "",
         zipCode: "",
       },
-      clinicalProfile: {},
-      generalConsiderations: {},
-      mtcAnamnese: {},
+      // clinicalProfile: {},
+      // generalConsiderations: {},
+      // mtcAnamnese: {},
     }),
 }));

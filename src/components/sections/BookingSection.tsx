@@ -15,7 +15,7 @@ export function BookingSection() {
 
   return (
     <section className="w-full py-24 md:py-32">
-      <div className="container mx-auto px-4 flex flex-col gap-16 items-center">
+      <div className="container mx-auto px-4 flex flex-col gap-24 items-center">
         <SectionHeader title="Agende sua sessão" background="Booking" />
 
         <motion.div

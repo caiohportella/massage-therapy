@@ -38,7 +38,7 @@ const testimonials = [
 export function TestimonialSection() {
   return (
     <section className="w-full py-24 md:py-32">
-      <div className="container mx-auto px-4 flex flex-col gap-16">
+      <div className="container mx-auto px-4 flex flex-col gap-8 md:gap-24">
         {/* Header */}
         <SectionHeader
           title="O que meus clientes dizem"

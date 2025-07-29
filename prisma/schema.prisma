@@ -1,0 +1,146 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Service {
+  id          String  @id @default(cuid())
+  name        String
+  description String
+  price       Int
+  image       String?
+
+  bookings BookingService[]
+}
+
+model User {
+  id         String  @id @default(cuid())
+  name       String
+  email      String  @unique
+  phone      String
+  address    String
+  number     String
+  complement String?
+  district   String
+  city       String
+  state      String
+  zipCode    String
+
+  bookings Booking[]
+
+  createdAt DateTime @default(now())
+}
+
+model Booking {
+  id     String   @id @default(cuid())
+  date   DateTime
+  time   String
+  user   User     @relation(fields: [userId], references: [id])
+  userId String
+
+  services BookingService[]
+
+  paymentStatus String @default("pending")
+  totalAmount   Int
+
+  createdAt DateTime @default(now())
+}
+
+model BookingService {
+  id        String  @id @default(cuid())
+  booking   Booking @relation(fields: [bookingId], references: [id])
+  bookingId String
+
+  service   Service @relation(fields: [serviceId], references: [id])
+  serviceId String
+}
+
+model Availability {
+  id      String @id @default(cuid())
+  weekday Int // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+  time    String // Ex.: "09:00"
+
+  createdAt DateTime @default(now())
+}
+
+model Exception {
+  id     String   @id @default(cuid())
+  date   DateTime // Data sem atendimento (folga, feriado, etc.)
+  reason String? // Motivo (opcional)
+
+  createdAt DateTime @default(now())
+}
+
+model PatientForm {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  // PersonalDataForm
+  fullName      String
+  preferredName String?
+  email         String
+  phone         String
+  birthDate     DateTime
+  gender        String
+  profession    String?
+  zipCode       String
+  address       String
+  number        String
+  complement    String?
+  district      String
+  city          String
+  state         String
+
+  // // ClinicalProfileForm
+  // hasChronicDisease         String
+  // chronicDiseaseDescription String?
+  // usesMedication            String
+  // medicationDescription     String?
+  // hasAllergies              String
+  // allergiesDescription      String?
+  // hadSurgery                String
+  // surgeryDescription        String?
+  // hasPain                   String
+  // painDescription           String?
+  // isPregnant                String
+
+  // // GeneralConsiderationsForm
+  // underMedicalCare              String
+  // medicalCareDescription        String?
+  // hasCirculatoryProblem         String
+  // circulatoryProblemDescription String?
+  // hasPressureProblem            String
+  // pressureProblemDescription    String?
+  // hasRespiratoryProblem         String
+  // respiratoryProblemDescription String?
+  // hasVaricoseVeins              String
+  // hasThrombosisHistory          String
+  // hasSpineProblem               String
+  // spineProblemDescription       String?
+  // additionalInfo                String?
+
+  // // MtcAnamneseForm
+  // sleepQuality                    String
+  // appetite                        String
+  // bowelFunction                   String
+  // hasUrinaryAlterations           String
+  // urinaryAlterationsDescription   String?
+  // hasMenstrualCycle               String
+  // hasMenstrualAlterations         String
+  // menstrualAlterationsDescription String?
+  // predominantEmotion              String
+  // hasPainOrDiscomfort             String
+  // painOrDiscomfortDescription     String?
+  // observations                    String?
+}

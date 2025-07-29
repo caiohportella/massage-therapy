@@ -57,17 +57,22 @@ export async function getUnavailableSlotsForDate(date: string) {
     );
     const slotEnd = new Date(slotStart.getTime() + 60 * 60 * 1000); // 1h de duração
 
-    return busyTimes.some((busy) => {
-      if (!busy.start || !busy.end) return false;
+    return busyTimes.some(
+      (busy: {
+        start: string | number | Date;
+        end: string | number | Date;
+      }) => {
+        if (!busy.start || !busy.end) return false;
 
-      const busyStart = new Date(busy.start);
-      const busyEnd = new Date(busy.end);
+        const busyStart = new Date(busy.start);
+        const busyEnd = new Date(busy.end);
 
-      const bufferStart = new Date(busyStart.getTime() - 15 * 60 * 1000);
-      const bufferEnd = new Date(busyEnd.getTime() + 15 * 60 * 1000);
+        const bufferStart = new Date(busyStart.getTime() - 15 * 60 * 1000);
+        const bufferEnd = new Date(busyEnd.getTime() + 15 * 60 * 1000);
 
-      return slotStart < bufferEnd && slotEnd > bufferStart;
-    });
+        return slotStart < bufferEnd && slotEnd > bufferStart;
+      }
+    );
   });
 
   return unavailableSlots;

@@ -1,14 +1,13 @@
 "use client";
 
 import { SectionHeader } from "../elements/SectionHeader";
-import { ServiceCard } from "../elements/ServiceCard";
 import { Button } from "@/components/ui/button";
 import { VoucherCard } from "../elements/VoucherCard";
 
 export function VouchersSection() {
   return (
     <section className="w-full py-24 md:py-32 bg-background">
-      <div className="container mx-auto px-4 flex flex-col gap-16">
+      <div className="container mx-auto px-4 flex flex-col gap-8 md:gap-24">
         <SectionHeader
           title="Compre com desconto"
           background="Vouchers"

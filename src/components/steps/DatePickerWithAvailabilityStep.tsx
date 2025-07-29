@@ -5,8 +5,6 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { motion, AnimatePresence } from "framer-motion";
 
-import { Calendar } from "@/components/ui/calendar";
-
 import { Button } from "@/components/ui/button";
 import { useBookingStore } from "@/store/booking-store";
 import { cn } from "@/lib/utils";
@@ -17,33 +15,9 @@ export function DatePickerWithAvailabilityStep() {
   const selectedTime = useBookingStore((s) => s.selectedTime);
   const setSelectedDate = useBookingStore((s) => s.setSelectedDate);
   const setSelectedTime = useBookingStore((s) => s.setSelectedTime);
-  const nextStep = useBookingStore((s) => s.nextStep);
 
-  const [unavailableDates, setUnavailableDates] = useState<Date[]>([]);
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
   const [loadingTimes, setLoadingTimes] = useState(false);
-
-  const currentMonth = selectedDate ?? new Date();
-
-  // Buscar datas indisponíveis (baseado na API que consulta Google Calendar)
-  useEffect(() => {
-    async function fetchUnavailableDates() {
-      const year = currentMonth.getFullYear();
-      const month = currentMonth.getMonth() + 1; // +1 porque mês começa em 0
-
-      const res = await fetch(
-        `/api/calendar/unavailable-times?year=${year}&month=${month}`
-      );
-      const data = await res.json();
-
-      const dates = data.unavailable.map(
-        (dateStr: string) => new Date(dateStr)
-      );
-      setUnavailableDates(dates);
-    }
-
-    fetchUnavailableDates();
-  }, [currentMonth]);
 
   // Buscar horários disponíveis para a data selecionada
   useEffect(() => {
@@ -63,12 +37,6 @@ export function DatePickerWithAvailabilityStep() {
       .finally(() => setLoadingTimes(false));
   }, [selectedDate]);
 
-  function handleConfirm() {
-    if (selectedDate && selectedTime) {
-      nextStep();
-    }
-  }
-
   return (
     <motion.div
       animate={{
@@ -79,7 +47,6 @@ export function DatePickerWithAvailabilityStep() {
       className="
         w-full 
         rounded-[var(--radius-lg)] 
-        border border-border 
         backdrop-blur-xl 
         bg-foreground/5 
         p-8 
@@ -99,7 +66,7 @@ export function DatePickerWithAvailabilityStep() {
         )}
       >
         <div className="flex flex-col gap-4">
-          <h3 className="text-lg font-semibold text-foreground text-center md:text-left">
+          <h3 className="text-lg font-semibold text-foreground text-center">
             Selecione uma data
           </h3>
 

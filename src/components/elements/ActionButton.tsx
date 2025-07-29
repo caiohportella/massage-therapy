@@ -10,7 +10,7 @@ interface ActionButtonProps {
   className?: string;
 }
 
-export function ActionButton({ href, span, className }: ActionButtonProps) {
+export function ActionButton({ href, span }: ActionButtonProps) {
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}

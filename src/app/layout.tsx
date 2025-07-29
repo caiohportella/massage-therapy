@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Sora, Azeret_Mono, Croissant_One } from "next/font/google";
 import "./globals.css";
 
+import { Toaster } from "@/components/ui/sonner";
+
 const sora = Sora({
   variable: "--font-sora",
   subsets: ["latin"],
@@ -34,7 +36,8 @@ export default function RootLayout({
       <body
         className={`${sora.variable} ${croissant.variable} ${azeret.variable} antialiased font-sans bg-background text-foreground`}
       >
-        <div className="overflow-x-hidden">{children}</div>
+        <main className="overflow-x-hidden">{children}</main>
+        <Toaster />
       </body>
     </html>
   );

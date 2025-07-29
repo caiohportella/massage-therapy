@@ -20,13 +20,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-// Estenda as props do botão para que o DatePicker possa recebê-las
 interface DatePickerProps
   extends Omit<React.ComponentProps<typeof Button>, "onChange" | "value"> {
   value?: Date;
   onChange: (date: Date | undefined) => void;
   startYear?: number;
   endYear?: number;
+  disablePastDates?: boolean;
 }
 
 export function DatePicker({
@@ -35,7 +35,8 @@ export function DatePicker({
   startYear = getYear(new Date()) - 100,
   endYear = getYear(new Date()) + 100,
   className,
-  ...props // Recebe o restante das props (incluindo aria-invalid)
+  disablePastDates,
+  ...props
 }: DatePickerProps) {
   const date = value;
   const setDate = onChange;
@@ -130,6 +131,11 @@ export function DatePicker({
           autoFocus
           month={date}
           onMonthChange={setDate}
+          disabled={
+            disablePastDates
+              ? (d) => d < new Date(new Date().setHours(0, 0, 0, 0))
+              : undefined
+          }
         />
       </PopoverContent>
     </Popover>

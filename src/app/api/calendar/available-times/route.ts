@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAvailableSlotsForDate, getTimeSlotsForDate } from "@/lib/schedule";
-import { getBusyTimes } from "@/lib/GoogleCalendar";
+import { getAvailableSlotsForDate } from "@/lib/schedule";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
