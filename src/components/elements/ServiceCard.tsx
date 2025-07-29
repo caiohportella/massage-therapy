@@ -29,7 +29,7 @@ export function ServiceCard({ name, description, image }: ServiceCardProps) {
       </div>
 
       {/* Content */}
-      <div className="flex flex-col gap-2 p-6 flex-1">
+      <div className="flex flex-col justify-items-start gap-2 p-6 flex-1 min-h-[260px]">
         <h3 className="text-lg font-semibold text-background">{name}</h3>
         <p className="text-md text-background/70">{description}</p>
       </div>

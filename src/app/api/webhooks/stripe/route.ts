@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     event = stripe.webhooks.constructEvent(
       rawBody,
       sig,
-      process.env.STRIPE_SECRET_KEY!
+      process.env.STRIPE_WEBHOOK_SECRET_KEY!
     );
   } catch (err) {
     console.error("❌ Erro ao validar assinatura Stripe:", err);
