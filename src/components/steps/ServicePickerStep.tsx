@@ -51,14 +51,14 @@ export function ServicePickerStep() {
   }, [isFetched, setServices]);
 
   const handleSelectService = (service: Service) => {
-    const alreadySelected = selectedServices.some(
-      (s) => s.productId === service.id
-    );
+    // const alreadySelected = selectedServices.some(
+    //   (s) => s.productId === service.id
+    // );
 
-    if (alreadySelected) {
-      toast.warning("Este serviço já foi adicionado");
-      return;
-    }
+    // if (alreadySelected) {
+    //   toast.warning("Este serviço já foi adicionado");
+    //   return;
+    // }
 
     const selectedLabel =
       selectedOptions[service.id] ?? service.durations[0].label;
@@ -94,6 +94,10 @@ export function ServicePickerStep() {
       animate={{ opacity: 1 }}
     >
       {services.map((service: Service) => {
+        const alreadySelected = selectedServices.some(
+          (s) => s.productId === service.id
+        );
+
         return (
           <div
             key={service.id}
@@ -148,9 +152,19 @@ export function ServicePickerStep() {
             {/* Botão fixo no final */}
             <Button
               className="w-full mt-6"
-              onClick={() => handleSelectService(service)}
+              variant={alreadySelected ? "destructive" : "default"}
+              onClick={() => {
+                if (alreadySelected) {
+                  setSelectedServices(
+                    selectedServices.filter((s) => s.productId !== service.id)
+                  );
+                  toast.success("Serviço removido do agendamento");
+                } else {
+                  handleSelectService(service);
+                }
+              }}
             >
-              Selecionar serviço
+              {alreadySelected ? "Remover serviço" : "Selecionar serviço"}
             </Button>
           </div>
         );
