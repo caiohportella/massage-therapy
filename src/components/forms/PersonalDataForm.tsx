@@ -13,24 +13,10 @@ import { Input } from "@/components/ui/input";
 import { DatePicker } from "../elements/DatePicker";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { FetchAddressByCep } from "@/lib/api/FetchAddressByCep";
+import { PersonalDataSchema } from "@/lib/validators";
 
 interface PersonalDataFormProps {
-  form: UseFormReturn<{
-    fullName: string;
-    preferredName?: string;
-    email: string;
-    phone: string;
-    birthDate: string;
-    gender: string;
-    profession?: string;
-    zipCode: string;
-    address: string;
-    number: string;
-    complement?: string;
-    district: string;
-    city: string;
-    state: string;
-  }>;
+  form: UseFormReturn<PersonalDataSchema>;
 }
 
 export function PersonalDataForm({ form }: PersonalDataFormProps) {

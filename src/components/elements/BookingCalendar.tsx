@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { ptBR } from "date-fns/locale";
-import { debounce } from "@/lib/utils";
+import { useDebounce } from "@/lib/utils";
 import { useCalendarStore } from "@/store/calendar-store";
 
 interface BookingCalendarProps {
@@ -18,7 +18,7 @@ export function BookingCalendar({
 }: BookingCalendarProps) {
   const [unavailableDates, setUnavailableDates] = useState<Date[]>([]);
   const [mounted, setMounted] = useState(false);
-  const [captionLayout, _] =
+  const [captionLayout] =
     useState<React.ComponentProps<typeof Calendar>["captionLayout"]>(
       "dropdown"
     );
@@ -28,7 +28,7 @@ export function BookingCalendar({
   const setDates = useCalendarStore((s) => s.setDates);
 
   const fetchUnavailableDatesRef = useRef(
-    debounce(async (year: number, month: number) => {
+    useDebounce(async (year: number, month: number) => {
       const key = `${year}-${month}`;
       if (isFetched(key)) {
         const cached = getCachedDates(key);

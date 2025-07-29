@@ -17,21 +17,10 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { ClinicalProfileSchema } from "@/lib/validators";
 
 interface ClinicalProfileFormProps {
-  form: UseFormReturn<{
-    hasChronicDisease: string;
-    chronicDiseaseDescription: string;
-    usesMedication: string;
-    medicationDescription: string;
-    hasAllergies: string;
-    allergiesDescription: string;
-    hadSurgery: string;
-    surgeryDescription: string;
-    hasPain: string;
-    painDescription: string;
-    isPregnant: string;
-  }>;
+  form: UseFormReturn<ClinicalProfileSchema>;
 }
 
 export function ClinicalProfileForm({ form }: ClinicalProfileFormProps) {

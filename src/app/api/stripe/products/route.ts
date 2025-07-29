@@ -14,10 +14,14 @@ export async function GET() {
         });
 
         const durations = prices.data.map((price) => {
+          const defaultDuration = price.metadata.duration
+            ? parseInt(price.metadata.duration, 10)
+            : 60;
           return {
             label: price.nickname ?? "Sem nome",
             price: (price.unit_amount || 0) / 100,
             priceId: price.id,
+            duration: defaultDuration,
           };
         });
 

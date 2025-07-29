@@ -1,8 +1,8 @@
-import { UseFormReturn } from "react-hook-form";
 import { usePersonalDataForm } from "./hooks/usePersonalDataForm";
 import { useClinicalProfileForm } from "./hooks/useClinicalProfileForm";
 import { useGeneralConsiderationsForm } from "./hooks/useGeneralConsiderationsForm";
 import { useMtcAnamneseForm } from "./hooks/useMtcAnamneseForm";
+import { FormMap } from "./types";
 
 export type StepWithForm = 2 | 3 | 4 | 5;
 
@@ -12,7 +12,7 @@ export function useFormMap() {
   const generalConsiderationsForm = useGeneralConsiderationsForm();
   const mtcAnamneseForm = useMtcAnamneseForm();
 
-  const formMap: Record<StepWithForm, UseFormReturn<any>> = {
+  const formMap: FormMap = {
     2: personalDataForm,
     3: clinicalProfileForm,
     4: generalConsiderationsForm,

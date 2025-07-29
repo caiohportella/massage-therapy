@@ -17,6 +17,7 @@ import { PersonalDataStep } from "@/components/steps/PersonalDataStep";
 // import { GeneralConsiderationsStep } from "@/components/steps/GeneralConsiderationsStep";
 // import { MtcAnamneseStep } from "@/components/steps/MtcAnamneseStep";
 import { BookingReviewStep } from "@/components/steps/BookingReviewStep";
+import { StepFormValuesMap } from "@/lib/types";
 
 export function MultiStepForm() {
   const step = useBookingStore((state) => state.step);
@@ -48,7 +49,7 @@ export function MultiStepForm() {
       const isValid = await form.trigger();
       if (isValid) {
         const data = form.getValues();
-        saveDataToStore(step, data);
+        saveDataToStore(step as keyof StepFormValuesMap, data);
         nextStep();
       } else {
         console.log("⚠️ Etapa inválida.");

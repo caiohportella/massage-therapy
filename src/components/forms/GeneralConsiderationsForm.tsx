@@ -17,25 +17,10 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { GeneralConsiderationsSchema } from "@/lib/validators";
 
 interface GeneralConsiderationsFormProps {
-  form: UseFormReturn<
-    {
-      underMedicalCare: string;
-      medicalCareDescription: string;
-      hasCirculatoryProblem: string;
-      circulatoryProblemDescription: string;
-      hasPressureProblem: string;
-      pressureProblemDescription: string;
-      hasRespiratoryProblem: string;
-      respiratoryProblemDescription: string;
-      hasVaricoseVeins: string;
-      hasThrombosisHistory: string;
-      hasSpineProblem: string;
-      spineProblemDescription: string;
-      additionalInfo: string;
-    }
-  >;
+  form: UseFormReturn<GeneralConsiderationsSchema>;
 }
 
 export function GeneralConsiderationsForm({

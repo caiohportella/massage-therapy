@@ -2,6 +2,7 @@ declare type Duration = {
   label: string;
   price: number;
   priceId: string;
+  duration?: number;
 };
 
 declare type Service = {
@@ -44,3 +45,19 @@ declare type SelectedService = {
   durationLabel: string;
   duration: number;
 };
+
+declare type FormMap = {
+  2: UseFormReturn<PersonalDataSchema>;
+  3: UseFormReturn<ClinicalProfileSchema>;
+  4: UseFormReturn<GeneralConsiderationsSchema>;
+  5: UseFormReturn<MtcAnamneseSchema>;
+};
+
+declare type StepFormValuesMap = {
+  2: PersonalData;
+  3: ClinicalProfile;
+  4: GeneralConsiderations;
+  5: MtcAnamnese;
+};
+
+export type StepWithForm = keyof StepFormValuesMap;

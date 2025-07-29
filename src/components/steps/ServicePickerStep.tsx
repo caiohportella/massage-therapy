@@ -15,20 +15,22 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { Service } from "@/lib/types";
 
-type DurationOption = {
-  label: string;
-  price: number;
-  priceId: string;
-};
+// type DurationOption = {
+//   label: string;
+//   price: number;
+//   priceId: string;
+//   duration: number;
+// };
 
-type StripeService = {
-  id: string;
-  name: string;
-  description: string;
-  image: string | null;
-  durations: DurationOption[];
-};
+// type StripeService = {
+//   id: string;
+//   name: string;
+//   description: string;
+//   image: string | null;
+//   durations: DurationOption[];
+// };
 
 export function ServicePickerStep() {
   const { services, isFetched, setServices } = useServiceStore();
@@ -48,7 +50,7 @@ export function ServicePickerStep() {
       .catch(() => toast.error("Erro ao carregar serviços"));
   }, [isFetched, setServices]);
 
-  const handleSelectService = (service: StripeService) => {
+  const handleSelectService = (service: Service) => {
     const alreadySelected = selectedServices.some(
       (s) => s.productId === service.id
     );
@@ -73,6 +75,7 @@ export function ServicePickerStep() {
       priceId: selectedDuration.priceId,
       quantity: 1,
       durationLabel: selectedDuration.label,
+      duration: selectedDuration.duration ?? 60,
     };
 
     setSelectedServices([...selectedServices, newService]);
@@ -90,7 +93,7 @@ export function ServicePickerStep() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      {services.map((service: StripeService) => {
+      {services.map((service: Service) => {
         return (
           <div
             key={service.id}

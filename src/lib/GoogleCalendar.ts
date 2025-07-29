@@ -1,5 +1,6 @@
 import { google } from "googleapis";
 import { APPOINTMENT_LOCATION } from "./constants";
+import { BusyTime } from "./types";
 
 
 const calendarId = process.env.GOOGLE_CALENDAR_ID;

@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { differenceInYears, isFuture, parseISO } from "date-fns";
+import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -43,10 +44,18 @@ export function convertToSubcurrency(amount: number, factor = 100) {
   return Math.round(amount * factor);
 }
 
-export const debounce = <T extends (...args: any[]) => void>(func: T, delay: number) => {
-  let timeoutId: NodeJS.Timeout | null;
-  return (...args: Parameters<T>) => {
-    if (timeoutId) clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func(...args), delay);
-  };
+export const useDebounce = <T>(value: T, delay = 500) => {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
 };

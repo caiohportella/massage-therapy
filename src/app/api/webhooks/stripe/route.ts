@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { calendar } from "@/lib/GoogleCalendar";
 import { sendWhatsAppMessage } from "@/lib/twilio";
 import { formatConfirmationMessage } from "@/lib/whatsapp-messages/FormatConfirmationMessage";
+import { Service } from "@/lib/types";
 
 
 export async function POST(req: NextRequest) {

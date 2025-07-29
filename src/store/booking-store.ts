@@ -1,3 +1,4 @@
+import { PersonalData, SelectedService, StepFormValuesMap, StepWithForm } from "@/lib/types";
 import { create } from "zustand";
 
 // type ClinicalProfile = Record<string, any>;
@@ -33,7 +34,8 @@ type BookingState = {
   // setGeneralConsiderations: (data: GeneralConsiderations) => void;
   // setMtcAnamnese: (data: MtcAnamnese) => void;
 
-  saveDataToStore: (step: number, data: any) => void;
+  
+  saveDataToStore: <T extends StepWithForm>(step: T, data: StepFormValuesMap[T]) => void;
 
   // Reset geral
   reset: () => void;
