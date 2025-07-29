@@ -18,6 +18,12 @@ export const SERVICES = [
     image: "/services/drenagem.webp",
   },
   {
+    name: "Reflexologia Podal com Escalda-pés",
+    description:
+      "A reflexologia com escalda pés combina o relaxamento da imersão em água morna com a estimulação terapêutica dos pontos reflexos dos pés, promovendo equilíbrio e bem-estar integral.",
+    image: "/services/escalda-pes.webp",
+  },
+  {
     name: "Dreno Mamãe",
     description:
       "Drenagem linfática específica para gestantes, aliviando inchaços e desconfortos.",

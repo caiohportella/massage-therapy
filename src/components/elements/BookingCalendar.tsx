@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { ptBR } from "date-fns/locale";
-import { useDebounce } from "@/lib/utils";
 import { useCalendarStore } from "@/store/calendar-store";
 
 interface BookingCalendarProps {
@@ -18,43 +17,59 @@ export function BookingCalendar({
 }: BookingCalendarProps) {
   const [unavailableDates, setUnavailableDates] = useState<Date[]>([]);
   const [mounted, setMounted] = useState(false);
-  const [captionLayout] =
-    useState<React.ComponentProps<typeof Calendar>["captionLayout"]>(
-      "dropdown"
-    );
 
   const getCachedDates = useCalendarStore((s) => s.getCachedDates);
   const isFetched = useCalendarStore((s) => s.isFetched);
   const setDates = useCalendarStore((s) => s.setDates);
 
-  const fetchUnavailableDatesRef = useRef(
-    useDebounce(async (year: number, month: number) => {
-      const key = `${year}-${month}`;
-      if (isFetched(key)) {
-        const cached = getCachedDates(key);
-        if (cached) setUnavailableDates(cached);
-        return;
-      }
-      const res = await fetch(
-        `/api/calendar/unavailable-times?year=${year}&month=${month}`
-      );
-      const data = await res.json();
-      const dates = data.unavailable.map((d: string) => new Date(d));
-      setDates(key, dates);
-      setUnavailableDates(dates);
-    }, 87400)
-  );
+  const fetchUnavailableDates = useRef<
+    ((year: number, month: number) => void) | null
+  >(null);
+
+  useEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+    fetchUnavailableDates.current = (year: number, month: number) => {
+      if (timeoutId) clearTimeout(timeoutId);
+
+      timeoutId = setTimeout(() => {
+        const key = `${year}-${month}`;
+        if (isFetched(key)) {
+          const cached = getCachedDates(key);
+          if (cached) {
+            setUnavailableDates(cached);
+            return;
+          }
+        }
+
+        fetch(`/api/calendar/unavailable-times?year=${year}&month=${month}`)
+          .then((res) => res.json())
+          .then((data) => {
+            const dates = data.unavailable.map((d: string) => new Date(d));
+            setDates(key, dates);
+            setUnavailableDates(dates);
+          });
+      }, 1000);
+    };
+
+    // cleanup se necessário
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [isFetched, getCachedDates, setDates]);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   useEffect(() => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth() + 1;
-    fetchUnavailableDatesRef.current(year, month);
-  }, [getCachedDates, isFetched, setDates]);
+    if (!selectedDate) return;
+
+    const year = selectedDate.getFullYear();
+    const month = selectedDate.getMonth() + 1;
+
+    fetchUnavailableDates.current?.(year, month);
+  }, [selectedDate]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -71,7 +86,7 @@ export function BookingCalendar({
             )
           }
           showOutsideDays={false}
-          captionLayout={captionLayout}
+          captionLayout="dropdown"
           locale={ptBR}
           modifiers={{ unavailable: unavailableDates }}
           modifiersClassNames={{
@@ -87,7 +102,7 @@ export function BookingCalendar({
           onMonthChange={(date) => {
             const year = date.getFullYear();
             const month = date.getMonth() + 1;
-            fetchUnavailableDatesRef.current(year, month);
+            fetchUnavailableDates.current?.(year, month);
           }}
         />
       )}

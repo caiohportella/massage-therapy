@@ -3,7 +3,11 @@ import { getBusyTimes } from "@/lib/GoogleCalendar";
 import { eachDayOfInterval, format } from "date-fns";
 
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
+  const url = new URL(
+    req.url,
+    `http://${req.headers.get("host") || "localhost:3000"}`
+  );
+  const searchParams = url.searchParams;
   const year = Number(searchParams.get("year"));
   const month = Number(searchParams.get("month")); // 1-indexed
 
