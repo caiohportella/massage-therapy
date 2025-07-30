@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
           userId: user.id,
           services: {
             create: services.map((s: Service) => ({
-              service: { connect: { id: s.id } },
+              service: { connect: { productId: s.productId } },
             })),
           },
         },

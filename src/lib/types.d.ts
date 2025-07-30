@@ -10,6 +10,7 @@ declare type Service = {
   name: string;
   description: string;
   image: string | null;
+  productId: string;
   durations: Duration[];
 };
 
