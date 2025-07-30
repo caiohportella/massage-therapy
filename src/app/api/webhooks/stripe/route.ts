@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
       const serviceRecords = await Promise.all(
         services.map(async (s: SelectedService) => {
           const found = await prisma.service.findUnique({
-            where: { id: s.productId }, // ou use `stripeProductId` se alterar o schema
+            where: { productId: s.productId },
           });
 
           if (!found) {
@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
           totalAmount: session.amount_total ? session.amount_total / 100 : 0,
           userId: user.id,
           services: {
-            create: services.map((s: Service) => ({
+            create: services.map((s: SelectedService) => ({
               service: { connect: { productId: s.productId } },
             })),
           },
