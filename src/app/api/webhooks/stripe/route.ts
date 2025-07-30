@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { calendar } from "@/lib/GoogleCalendar";
 import { sendWhatsAppMessage } from "@/lib/twilio";
 import { formatConfirmationMessage } from "@/lib/whatsapp-messages/FormatConfirmationMessage";
-import { Service } from "@/lib/types";
+import { SelectedService, Service } from "@/lib/types";
 
 export async function POST(req: NextRequest) {
   const sig = req.headers.get("stripe-signature")!;
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
       const start = new Date(`${metadata.date}T${metadata.time}`);
 
       const serviceRecords = await Promise.all(
-        services.map(async (s: any) => {
+        services.map(async (s: SelectedService) => {
           const found = await prisma.service.findUnique({
             where: { id: s.productId }, // ou use `stripeProductId` se alterar o schema
           });
