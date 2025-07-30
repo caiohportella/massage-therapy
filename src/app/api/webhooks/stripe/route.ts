@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { calendar } from "@/lib/GoogleCalendar";
 import { sendWhatsAppMessage } from "@/lib/twilio";
 import { formatConfirmationMessage } from "@/lib/whatsapp-messages/FormatConfirmationMessage";
-import { SelectedService, Service } from "@/lib/types";
+import { SelectedService } from "@/lib/types";
 
 export async function POST(req: NextRequest) {
   const sig = req.headers.get("stripe-signature")!;

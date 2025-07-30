@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useBookingStore } from "@/store/booking-store";
@@ -18,8 +18,11 @@ import { PersonalDataStep } from "@/components/steps/PersonalDataStep";
 // import { MtcAnamneseStep } from "@/components/steps/MtcAnamneseStep";
 import { BookingReviewStep } from "@/components/steps/BookingReviewStep";
 import { StepFormValuesMap } from "@/lib/types";
+import { useState } from "react";
 
 export function MultiStepForm() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const step = useBookingStore((state) => state.step);
   const nextStep = useBookingStore((state) => state.nextStep);
   const prevStep = useBookingStore((state) => state.prevStep);
@@ -68,6 +71,8 @@ export function MultiStepForm() {
   }
 
   function handleFinalize() {
+    setIsLoading(true);
+
     const selectedServices = useBookingStore.getState().selectedServices;
     // Coleta os dados do bookingStore
     const bookingData = {
@@ -97,9 +102,11 @@ export function MultiStepForm() {
           window.location.href = data.url;
         } else {
           console.error("Erro ao iniciar o pagamento:", data.error);
+          setIsLoading(false);
         }
       })
       .catch((err) => console.error(err));
+    setIsLoading(false);
   }
 
   return (
@@ -164,8 +171,17 @@ export function MultiStepForm() {
           )}
 
           {step === STEPS.length - 1 ? (
-            <Button onClick={handleFinalize}>
-              Finalizar <Check className="w-4 h-4 ml-2" />
+            <Button onClick={handleFinalize} disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  Processando...
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                </>
+              ) : (
+                <>
+                  Finalizar <Check className="w-4 h-4 ml-2" />
+                </>
+              )}
             </Button>
           ) : (
             <Button onClick={handleNext} disabled={!isStepValid}>
