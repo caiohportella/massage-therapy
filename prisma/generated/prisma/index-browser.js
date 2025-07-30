@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.12.0
- * Query Engine version: 8047c96bbd92db98a2abc7c9323ce77c02c89dbc
+ * Prisma Client JS version: 6.13.0
+ * Query Engine version: 361e86d0ea4987e9f53a565309b3eed797a6bcbd
  */
 Prisma.prismaVersion = {
-  client: "6.12.0",
-  engine: "8047c96bbd92db98a2abc7c9323ce77c02c89dbc"
+  client: "6.13.0",
+  engine: "361e86d0ea4987e9f53a565309b3eed797a6bcbd"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -125,7 +125,9 @@ exports.Prisma.ServiceScalarFieldEnum = {
   name: 'name',
   description: 'description',
   price: 'price',
-  image: 'image'
+  image: 'image',
+  productId: 'productId',
+  duration: 'duration'
 };
 
 exports.Prisma.UserScalarFieldEnum = {
@@ -173,6 +175,25 @@ exports.Prisma.ExceptionScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.PatientFormScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  fullName: 'fullName',
+  preferredName: 'preferredName',
+  email: 'email',
+  phone: 'phone',
+  birthDate: 'birthDate',
+  gender: 'gender',
+  profession: 'profession',
+  zipCode: 'zipCode',
+  address: 'address',
+  number: 'number',
+  complement: 'complement',
+  district: 'district',
+  city: 'city',
+  state: 'state'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -195,7 +216,8 @@ exports.Prisma.ModelName = {
   Booking: 'Booking',
   BookingService: 'BookingService',
   Availability: 'Availability',
-  Exception: 'Exception'
+  Exception: 'Exception',
+  PatientForm: 'PatientForm'
 };
 
 /**

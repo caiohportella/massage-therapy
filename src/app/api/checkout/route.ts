@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 
 export async function POST(req: Request) {
-  const { name, services, metadata, date, time } = await req.json();
+  const { name, services, date, time, personalData, selectedServices } =
+    await req.json();
 
   try {
     const lineItems = [];
@@ -48,11 +49,11 @@ export async function POST(req: Request) {
       mode: "payment",
       line_items: lineItems,
       metadata: {
-        ...metadata,
-        name: metadata?.name || name,
+        name,
         date,
         time,
-        services: JSON.stringify(metadata?.selectedServices || []),
+        selectedServices: JSON.stringify(selectedServices),
+        personalData: JSON.stringify(personalData),
       },
       success_url: `${req.headers.get(
         "origin"

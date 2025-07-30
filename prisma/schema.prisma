@@ -20,6 +20,8 @@ model Service {
   description String
   price       Int
   image       String?
+  productId   String  @unique
+  duration    Int
 
   bookings BookingService[]
 }

@@ -20,6 +20,8 @@ model Service {
   description String
   price       Int
   image       String?
+  productId   String  @unique
+  duration    Int
 
   bookings BookingService[]
 }
@@ -80,4 +82,67 @@ model Exception {
   reason String? // Motivo (opcional)
 
   createdAt DateTime @default(now())
+}
+
+model PatientForm {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  // PersonalDataForm
+  fullName      String
+  preferredName String?
+  email         String
+  phone         String
+  birthDate     DateTime
+  gender        String
+  profession    String?
+  zipCode       String
+  address       String
+  number        String
+  complement    String?
+  district      String
+  city          String
+  state         String
+
+  // // ClinicalProfileForm
+  // hasChronicDisease         String
+  // chronicDiseaseDescription String?
+  // usesMedication            String
+  // medicationDescription     String?
+  // hasAllergies              String
+  // allergiesDescription      String?
+  // hadSurgery                String
+  // surgeryDescription        String?
+  // hasPain                   String
+  // painDescription           String?
+  // isPregnant                String
+
+  // // GeneralConsiderationsForm
+  // underMedicalCare              String
+  // medicalCareDescription        String?
+  // hasCirculatoryProblem         String
+  // circulatoryProblemDescription String?
+  // hasPressureProblem            String
+  // pressureProblemDescription    String?
+  // hasRespiratoryProblem         String
+  // respiratoryProblemDescription String?
+  // hasVaricoseVeins              String
+  // hasThrombosisHistory          String
+  // hasSpineProblem               String
+  // spineProblemDescription       String?
+  // additionalInfo                String?
+
+  // // MtcAnamneseForm
+  // sleepQuality                    String
+  // appetite                        String
+  // bowelFunction                   String
+  // hasUrinaryAlterations           String
+  // urinaryAlterationsDescription   String?
+  // hasMenstrualCycle               String
+  // hasMenstrualAlterations         String
+  // menstrualAlterationsDescription String?
+  // predominantEmotion              String
+  // hasPainOrDiscomfort             String
+  // painOrDiscomfortDescription     String?
+  // observations                    String?
 }

@@ -68,6 +68,7 @@ export function MultiStepForm() {
   }
 
   function handleFinalize() {
+    const selectedServices = useBookingStore.getState().selectedServices;
     // Coleta os dados do bookingStore
     const bookingData = {
       date: selectedDate?.toISOString().split("T")[0],
@@ -78,6 +79,7 @@ export function MultiStepForm() {
         name: s.name,
         duration: s.duration,
       })),
+      selectedServices,
       personalData: useBookingStore.getState().personalData,
       // clinicalProfile: useBookingStore.getState().clinicalProfile,
       // generalConsiderations: useBookingStore.getState().generalConsiderations,

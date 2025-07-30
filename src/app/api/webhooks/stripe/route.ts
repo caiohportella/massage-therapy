@@ -7,7 +7,6 @@ import { sendWhatsAppMessage } from "@/lib/twilio";
 import { formatConfirmationMessage } from "@/lib/whatsapp-messages/FormatConfirmationMessage";
 import { Service } from "@/lib/types";
 
-
 export async function POST(req: NextRequest) {
   const sig = req.headers.get("stripe-signature")!;
   const rawBody = await req.text();
@@ -45,9 +44,26 @@ export async function POST(req: NextRequest) {
       // Extrair dados
       const personalData = JSON.parse(metadata.personalData);
       const services = JSON.parse(metadata.selectedServices);
+
       const start = new Date(`${metadata.date}T${metadata.time}`);
-      const totalMinutes = services.reduce(
-        (sum: number, s: Service) => sum + (Number(s.durations[0]) || 0),
+
+      const serviceRecords = await Promise.all(
+        services.map(async (s: any) => {
+          const found = await prisma.service.findUnique({
+            where: { id: s.productId }, // ou use `stripeProductId` se alterar o schema
+          });
+
+          if (!found) {
+            console.error(`❌ Serviço não encontrado para ID: ${s.productId}`);
+            throw new Error("Serviço inválido no agendamento.");
+          }
+
+          return { ...found, duration: s.duration }; // inclui a duração recebida do Stripe
+        })
+      );
+
+      const totalMinutes = serviceRecords.reduce(
+        (sum, s) => sum + (s.duration || 0),
         0
       );
       const end = new Date(start.getTime() + totalMinutes * 60 * 1000);
