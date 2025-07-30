@@ -42,11 +42,10 @@ export async function POST(req: Request) {
       }
     }
 
-    console.log("Line items:", lineItems);
-
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
+      payment_method_types: ["card", "pix"],
       mode: "payment",
+      currency: "brl",
       line_items: lineItems,
       metadata: {
         name,

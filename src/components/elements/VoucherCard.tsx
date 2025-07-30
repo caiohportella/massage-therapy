@@ -69,7 +69,7 @@ export function VoucherCard({
             {copied ? (
               <Check className="text-accent w-4 h-4" />
             ) : (
-              <Copy className="text-accent w-4 h-4" />
+              <Copy className="text-accent w-4 h-4 cursor-pointer" />
             )}
           </button>
         </div>

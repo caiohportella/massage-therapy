@@ -47,18 +47,36 @@ export async function POST(req: NextRequest) {
 
       const start = new Date(`${metadata.date}T${metadata.time}`);
 
+      // const serviceRecords = await Promise.all(
+      //   services.map(async (s: SelectedService) => {
+      //     const found = await prisma.service.findUnique({
+      //       where: { productId: s.productId },
+      //     });
+
+      //     if (!found) {
+      //       console.error(`❌ Serviço não encontrado para ID: ${s.productId}`);
+      //       throw new Error("Serviço inválido no agendamento.");
+      //     }
+
+      //     console.log(`✅ Serviço encontrado: ${found.name} (${s.productId})`);
+
+      //     return { ...found, duration: s.duration };
+      //   })
+      // );
+
       const serviceRecords = await Promise.all(
         services.map(async (s: SelectedService) => {
-          const found = await prisma.service.findUnique({
-            where: { productId: s.productId },
-          });
+          const price = await stripe.prices.retrieve(s.priceId);
 
-          if (!found) {
-            console.error(`❌ Serviço não encontrado para ID: ${s.productId}`);
-            throw new Error("Serviço inválido no agendamento.");
+          const match = price.nickname?.match(/(\d+)\s*min/);
+
+          if (!match) {
+            throw new Error(`Duração não encontrada em ${price.id}`);
           }
 
-          return { ...found, duration: s.duration }; // inclui a duração recebida do Stripe
+          const duration = parseInt(match[1]);
+
+          return { productId: s.productId, duration };
         })
       );
 
@@ -66,6 +84,7 @@ export async function POST(req: NextRequest) {
         (sum, s) => sum + (s.duration || 0),
         0
       );
+
       const end = new Date(start.getTime() + totalMinutes * 60 * 1000);
 
       // Criar ou atualizar usuário
@@ -99,15 +118,18 @@ export async function POST(req: NextRequest) {
       // Criar booking
       const booking = await prisma.booking.create({
         data: {
-          date: new Date(metadata.date),
-          time: metadata.time,
           totalAmount: session.amount_total ? session.amount_total / 100 : 0,
           userId: user.id,
+          date: metadata.date,
+          time: metadata.time,
+          paymentStatus: "paid",
           services: {
             create: services.map((s: SelectedService) => ({
               service: { connect: { productId: s.productId } },
             })),
           },
+          paymentIntentId: session.payment_intent as string,
+          scheduledAt: start,
         },
         include: {
           services: { include: { service: true } },

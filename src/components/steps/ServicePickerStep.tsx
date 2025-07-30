@@ -15,22 +15,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Service } from "@/lib/types";
-
-// type DurationOption = {
-//   label: string;
-//   price: number;
-//   priceId: string;
-//   duration: number;
-// };
-
-// type StripeService = {
-//   id: string;
-//   name: string;
-//   description: string;
-//   image: string | null;
-//   durations: DurationOption[];
-// };
 
 export function ServicePickerStep() {
   const { services, isFetched, setServices } = useServiceStore();
@@ -51,17 +37,9 @@ export function ServicePickerStep() {
   }, [isFetched, setServices]);
 
   const handleSelectService = (service: Service) => {
-    // const alreadySelected = selectedServices.some(
-    //   (s) => s.productId === service.id
-    // );
-
-    // if (alreadySelected) {
-    //   toast.warning("Este serviço já foi adicionado");
-    //   return;
-    // }
-
     const selectedLabel =
       selectedOptions[service.id] ?? service.durations[0].label;
+
     const selectedDuration = service.durations.find(
       (d) => d.label === selectedLabel
     );
@@ -86,89 +64,163 @@ export function ServicePickerStep() {
 
   return (
     <motion.div
-      className={cn(
-        "flex gap-2 overflow-x-auto snap-x px-1 -mx-1",
-        "md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 md:mx-0"
-      )}
+      className="w-full"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      {services.map((service: Service) => {
-        const alreadySelected = selectedServices.some(
-          (s) => s.productId === service.id
-        );
+      {/* Mobile: Scroll horizontal */}
+      <div className="block md:hidden">
+        <ScrollArea className="w-full">
+          <div className="flex gap-4 pb-2">
+            {services.map((service) => {
+              const alreadySelected = selectedServices.some(
+                (s) => s.productId === service.id
+              );
 
-        return (
-          <div
-            key={service.id}
-            className={cn(
-              "min-w-[85vw] max-w-[85vw] shrink-0 snap-start",
-              "md:min-w-0 md:max-w-none md:shrink md:snap-none",
-              "border rounded-xl p-4 shadow-sm bg-background",
-              "flex flex-col h-full justify-between"
-            )}
-          >
-            <div className="space-y-4 flex-grow">
-              {service.image && (
-                <Image
-                  src={service.image}
-                  alt={service.name}
-                  width={400}
-                  height={200}
-                  className="rounded-md object-cover w-full h-[180px]"
-                />
-              )}
-
-              <h3 className="text-xl font-semibold">{service.name}</h3>
-
-              {service.durations.length > 1 ? (
-                <Select
-                  onValueChange={(value) =>
-                    setSelectedOptions((prev) => ({
-                      ...prev,
-                      [service.id]: value,
-                    }))
-                  }
+              return (
+                <div
+                  key={service.id}
+                  className="min-w-[85vw] shrink-0 border rounded-xl p-4 shadow-sm bg-background flex flex-col justify-between"
                 >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Escolha a duração" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {service.durations.map((duration) => (
-                      <SelectItem key={duration.label} value={duration.label}>
-                        {duration.label} — R$ {duration.price.toFixed(2)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              ) : (
-                <p className="text-muted-foreground text-sm">
-                  {service.durations[0].label} — R${" "}
-                  {service.durations[0].price.toFixed(2)}
-                </p>
-              )}
-            </div>
+                  <div className="space-y-4 flex-grow">
+                    {service.image && (
+                      <Image
+                        src={service.image}
+                        alt={service.name}
+                        width={400}
+                        height={200}
+                        className="rounded-md object-cover w-full h-[180px]"
+                      />
+                    )}
+                    <h3 className="text-xl font-semibold">{service.name}</h3>
+                    {service.durations.length > 1 ? (
+                      <Select
+                        onValueChange={(value) =>
+                          setSelectedOptions((prev) => ({
+                            ...prev,
+                            [service.id]: value,
+                          }))
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Escolha a duração" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {service.durations.map((duration) => (
+                            <SelectItem
+                              key={duration.label}
+                              value={duration.label}
+                            >
+                              {duration.label} — R$ {duration.price.toFixed(2)}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      <p className="text-muted-foreground text-sm">
+                        {service.durations[0].label} — R${" "}
+                        {service.durations[0].price.toFixed(2)}
+                      </p>
+                    )}
+                  </div>
 
-            {/* Botão fixo no final */}
-            <Button
-              className="w-full mt-6"
-              variant={alreadySelected ? "destructive" : "default"}
-              onClick={() => {
-                if (alreadySelected) {
-                  setSelectedServices(
-                    selectedServices.filter((s) => s.productId !== service.id)
-                  );
-                  toast.success("Serviço removido do agendamento");
-                } else {
-                  handleSelectService(service);
-                }
-              }}
-            >
-              {alreadySelected ? "Remover serviço" : "Selecionar serviço"}
-            </Button>
+                  <Button
+                    className="w-full mt-6"
+                    variant={alreadySelected ? "destructive" : "default"}
+                    onClick={() => {
+                      if (alreadySelected) {
+                        setSelectedServices(
+                          selectedServices.filter(
+                            (s) => s.productId !== service.id
+                          )
+                        );
+                        toast.success("Serviço removido do agendamento");
+                      } else {
+                        handleSelectService(service);
+                      }
+                    }}
+                  >
+                    {alreadySelected ? "Remover serviço" : "Selecionar serviço"}
+                  </Button>
+                </div>
+              );
+            })}
           </div>
-        );
-      })}
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+      </div>
+
+      {/* Desktop: grid padrão */}
+      <div className="hidden md:grid md:grid-cols-3 md:gap-6 mt-4">
+        {services.map((service) => {
+          const alreadySelected = selectedServices.some(
+            (s) => s.productId === service.id
+          );
+
+          return (
+            <div
+              key={service.id}
+              className="border rounded-xl p-4 shadow-sm bg-background h-full flex flex-col justify-between"
+            >
+              <div className="space-y-4 flex-grow">
+                {service.image && (
+                  <Image
+                    src={service.image}
+                    alt={service.name}
+                    width={400}
+                    height={200}
+                    className="rounded-md object-cover w-full h-[180px]"
+                  />
+                )}
+                <h3 className="text-xl font-semibold">{service.name}</h3>
+                {service.durations.length > 1 ? (
+                  <Select
+                    onValueChange={(value) =>
+                      setSelectedOptions((prev) => ({
+                        ...prev,
+                        [service.id]: value,
+                      }))
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Escolha a duração" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {service.durations.map((duration) => (
+                        <SelectItem key={duration.label} value={duration.label}>
+                          {duration.label} — R$ {duration.price.toFixed(2)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <p className="text-muted-foreground text-sm">
+                    {service.durations[0].label} — R${" "}
+                    {service.durations[0].price.toFixed(2)}
+                  </p>
+                )}
+              </div>
+
+              <Button
+                className="w-full mt-6 cursor-pointer"
+                variant={alreadySelected ? "destructive" : "default"}
+                onClick={() => {
+                  if (alreadySelected) {
+                    setSelectedServices(
+                      selectedServices.filter((s) => s.productId !== service.id)
+                    );
+                    toast.success("Serviço removido do agendamento");
+                  } else {
+                    handleSelectService(service);
+                  }
+                }}
+              >
+                {alreadySelected ? "Remover serviço" : "Selecionar serviço"}
+              </Button>
+            </div>
+          );
+        })}
+      </div>
     </motion.div>
   );
 }

@@ -34,20 +34,15 @@ export type Booking = $Result.DefaultSelection<Prisma.$BookingPayload>
  */
 export type BookingService = $Result.DefaultSelection<Prisma.$BookingServicePayload>
 /**
- * Model Availability
- * 
- */
-export type Availability = $Result.DefaultSelection<Prisma.$AvailabilityPayload>
-/**
- * Model Exception
- * 
- */
-export type Exception = $Result.DefaultSelection<Prisma.$ExceptionPayload>
-/**
  * Model PatientForm
  * 
  */
 export type PatientForm = $Result.DefaultSelection<Prisma.$PatientFormPayload>
+/**
+ * Model ReminderLog
+ * 
+ */
+export type ReminderLog = $Result.DefaultSelection<Prisma.$ReminderLogPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -215,26 +210,6 @@ export class PrismaClient<
   get bookingService(): Prisma.BookingServiceDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.availability`: Exposes CRUD operations for the **Availability** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Availabilities
-    * const availabilities = await prisma.availability.findMany()
-    * ```
-    */
-  get availability(): Prisma.AvailabilityDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.exception`: Exposes CRUD operations for the **Exception** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Exceptions
-    * const exceptions = await prisma.exception.findMany()
-    * ```
-    */
-  get exception(): Prisma.ExceptionDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.patientForm`: Exposes CRUD operations for the **PatientForm** model.
     * Example usage:
     * ```ts
@@ -243,6 +218,16 @@ export class PrismaClient<
     * ```
     */
   get patientForm(): Prisma.PatientFormDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.reminderLog`: Exposes CRUD operations for the **ReminderLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ReminderLogs
+    * const reminderLogs = await prisma.reminderLog.findMany()
+    * ```
+    */
+  get reminderLog(): Prisma.ReminderLogDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -687,9 +672,8 @@ export namespace Prisma {
     User: 'User',
     Booking: 'Booking',
     BookingService: 'BookingService',
-    Availability: 'Availability',
-    Exception: 'Exception',
-    PatientForm: 'PatientForm'
+    PatientForm: 'PatientForm',
+    ReminderLog: 'ReminderLog'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -708,7 +692,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "service" | "user" | "booking" | "bookingService" | "availability" | "exception" | "patientForm"
+      modelProps: "service" | "user" | "booking" | "bookingService" | "patientForm" | "reminderLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1008,154 +992,6 @@ export namespace Prisma {
           }
         }
       }
-      Availability: {
-        payload: Prisma.$AvailabilityPayload<ExtArgs>
-        fields: Prisma.AvailabilityFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.AvailabilityFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AvailabilityPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.AvailabilityFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AvailabilityPayload>
-          }
-          findFirst: {
-            args: Prisma.AvailabilityFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AvailabilityPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.AvailabilityFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AvailabilityPayload>
-          }
-          findMany: {
-            args: Prisma.AvailabilityFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AvailabilityPayload>[]
-          }
-          create: {
-            args: Prisma.AvailabilityCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AvailabilityPayload>
-          }
-          createMany: {
-            args: Prisma.AvailabilityCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.AvailabilityCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AvailabilityPayload>[]
-          }
-          delete: {
-            args: Prisma.AvailabilityDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AvailabilityPayload>
-          }
-          update: {
-            args: Prisma.AvailabilityUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AvailabilityPayload>
-          }
-          deleteMany: {
-            args: Prisma.AvailabilityDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.AvailabilityUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.AvailabilityUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AvailabilityPayload>[]
-          }
-          upsert: {
-            args: Prisma.AvailabilityUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AvailabilityPayload>
-          }
-          aggregate: {
-            args: Prisma.AvailabilityAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateAvailability>
-          }
-          groupBy: {
-            args: Prisma.AvailabilityGroupByArgs<ExtArgs>
-            result: $Utils.Optional<AvailabilityGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.AvailabilityCountArgs<ExtArgs>
-            result: $Utils.Optional<AvailabilityCountAggregateOutputType> | number
-          }
-        }
-      }
-      Exception: {
-        payload: Prisma.$ExceptionPayload<ExtArgs>
-        fields: Prisma.ExceptionFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.ExceptionFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ExceptionPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.ExceptionFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ExceptionPayload>
-          }
-          findFirst: {
-            args: Prisma.ExceptionFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ExceptionPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.ExceptionFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ExceptionPayload>
-          }
-          findMany: {
-            args: Prisma.ExceptionFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ExceptionPayload>[]
-          }
-          create: {
-            args: Prisma.ExceptionCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ExceptionPayload>
-          }
-          createMany: {
-            args: Prisma.ExceptionCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.ExceptionCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ExceptionPayload>[]
-          }
-          delete: {
-            args: Prisma.ExceptionDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ExceptionPayload>
-          }
-          update: {
-            args: Prisma.ExceptionUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ExceptionPayload>
-          }
-          deleteMany: {
-            args: Prisma.ExceptionDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.ExceptionUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.ExceptionUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ExceptionPayload>[]
-          }
-          upsert: {
-            args: Prisma.ExceptionUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ExceptionPayload>
-          }
-          aggregate: {
-            args: Prisma.ExceptionAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateException>
-          }
-          groupBy: {
-            args: Prisma.ExceptionGroupByArgs<ExtArgs>
-            result: $Utils.Optional<ExceptionGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.ExceptionCountArgs<ExtArgs>
-            result: $Utils.Optional<ExceptionCountAggregateOutputType> | number
-          }
-        }
-      }
       PatientForm: {
         payload: Prisma.$PatientFormPayload<ExtArgs>
         fields: Prisma.PatientFormFieldRefs
@@ -1227,6 +1063,80 @@ export namespace Prisma {
           count: {
             args: Prisma.PatientFormCountArgs<ExtArgs>
             result: $Utils.Optional<PatientFormCountAggregateOutputType> | number
+          }
+        }
+      }
+      ReminderLog: {
+        payload: Prisma.$ReminderLogPayload<ExtArgs>
+        fields: Prisma.ReminderLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ReminderLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReminderLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ReminderLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReminderLogPayload>
+          }
+          findFirst: {
+            args: Prisma.ReminderLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReminderLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ReminderLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReminderLogPayload>
+          }
+          findMany: {
+            args: Prisma.ReminderLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReminderLogPayload>[]
+          }
+          create: {
+            args: Prisma.ReminderLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReminderLogPayload>
+          }
+          createMany: {
+            args: Prisma.ReminderLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ReminderLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReminderLogPayload>[]
+          }
+          delete: {
+            args: Prisma.ReminderLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReminderLogPayload>
+          }
+          update: {
+            args: Prisma.ReminderLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReminderLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.ReminderLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ReminderLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ReminderLogUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReminderLogPayload>[]
+          }
+          upsert: {
+            args: Prisma.ReminderLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReminderLogPayload>
+          }
+          aggregate: {
+            args: Prisma.ReminderLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReminderLog>
+          }
+          groupBy: {
+            args: Prisma.ReminderLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReminderLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ReminderLogCountArgs<ExtArgs>
+            result: $Utils.Optional<ReminderLogCountAggregateOutputType> | number
           }
         }
       }
@@ -1326,9 +1236,8 @@ export namespace Prisma {
     user?: UserOmit
     booking?: BookingOmit
     bookingService?: BookingServiceOmit
-    availability?: AvailabilityOmit
-    exception?: ExceptionOmit
     patientForm?: PatientFormOmit
+    reminderLog?: ReminderLogOmit
   }
 
   /* Types for Logging */
@@ -1460,10 +1369,12 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     bookings: number
+    ReminderLog: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookings?: boolean | UserCountOutputTypeCountBookingsArgs
+    ReminderLog?: boolean | UserCountOutputTypeCountReminderLogArgs
   }
 
   // Custom InputTypes
@@ -1484,6 +1395,13 @@ export namespace Prisma {
     where?: BookingWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountReminderLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReminderLogWhereInput
+  }
+
 
   /**
    * Count Type BookingCountOutputType
@@ -1491,10 +1409,12 @@ export namespace Prisma {
 
   export type BookingCountOutputType = {
     services: number
+    reminderLogs: number
   }
 
   export type BookingCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     services?: boolean | BookingCountOutputTypeCountServicesArgs
+    reminderLogs?: boolean | BookingCountOutputTypeCountReminderLogsArgs
   }
 
   // Custom InputTypes
@@ -1513,6 +1433,13 @@ export namespace Prisma {
    */
   export type BookingCountOutputTypeCountServicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BookingServiceWhereInput
+  }
+
+  /**
+   * BookingCountOutputType without action
+   */
+  export type BookingCountOutputTypeCountReminderLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReminderLogWhereInput
   }
 
 
@@ -2875,6 +2802,7 @@ export namespace Prisma {
     zipCode?: boolean
     createdAt?: boolean
     bookings?: boolean | User$bookingsArgs<ExtArgs>
+    ReminderLog?: boolean | User$ReminderLogArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2926,6 +2854,7 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "phone" | "address" | "number" | "complement" | "district" | "city" | "state" | "zipCode" | "createdAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookings?: boolean | User$bookingsArgs<ExtArgs>
+    ReminderLog?: boolean | User$ReminderLogArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2935,6 +2864,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       bookings: Prisma.$BookingPayload<ExtArgs>[]
+      ReminderLog: Prisma.$ReminderLogPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3344,6 +3274,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     bookings<T extends User$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, User$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ReminderLog<T extends User$ReminderLogArgs<ExtArgs> = {}>(args?: Subset<T, User$ReminderLogArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReminderLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3797,6 +3728,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.ReminderLog
+   */
+  export type User$ReminderLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReminderLog
+     */
+    select?: ReminderLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReminderLog
+     */
+    omit?: ReminderLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReminderLogInclude<ExtArgs> | null
+    where?: ReminderLogWhereInput
+    orderBy?: ReminderLogOrderByWithRelationInput | ReminderLogOrderByWithRelationInput[]
+    cursor?: ReminderLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReminderLogScalarFieldEnum | ReminderLogScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3840,8 +3795,13 @@ export namespace Prisma {
     date: Date | null
     time: string | null
     userId: string | null
+    scheduledAt: Date | null
+    reminderSent: boolean | null
     paymentStatus: string | null
     totalAmount: number | null
+    paymentIntentId: string | null
+    cancellationReason: string | null
+    cancelledAt: Date | null
     createdAt: Date | null
   }
 
@@ -3850,8 +3810,13 @@ export namespace Prisma {
     date: Date | null
     time: string | null
     userId: string | null
+    scheduledAt: Date | null
+    reminderSent: boolean | null
     paymentStatus: string | null
     totalAmount: number | null
+    paymentIntentId: string | null
+    cancellationReason: string | null
+    cancelledAt: Date | null
     createdAt: Date | null
   }
 
@@ -3860,8 +3825,13 @@ export namespace Prisma {
     date: number
     time: number
     userId: number
+    scheduledAt: number
+    reminderSent: number
     paymentStatus: number
     totalAmount: number
+    paymentIntentId: number
+    cancellationReason: number
+    cancelledAt: number
     createdAt: number
     _all: number
   }
@@ -3880,8 +3850,13 @@ export namespace Prisma {
     date?: true
     time?: true
     userId?: true
+    scheduledAt?: true
+    reminderSent?: true
     paymentStatus?: true
     totalAmount?: true
+    paymentIntentId?: true
+    cancellationReason?: true
+    cancelledAt?: true
     createdAt?: true
   }
 
@@ -3890,8 +3865,13 @@ export namespace Prisma {
     date?: true
     time?: true
     userId?: true
+    scheduledAt?: true
+    reminderSent?: true
     paymentStatus?: true
     totalAmount?: true
+    paymentIntentId?: true
+    cancellationReason?: true
+    cancelledAt?: true
     createdAt?: true
   }
 
@@ -3900,8 +3880,13 @@ export namespace Prisma {
     date?: true
     time?: true
     userId?: true
+    scheduledAt?: true
+    reminderSent?: true
     paymentStatus?: true
     totalAmount?: true
+    paymentIntentId?: true
+    cancellationReason?: true
+    cancelledAt?: true
     createdAt?: true
     _all?: true
   }
@@ -3997,8 +3982,13 @@ export namespace Prisma {
     date: Date
     time: string
     userId: string
+    scheduledAt: Date
+    reminderSent: boolean
     paymentStatus: string
     totalAmount: number
+    paymentIntentId: string | null
+    cancellationReason: string | null
+    cancelledAt: Date | null
     createdAt: Date
     _count: BookingCountAggregateOutputType | null
     _avg: BookingAvgAggregateOutputType | null
@@ -4026,11 +4016,17 @@ export namespace Prisma {
     date?: boolean
     time?: boolean
     userId?: boolean
+    scheduledAt?: boolean
+    reminderSent?: boolean
     paymentStatus?: boolean
     totalAmount?: boolean
+    paymentIntentId?: boolean
+    cancellationReason?: boolean
+    cancelledAt?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     services?: boolean | Booking$servicesArgs<ExtArgs>
+    reminderLogs?: boolean | Booking$reminderLogsArgs<ExtArgs>
     _count?: boolean | BookingCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
 
@@ -4039,8 +4035,13 @@ export namespace Prisma {
     date?: boolean
     time?: boolean
     userId?: boolean
+    scheduledAt?: boolean
+    reminderSent?: boolean
     paymentStatus?: boolean
     totalAmount?: boolean
+    paymentIntentId?: boolean
+    cancellationReason?: boolean
+    cancelledAt?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
@@ -4050,8 +4051,13 @@ export namespace Prisma {
     date?: boolean
     time?: boolean
     userId?: boolean
+    scheduledAt?: boolean
+    reminderSent?: boolean
     paymentStatus?: boolean
     totalAmount?: boolean
+    paymentIntentId?: boolean
+    cancellationReason?: boolean
+    cancelledAt?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
@@ -4061,15 +4067,21 @@ export namespace Prisma {
     date?: boolean
     time?: boolean
     userId?: boolean
+    scheduledAt?: boolean
+    reminderSent?: boolean
     paymentStatus?: boolean
     totalAmount?: boolean
+    paymentIntentId?: boolean
+    cancellationReason?: boolean
+    cancelledAt?: boolean
     createdAt?: boolean
   }
 
-  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "date" | "time" | "userId" | "paymentStatus" | "totalAmount" | "createdAt", ExtArgs["result"]["booking"]>
+  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "date" | "time" | "userId" | "scheduledAt" | "reminderSent" | "paymentStatus" | "totalAmount" | "paymentIntentId" | "cancellationReason" | "cancelledAt" | "createdAt", ExtArgs["result"]["booking"]>
   export type BookingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     services?: boolean | Booking$servicesArgs<ExtArgs>
+    reminderLogs?: boolean | Booking$reminderLogsArgs<ExtArgs>
     _count?: boolean | BookingCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BookingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4084,14 +4096,20 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       services: Prisma.$BookingServicePayload<ExtArgs>[]
+      reminderLogs: Prisma.$ReminderLogPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       date: Date
       time: string
       userId: string
+      scheduledAt: Date
+      reminderSent: boolean
       paymentStatus: string
       totalAmount: number
+      paymentIntentId: string | null
+      cancellationReason: string | null
+      cancelledAt: Date | null
       createdAt: Date
     }, ExtArgs["result"]["booking"]>
     composites: {}
@@ -4489,6 +4507,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     services<T extends Booking$servicesArgs<ExtArgs> = {}>(args?: Subset<T, Booking$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reminderLogs<T extends Booking$reminderLogsArgs<ExtArgs> = {}>(args?: Subset<T, Booking$reminderLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReminderLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4522,8 +4541,13 @@ export namespace Prisma {
     readonly date: FieldRef<"Booking", 'DateTime'>
     readonly time: FieldRef<"Booking", 'String'>
     readonly userId: FieldRef<"Booking", 'String'>
+    readonly scheduledAt: FieldRef<"Booking", 'DateTime'>
+    readonly reminderSent: FieldRef<"Booking", 'Boolean'>
     readonly paymentStatus: FieldRef<"Booking", 'String'>
     readonly totalAmount: FieldRef<"Booking", 'Int'>
+    readonly paymentIntentId: FieldRef<"Booking", 'String'>
+    readonly cancellationReason: FieldRef<"Booking", 'String'>
+    readonly cancelledAt: FieldRef<"Booking", 'DateTime'>
     readonly createdAt: FieldRef<"Booking", 'DateTime'>
   }
     
@@ -4942,6 +4966,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BookingServiceScalarFieldEnum | BookingServiceScalarFieldEnum[]
+  }
+
+  /**
+   * Booking.reminderLogs
+   */
+  export type Booking$reminderLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReminderLog
+     */
+    select?: ReminderLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReminderLog
+     */
+    omit?: ReminderLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReminderLogInclude<ExtArgs> | null
+    where?: ReminderLogWhereInput
+    orderBy?: ReminderLogOrderByWithRelationInput | ReminderLogOrderByWithRelationInput[]
+    cursor?: ReminderLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReminderLogScalarFieldEnum | ReminderLogScalarFieldEnum[]
   }
 
   /**
@@ -6000,2004 +6048,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: BookingServiceInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Availability
-   */
-
-  export type AggregateAvailability = {
-    _count: AvailabilityCountAggregateOutputType | null
-    _avg: AvailabilityAvgAggregateOutputType | null
-    _sum: AvailabilitySumAggregateOutputType | null
-    _min: AvailabilityMinAggregateOutputType | null
-    _max: AvailabilityMaxAggregateOutputType | null
-  }
-
-  export type AvailabilityAvgAggregateOutputType = {
-    weekday: number | null
-  }
-
-  export type AvailabilitySumAggregateOutputType = {
-    weekday: number | null
-  }
-
-  export type AvailabilityMinAggregateOutputType = {
-    id: string | null
-    weekday: number | null
-    time: string | null
-    createdAt: Date | null
-  }
-
-  export type AvailabilityMaxAggregateOutputType = {
-    id: string | null
-    weekday: number | null
-    time: string | null
-    createdAt: Date | null
-  }
-
-  export type AvailabilityCountAggregateOutputType = {
-    id: number
-    weekday: number
-    time: number
-    createdAt: number
-    _all: number
-  }
-
-
-  export type AvailabilityAvgAggregateInputType = {
-    weekday?: true
-  }
-
-  export type AvailabilitySumAggregateInputType = {
-    weekday?: true
-  }
-
-  export type AvailabilityMinAggregateInputType = {
-    id?: true
-    weekday?: true
-    time?: true
-    createdAt?: true
-  }
-
-  export type AvailabilityMaxAggregateInputType = {
-    id?: true
-    weekday?: true
-    time?: true
-    createdAt?: true
-  }
-
-  export type AvailabilityCountAggregateInputType = {
-    id?: true
-    weekday?: true
-    time?: true
-    createdAt?: true
-    _all?: true
-  }
-
-  export type AvailabilityAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Availability to aggregate.
-     */
-    where?: AvailabilityWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Availabilities to fetch.
-     */
-    orderBy?: AvailabilityOrderByWithRelationInput | AvailabilityOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: AvailabilityWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Availabilities from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Availabilities.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Availabilities
-    **/
-    _count?: true | AvailabilityCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: AvailabilityAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: AvailabilitySumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: AvailabilityMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: AvailabilityMaxAggregateInputType
-  }
-
-  export type GetAvailabilityAggregateType<T extends AvailabilityAggregateArgs> = {
-        [P in keyof T & keyof AggregateAvailability]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateAvailability[P]>
-      : GetScalarType<T[P], AggregateAvailability[P]>
-  }
-
-
-
-
-  export type AvailabilityGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AvailabilityWhereInput
-    orderBy?: AvailabilityOrderByWithAggregationInput | AvailabilityOrderByWithAggregationInput[]
-    by: AvailabilityScalarFieldEnum[] | AvailabilityScalarFieldEnum
-    having?: AvailabilityScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: AvailabilityCountAggregateInputType | true
-    _avg?: AvailabilityAvgAggregateInputType
-    _sum?: AvailabilitySumAggregateInputType
-    _min?: AvailabilityMinAggregateInputType
-    _max?: AvailabilityMaxAggregateInputType
-  }
-
-  export type AvailabilityGroupByOutputType = {
-    id: string
-    weekday: number
-    time: string
-    createdAt: Date
-    _count: AvailabilityCountAggregateOutputType | null
-    _avg: AvailabilityAvgAggregateOutputType | null
-    _sum: AvailabilitySumAggregateOutputType | null
-    _min: AvailabilityMinAggregateOutputType | null
-    _max: AvailabilityMaxAggregateOutputType | null
-  }
-
-  type GetAvailabilityGroupByPayload<T extends AvailabilityGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<AvailabilityGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof AvailabilityGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], AvailabilityGroupByOutputType[P]>
-            : GetScalarType<T[P], AvailabilityGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type AvailabilitySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    weekday?: boolean
-    time?: boolean
-    createdAt?: boolean
-  }, ExtArgs["result"]["availability"]>
-
-  export type AvailabilitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    weekday?: boolean
-    time?: boolean
-    createdAt?: boolean
-  }, ExtArgs["result"]["availability"]>
-
-  export type AvailabilitySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    weekday?: boolean
-    time?: boolean
-    createdAt?: boolean
-  }, ExtArgs["result"]["availability"]>
-
-  export type AvailabilitySelectScalar = {
-    id?: boolean
-    weekday?: boolean
-    time?: boolean
-    createdAt?: boolean
-  }
-
-  export type AvailabilityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "weekday" | "time" | "createdAt", ExtArgs["result"]["availability"]>
-
-  export type $AvailabilityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Availability"
-    objects: {}
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      weekday: number
-      time: string
-      createdAt: Date
-    }, ExtArgs["result"]["availability"]>
-    composites: {}
-  }
-
-  type AvailabilityGetPayload<S extends boolean | null | undefined | AvailabilityDefaultArgs> = $Result.GetResult<Prisma.$AvailabilityPayload, S>
-
-  type AvailabilityCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<AvailabilityFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: AvailabilityCountAggregateInputType | true
-    }
-
-  export interface AvailabilityDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Availability'], meta: { name: 'Availability' } }
-    /**
-     * Find zero or one Availability that matches the filter.
-     * @param {AvailabilityFindUniqueArgs} args - Arguments to find a Availability
-     * @example
-     * // Get one Availability
-     * const availability = await prisma.availability.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends AvailabilityFindUniqueArgs>(args: SelectSubset<T, AvailabilityFindUniqueArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Availability that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {AvailabilityFindUniqueOrThrowArgs} args - Arguments to find a Availability
-     * @example
-     * // Get one Availability
-     * const availability = await prisma.availability.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends AvailabilityFindUniqueOrThrowArgs>(args: SelectSubset<T, AvailabilityFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Availability that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AvailabilityFindFirstArgs} args - Arguments to find a Availability
-     * @example
-     * // Get one Availability
-     * const availability = await prisma.availability.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends AvailabilityFindFirstArgs>(args?: SelectSubset<T, AvailabilityFindFirstArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Availability that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AvailabilityFindFirstOrThrowArgs} args - Arguments to find a Availability
-     * @example
-     * // Get one Availability
-     * const availability = await prisma.availability.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends AvailabilityFindFirstOrThrowArgs>(args?: SelectSubset<T, AvailabilityFindFirstOrThrowArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Availabilities that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AvailabilityFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Availabilities
-     * const availabilities = await prisma.availability.findMany()
-     * 
-     * // Get first 10 Availabilities
-     * const availabilities = await prisma.availability.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const availabilityWithIdOnly = await prisma.availability.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends AvailabilityFindManyArgs>(args?: SelectSubset<T, AvailabilityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Availability.
-     * @param {AvailabilityCreateArgs} args - Arguments to create a Availability.
-     * @example
-     * // Create one Availability
-     * const Availability = await prisma.availability.create({
-     *   data: {
-     *     // ... data to create a Availability
-     *   }
-     * })
-     * 
-     */
-    create<T extends AvailabilityCreateArgs>(args: SelectSubset<T, AvailabilityCreateArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Availabilities.
-     * @param {AvailabilityCreateManyArgs} args - Arguments to create many Availabilities.
-     * @example
-     * // Create many Availabilities
-     * const availability = await prisma.availability.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends AvailabilityCreateManyArgs>(args?: SelectSubset<T, AvailabilityCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Availabilities and returns the data saved in the database.
-     * @param {AvailabilityCreateManyAndReturnArgs} args - Arguments to create many Availabilities.
-     * @example
-     * // Create many Availabilities
-     * const availability = await prisma.availability.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Availabilities and only return the `id`
-     * const availabilityWithIdOnly = await prisma.availability.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends AvailabilityCreateManyAndReturnArgs>(args?: SelectSubset<T, AvailabilityCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Availability.
-     * @param {AvailabilityDeleteArgs} args - Arguments to delete one Availability.
-     * @example
-     * // Delete one Availability
-     * const Availability = await prisma.availability.delete({
-     *   where: {
-     *     // ... filter to delete one Availability
-     *   }
-     * })
-     * 
-     */
-    delete<T extends AvailabilityDeleteArgs>(args: SelectSubset<T, AvailabilityDeleteArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Availability.
-     * @param {AvailabilityUpdateArgs} args - Arguments to update one Availability.
-     * @example
-     * // Update one Availability
-     * const availability = await prisma.availability.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends AvailabilityUpdateArgs>(args: SelectSubset<T, AvailabilityUpdateArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Availabilities.
-     * @param {AvailabilityDeleteManyArgs} args - Arguments to filter Availabilities to delete.
-     * @example
-     * // Delete a few Availabilities
-     * const { count } = await prisma.availability.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends AvailabilityDeleteManyArgs>(args?: SelectSubset<T, AvailabilityDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Availabilities.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AvailabilityUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Availabilities
-     * const availability = await prisma.availability.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends AvailabilityUpdateManyArgs>(args: SelectSubset<T, AvailabilityUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Availabilities and returns the data updated in the database.
-     * @param {AvailabilityUpdateManyAndReturnArgs} args - Arguments to update many Availabilities.
-     * @example
-     * // Update many Availabilities
-     * const availability = await prisma.availability.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Availabilities and only return the `id`
-     * const availabilityWithIdOnly = await prisma.availability.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends AvailabilityUpdateManyAndReturnArgs>(args: SelectSubset<T, AvailabilityUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Availability.
-     * @param {AvailabilityUpsertArgs} args - Arguments to update or create a Availability.
-     * @example
-     * // Update or create a Availability
-     * const availability = await prisma.availability.upsert({
-     *   create: {
-     *     // ... data to create a Availability
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Availability we want to update
-     *   }
-     * })
-     */
-    upsert<T extends AvailabilityUpsertArgs>(args: SelectSubset<T, AvailabilityUpsertArgs<ExtArgs>>): Prisma__AvailabilityClient<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Availabilities.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AvailabilityCountArgs} args - Arguments to filter Availabilities to count.
-     * @example
-     * // Count the number of Availabilities
-     * const count = await prisma.availability.count({
-     *   where: {
-     *     // ... the filter for the Availabilities we want to count
-     *   }
-     * })
-    **/
-    count<T extends AvailabilityCountArgs>(
-      args?: Subset<T, AvailabilityCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], AvailabilityCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Availability.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AvailabilityAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends AvailabilityAggregateArgs>(args: Subset<T, AvailabilityAggregateArgs>): Prisma.PrismaPromise<GetAvailabilityAggregateType<T>>
-
-    /**
-     * Group by Availability.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AvailabilityGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends AvailabilityGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: AvailabilityGroupByArgs['orderBy'] }
-        : { orderBy?: AvailabilityGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, AvailabilityGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAvailabilityGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Availability model
-   */
-  readonly fields: AvailabilityFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Availability.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__AvailabilityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Availability model
-   */
-  interface AvailabilityFieldRefs {
-    readonly id: FieldRef<"Availability", 'String'>
-    readonly weekday: FieldRef<"Availability", 'Int'>
-    readonly time: FieldRef<"Availability", 'String'>
-    readonly createdAt: FieldRef<"Availability", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Availability findUnique
-   */
-  export type AvailabilityFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Availability
-     */
-    select?: AvailabilitySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Availability
-     */
-    omit?: AvailabilityOmit<ExtArgs> | null
-    /**
-     * Filter, which Availability to fetch.
-     */
-    where: AvailabilityWhereUniqueInput
-  }
-
-  /**
-   * Availability findUniqueOrThrow
-   */
-  export type AvailabilityFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Availability
-     */
-    select?: AvailabilitySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Availability
-     */
-    omit?: AvailabilityOmit<ExtArgs> | null
-    /**
-     * Filter, which Availability to fetch.
-     */
-    where: AvailabilityWhereUniqueInput
-  }
-
-  /**
-   * Availability findFirst
-   */
-  export type AvailabilityFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Availability
-     */
-    select?: AvailabilitySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Availability
-     */
-    omit?: AvailabilityOmit<ExtArgs> | null
-    /**
-     * Filter, which Availability to fetch.
-     */
-    where?: AvailabilityWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Availabilities to fetch.
-     */
-    orderBy?: AvailabilityOrderByWithRelationInput | AvailabilityOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Availabilities.
-     */
-    cursor?: AvailabilityWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Availabilities from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Availabilities.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Availabilities.
-     */
-    distinct?: AvailabilityScalarFieldEnum | AvailabilityScalarFieldEnum[]
-  }
-
-  /**
-   * Availability findFirstOrThrow
-   */
-  export type AvailabilityFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Availability
-     */
-    select?: AvailabilitySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Availability
-     */
-    omit?: AvailabilityOmit<ExtArgs> | null
-    /**
-     * Filter, which Availability to fetch.
-     */
-    where?: AvailabilityWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Availabilities to fetch.
-     */
-    orderBy?: AvailabilityOrderByWithRelationInput | AvailabilityOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Availabilities.
-     */
-    cursor?: AvailabilityWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Availabilities from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Availabilities.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Availabilities.
-     */
-    distinct?: AvailabilityScalarFieldEnum | AvailabilityScalarFieldEnum[]
-  }
-
-  /**
-   * Availability findMany
-   */
-  export type AvailabilityFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Availability
-     */
-    select?: AvailabilitySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Availability
-     */
-    omit?: AvailabilityOmit<ExtArgs> | null
-    /**
-     * Filter, which Availabilities to fetch.
-     */
-    where?: AvailabilityWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Availabilities to fetch.
-     */
-    orderBy?: AvailabilityOrderByWithRelationInput | AvailabilityOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Availabilities.
-     */
-    cursor?: AvailabilityWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Availabilities from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Availabilities.
-     */
-    skip?: number
-    distinct?: AvailabilityScalarFieldEnum | AvailabilityScalarFieldEnum[]
-  }
-
-  /**
-   * Availability create
-   */
-  export type AvailabilityCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Availability
-     */
-    select?: AvailabilitySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Availability
-     */
-    omit?: AvailabilityOmit<ExtArgs> | null
-    /**
-     * The data needed to create a Availability.
-     */
-    data: XOR<AvailabilityCreateInput, AvailabilityUncheckedCreateInput>
-  }
-
-  /**
-   * Availability createMany
-   */
-  export type AvailabilityCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Availabilities.
-     */
-    data: AvailabilityCreateManyInput | AvailabilityCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Availability createManyAndReturn
-   */
-  export type AvailabilityCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Availability
-     */
-    select?: AvailabilitySelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Availability
-     */
-    omit?: AvailabilityOmit<ExtArgs> | null
-    /**
-     * The data used to create many Availabilities.
-     */
-    data: AvailabilityCreateManyInput | AvailabilityCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Availability update
-   */
-  export type AvailabilityUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Availability
-     */
-    select?: AvailabilitySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Availability
-     */
-    omit?: AvailabilityOmit<ExtArgs> | null
-    /**
-     * The data needed to update a Availability.
-     */
-    data: XOR<AvailabilityUpdateInput, AvailabilityUncheckedUpdateInput>
-    /**
-     * Choose, which Availability to update.
-     */
-    where: AvailabilityWhereUniqueInput
-  }
-
-  /**
-   * Availability updateMany
-   */
-  export type AvailabilityUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Availabilities.
-     */
-    data: XOR<AvailabilityUpdateManyMutationInput, AvailabilityUncheckedUpdateManyInput>
-    /**
-     * Filter which Availabilities to update
-     */
-    where?: AvailabilityWhereInput
-    /**
-     * Limit how many Availabilities to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Availability updateManyAndReturn
-   */
-  export type AvailabilityUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Availability
-     */
-    select?: AvailabilitySelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Availability
-     */
-    omit?: AvailabilityOmit<ExtArgs> | null
-    /**
-     * The data used to update Availabilities.
-     */
-    data: XOR<AvailabilityUpdateManyMutationInput, AvailabilityUncheckedUpdateManyInput>
-    /**
-     * Filter which Availabilities to update
-     */
-    where?: AvailabilityWhereInput
-    /**
-     * Limit how many Availabilities to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Availability upsert
-   */
-  export type AvailabilityUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Availability
-     */
-    select?: AvailabilitySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Availability
-     */
-    omit?: AvailabilityOmit<ExtArgs> | null
-    /**
-     * The filter to search for the Availability to update in case it exists.
-     */
-    where: AvailabilityWhereUniqueInput
-    /**
-     * In case the Availability found by the `where` argument doesn't exist, create a new Availability with this data.
-     */
-    create: XOR<AvailabilityCreateInput, AvailabilityUncheckedCreateInput>
-    /**
-     * In case the Availability was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<AvailabilityUpdateInput, AvailabilityUncheckedUpdateInput>
-  }
-
-  /**
-   * Availability delete
-   */
-  export type AvailabilityDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Availability
-     */
-    select?: AvailabilitySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Availability
-     */
-    omit?: AvailabilityOmit<ExtArgs> | null
-    /**
-     * Filter which Availability to delete.
-     */
-    where: AvailabilityWhereUniqueInput
-  }
-
-  /**
-   * Availability deleteMany
-   */
-  export type AvailabilityDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Availabilities to delete
-     */
-    where?: AvailabilityWhereInput
-    /**
-     * Limit how many Availabilities to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Availability without action
-   */
-  export type AvailabilityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Availability
-     */
-    select?: AvailabilitySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Availability
-     */
-    omit?: AvailabilityOmit<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Exception
-   */
-
-  export type AggregateException = {
-    _count: ExceptionCountAggregateOutputType | null
-    _min: ExceptionMinAggregateOutputType | null
-    _max: ExceptionMaxAggregateOutputType | null
-  }
-
-  export type ExceptionMinAggregateOutputType = {
-    id: string | null
-    date: Date | null
-    reason: string | null
-    createdAt: Date | null
-  }
-
-  export type ExceptionMaxAggregateOutputType = {
-    id: string | null
-    date: Date | null
-    reason: string | null
-    createdAt: Date | null
-  }
-
-  export type ExceptionCountAggregateOutputType = {
-    id: number
-    date: number
-    reason: number
-    createdAt: number
-    _all: number
-  }
-
-
-  export type ExceptionMinAggregateInputType = {
-    id?: true
-    date?: true
-    reason?: true
-    createdAt?: true
-  }
-
-  export type ExceptionMaxAggregateInputType = {
-    id?: true
-    date?: true
-    reason?: true
-    createdAt?: true
-  }
-
-  export type ExceptionCountAggregateInputType = {
-    id?: true
-    date?: true
-    reason?: true
-    createdAt?: true
-    _all?: true
-  }
-
-  export type ExceptionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Exception to aggregate.
-     */
-    where?: ExceptionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Exceptions to fetch.
-     */
-    orderBy?: ExceptionOrderByWithRelationInput | ExceptionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: ExceptionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Exceptions from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Exceptions.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Exceptions
-    **/
-    _count?: true | ExceptionCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: ExceptionMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: ExceptionMaxAggregateInputType
-  }
-
-  export type GetExceptionAggregateType<T extends ExceptionAggregateArgs> = {
-        [P in keyof T & keyof AggregateException]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateException[P]>
-      : GetScalarType<T[P], AggregateException[P]>
-  }
-
-
-
-
-  export type ExceptionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ExceptionWhereInput
-    orderBy?: ExceptionOrderByWithAggregationInput | ExceptionOrderByWithAggregationInput[]
-    by: ExceptionScalarFieldEnum[] | ExceptionScalarFieldEnum
-    having?: ExceptionScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: ExceptionCountAggregateInputType | true
-    _min?: ExceptionMinAggregateInputType
-    _max?: ExceptionMaxAggregateInputType
-  }
-
-  export type ExceptionGroupByOutputType = {
-    id: string
-    date: Date
-    reason: string | null
-    createdAt: Date
-    _count: ExceptionCountAggregateOutputType | null
-    _min: ExceptionMinAggregateOutputType | null
-    _max: ExceptionMaxAggregateOutputType | null
-  }
-
-  type GetExceptionGroupByPayload<T extends ExceptionGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<ExceptionGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof ExceptionGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], ExceptionGroupByOutputType[P]>
-            : GetScalarType<T[P], ExceptionGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type ExceptionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    date?: boolean
-    reason?: boolean
-    createdAt?: boolean
-  }, ExtArgs["result"]["exception"]>
-
-  export type ExceptionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    date?: boolean
-    reason?: boolean
-    createdAt?: boolean
-  }, ExtArgs["result"]["exception"]>
-
-  export type ExceptionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    date?: boolean
-    reason?: boolean
-    createdAt?: boolean
-  }, ExtArgs["result"]["exception"]>
-
-  export type ExceptionSelectScalar = {
-    id?: boolean
-    date?: boolean
-    reason?: boolean
-    createdAt?: boolean
-  }
-
-  export type ExceptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "date" | "reason" | "createdAt", ExtArgs["result"]["exception"]>
-
-  export type $ExceptionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Exception"
-    objects: {}
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      date: Date
-      reason: string | null
-      createdAt: Date
-    }, ExtArgs["result"]["exception"]>
-    composites: {}
-  }
-
-  type ExceptionGetPayload<S extends boolean | null | undefined | ExceptionDefaultArgs> = $Result.GetResult<Prisma.$ExceptionPayload, S>
-
-  type ExceptionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<ExceptionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: ExceptionCountAggregateInputType | true
-    }
-
-  export interface ExceptionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Exception'], meta: { name: 'Exception' } }
-    /**
-     * Find zero or one Exception that matches the filter.
-     * @param {ExceptionFindUniqueArgs} args - Arguments to find a Exception
-     * @example
-     * // Get one Exception
-     * const exception = await prisma.exception.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends ExceptionFindUniqueArgs>(args: SelectSubset<T, ExceptionFindUniqueArgs<ExtArgs>>): Prisma__ExceptionClient<$Result.GetResult<Prisma.$ExceptionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Exception that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {ExceptionFindUniqueOrThrowArgs} args - Arguments to find a Exception
-     * @example
-     * // Get one Exception
-     * const exception = await prisma.exception.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends ExceptionFindUniqueOrThrowArgs>(args: SelectSubset<T, ExceptionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ExceptionClient<$Result.GetResult<Prisma.$ExceptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Exception that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExceptionFindFirstArgs} args - Arguments to find a Exception
-     * @example
-     * // Get one Exception
-     * const exception = await prisma.exception.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends ExceptionFindFirstArgs>(args?: SelectSubset<T, ExceptionFindFirstArgs<ExtArgs>>): Prisma__ExceptionClient<$Result.GetResult<Prisma.$ExceptionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Exception that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExceptionFindFirstOrThrowArgs} args - Arguments to find a Exception
-     * @example
-     * // Get one Exception
-     * const exception = await prisma.exception.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends ExceptionFindFirstOrThrowArgs>(args?: SelectSubset<T, ExceptionFindFirstOrThrowArgs<ExtArgs>>): Prisma__ExceptionClient<$Result.GetResult<Prisma.$ExceptionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Exceptions that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExceptionFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Exceptions
-     * const exceptions = await prisma.exception.findMany()
-     * 
-     * // Get first 10 Exceptions
-     * const exceptions = await prisma.exception.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const exceptionWithIdOnly = await prisma.exception.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends ExceptionFindManyArgs>(args?: SelectSubset<T, ExceptionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExceptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Exception.
-     * @param {ExceptionCreateArgs} args - Arguments to create a Exception.
-     * @example
-     * // Create one Exception
-     * const Exception = await prisma.exception.create({
-     *   data: {
-     *     // ... data to create a Exception
-     *   }
-     * })
-     * 
-     */
-    create<T extends ExceptionCreateArgs>(args: SelectSubset<T, ExceptionCreateArgs<ExtArgs>>): Prisma__ExceptionClient<$Result.GetResult<Prisma.$ExceptionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Exceptions.
-     * @param {ExceptionCreateManyArgs} args - Arguments to create many Exceptions.
-     * @example
-     * // Create many Exceptions
-     * const exception = await prisma.exception.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends ExceptionCreateManyArgs>(args?: SelectSubset<T, ExceptionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Exceptions and returns the data saved in the database.
-     * @param {ExceptionCreateManyAndReturnArgs} args - Arguments to create many Exceptions.
-     * @example
-     * // Create many Exceptions
-     * const exception = await prisma.exception.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Exceptions and only return the `id`
-     * const exceptionWithIdOnly = await prisma.exception.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends ExceptionCreateManyAndReturnArgs>(args?: SelectSubset<T, ExceptionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExceptionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Exception.
-     * @param {ExceptionDeleteArgs} args - Arguments to delete one Exception.
-     * @example
-     * // Delete one Exception
-     * const Exception = await prisma.exception.delete({
-     *   where: {
-     *     // ... filter to delete one Exception
-     *   }
-     * })
-     * 
-     */
-    delete<T extends ExceptionDeleteArgs>(args: SelectSubset<T, ExceptionDeleteArgs<ExtArgs>>): Prisma__ExceptionClient<$Result.GetResult<Prisma.$ExceptionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Exception.
-     * @param {ExceptionUpdateArgs} args - Arguments to update one Exception.
-     * @example
-     * // Update one Exception
-     * const exception = await prisma.exception.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends ExceptionUpdateArgs>(args: SelectSubset<T, ExceptionUpdateArgs<ExtArgs>>): Prisma__ExceptionClient<$Result.GetResult<Prisma.$ExceptionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Exceptions.
-     * @param {ExceptionDeleteManyArgs} args - Arguments to filter Exceptions to delete.
-     * @example
-     * // Delete a few Exceptions
-     * const { count } = await prisma.exception.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends ExceptionDeleteManyArgs>(args?: SelectSubset<T, ExceptionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Exceptions.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExceptionUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Exceptions
-     * const exception = await prisma.exception.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends ExceptionUpdateManyArgs>(args: SelectSubset<T, ExceptionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Exceptions and returns the data updated in the database.
-     * @param {ExceptionUpdateManyAndReturnArgs} args - Arguments to update many Exceptions.
-     * @example
-     * // Update many Exceptions
-     * const exception = await prisma.exception.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Exceptions and only return the `id`
-     * const exceptionWithIdOnly = await prisma.exception.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends ExceptionUpdateManyAndReturnArgs>(args: SelectSubset<T, ExceptionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExceptionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Exception.
-     * @param {ExceptionUpsertArgs} args - Arguments to update or create a Exception.
-     * @example
-     * // Update or create a Exception
-     * const exception = await prisma.exception.upsert({
-     *   create: {
-     *     // ... data to create a Exception
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Exception we want to update
-     *   }
-     * })
-     */
-    upsert<T extends ExceptionUpsertArgs>(args: SelectSubset<T, ExceptionUpsertArgs<ExtArgs>>): Prisma__ExceptionClient<$Result.GetResult<Prisma.$ExceptionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Exceptions.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExceptionCountArgs} args - Arguments to filter Exceptions to count.
-     * @example
-     * // Count the number of Exceptions
-     * const count = await prisma.exception.count({
-     *   where: {
-     *     // ... the filter for the Exceptions we want to count
-     *   }
-     * })
-    **/
-    count<T extends ExceptionCountArgs>(
-      args?: Subset<T, ExceptionCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], ExceptionCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Exception.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExceptionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends ExceptionAggregateArgs>(args: Subset<T, ExceptionAggregateArgs>): Prisma.PrismaPromise<GetExceptionAggregateType<T>>
-
-    /**
-     * Group by Exception.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ExceptionGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends ExceptionGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ExceptionGroupByArgs['orderBy'] }
-        : { orderBy?: ExceptionGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, ExceptionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetExceptionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Exception model
-   */
-  readonly fields: ExceptionFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Exception.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__ExceptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Exception model
-   */
-  interface ExceptionFieldRefs {
-    readonly id: FieldRef<"Exception", 'String'>
-    readonly date: FieldRef<"Exception", 'DateTime'>
-    readonly reason: FieldRef<"Exception", 'String'>
-    readonly createdAt: FieldRef<"Exception", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Exception findUnique
-   */
-  export type ExceptionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Exception
-     */
-    select?: ExceptionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Exception
-     */
-    omit?: ExceptionOmit<ExtArgs> | null
-    /**
-     * Filter, which Exception to fetch.
-     */
-    where: ExceptionWhereUniqueInput
-  }
-
-  /**
-   * Exception findUniqueOrThrow
-   */
-  export type ExceptionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Exception
-     */
-    select?: ExceptionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Exception
-     */
-    omit?: ExceptionOmit<ExtArgs> | null
-    /**
-     * Filter, which Exception to fetch.
-     */
-    where: ExceptionWhereUniqueInput
-  }
-
-  /**
-   * Exception findFirst
-   */
-  export type ExceptionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Exception
-     */
-    select?: ExceptionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Exception
-     */
-    omit?: ExceptionOmit<ExtArgs> | null
-    /**
-     * Filter, which Exception to fetch.
-     */
-    where?: ExceptionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Exceptions to fetch.
-     */
-    orderBy?: ExceptionOrderByWithRelationInput | ExceptionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Exceptions.
-     */
-    cursor?: ExceptionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Exceptions from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Exceptions.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Exceptions.
-     */
-    distinct?: ExceptionScalarFieldEnum | ExceptionScalarFieldEnum[]
-  }
-
-  /**
-   * Exception findFirstOrThrow
-   */
-  export type ExceptionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Exception
-     */
-    select?: ExceptionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Exception
-     */
-    omit?: ExceptionOmit<ExtArgs> | null
-    /**
-     * Filter, which Exception to fetch.
-     */
-    where?: ExceptionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Exceptions to fetch.
-     */
-    orderBy?: ExceptionOrderByWithRelationInput | ExceptionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Exceptions.
-     */
-    cursor?: ExceptionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Exceptions from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Exceptions.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Exceptions.
-     */
-    distinct?: ExceptionScalarFieldEnum | ExceptionScalarFieldEnum[]
-  }
-
-  /**
-   * Exception findMany
-   */
-  export type ExceptionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Exception
-     */
-    select?: ExceptionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Exception
-     */
-    omit?: ExceptionOmit<ExtArgs> | null
-    /**
-     * Filter, which Exceptions to fetch.
-     */
-    where?: ExceptionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Exceptions to fetch.
-     */
-    orderBy?: ExceptionOrderByWithRelationInput | ExceptionOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Exceptions.
-     */
-    cursor?: ExceptionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Exceptions from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Exceptions.
-     */
-    skip?: number
-    distinct?: ExceptionScalarFieldEnum | ExceptionScalarFieldEnum[]
-  }
-
-  /**
-   * Exception create
-   */
-  export type ExceptionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Exception
-     */
-    select?: ExceptionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Exception
-     */
-    omit?: ExceptionOmit<ExtArgs> | null
-    /**
-     * The data needed to create a Exception.
-     */
-    data: XOR<ExceptionCreateInput, ExceptionUncheckedCreateInput>
-  }
-
-  /**
-   * Exception createMany
-   */
-  export type ExceptionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Exceptions.
-     */
-    data: ExceptionCreateManyInput | ExceptionCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Exception createManyAndReturn
-   */
-  export type ExceptionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Exception
-     */
-    select?: ExceptionSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Exception
-     */
-    omit?: ExceptionOmit<ExtArgs> | null
-    /**
-     * The data used to create many Exceptions.
-     */
-    data: ExceptionCreateManyInput | ExceptionCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Exception update
-   */
-  export type ExceptionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Exception
-     */
-    select?: ExceptionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Exception
-     */
-    omit?: ExceptionOmit<ExtArgs> | null
-    /**
-     * The data needed to update a Exception.
-     */
-    data: XOR<ExceptionUpdateInput, ExceptionUncheckedUpdateInput>
-    /**
-     * Choose, which Exception to update.
-     */
-    where: ExceptionWhereUniqueInput
-  }
-
-  /**
-   * Exception updateMany
-   */
-  export type ExceptionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Exceptions.
-     */
-    data: XOR<ExceptionUpdateManyMutationInput, ExceptionUncheckedUpdateManyInput>
-    /**
-     * Filter which Exceptions to update
-     */
-    where?: ExceptionWhereInput
-    /**
-     * Limit how many Exceptions to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Exception updateManyAndReturn
-   */
-  export type ExceptionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Exception
-     */
-    select?: ExceptionSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Exception
-     */
-    omit?: ExceptionOmit<ExtArgs> | null
-    /**
-     * The data used to update Exceptions.
-     */
-    data: XOR<ExceptionUpdateManyMutationInput, ExceptionUncheckedUpdateManyInput>
-    /**
-     * Filter which Exceptions to update
-     */
-    where?: ExceptionWhereInput
-    /**
-     * Limit how many Exceptions to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Exception upsert
-   */
-  export type ExceptionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Exception
-     */
-    select?: ExceptionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Exception
-     */
-    omit?: ExceptionOmit<ExtArgs> | null
-    /**
-     * The filter to search for the Exception to update in case it exists.
-     */
-    where: ExceptionWhereUniqueInput
-    /**
-     * In case the Exception found by the `where` argument doesn't exist, create a new Exception with this data.
-     */
-    create: XOR<ExceptionCreateInput, ExceptionUncheckedCreateInput>
-    /**
-     * In case the Exception was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<ExceptionUpdateInput, ExceptionUncheckedUpdateInput>
-  }
-
-  /**
-   * Exception delete
-   */
-  export type ExceptionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Exception
-     */
-    select?: ExceptionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Exception
-     */
-    omit?: ExceptionOmit<ExtArgs> | null
-    /**
-     * Filter which Exception to delete.
-     */
-    where: ExceptionWhereUniqueInput
-  }
-
-  /**
-   * Exception deleteMany
-   */
-  export type ExceptionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Exceptions to delete
-     */
-    where?: ExceptionWhereInput
-    /**
-     * Limit how many Exceptions to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Exception without action
-   */
-  export type ExceptionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Exception
-     */
-    select?: ExceptionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Exception
-     */
-    omit?: ExceptionOmit<ExtArgs> | null
   }
 
 
@@ -9140,6 +7190,1072 @@ export namespace Prisma {
 
 
   /**
+   * Model ReminderLog
+   */
+
+  export type AggregateReminderLog = {
+    _count: ReminderLogCountAggregateOutputType | null
+    _min: ReminderLogMinAggregateOutputType | null
+    _max: ReminderLogMaxAggregateOutputType | null
+  }
+
+  export type ReminderLogMinAggregateOutputType = {
+    id: string | null
+    bookingId: string | null
+    sentAt: Date | null
+    type: string | null
+    userId: string | null
+  }
+
+  export type ReminderLogMaxAggregateOutputType = {
+    id: string | null
+    bookingId: string | null
+    sentAt: Date | null
+    type: string | null
+    userId: string | null
+  }
+
+  export type ReminderLogCountAggregateOutputType = {
+    id: number
+    bookingId: number
+    sentAt: number
+    type: number
+    userId: number
+    _all: number
+  }
+
+
+  export type ReminderLogMinAggregateInputType = {
+    id?: true
+    bookingId?: true
+    sentAt?: true
+    type?: true
+    userId?: true
+  }
+
+  export type ReminderLogMaxAggregateInputType = {
+    id?: true
+    bookingId?: true
+    sentAt?: true
+    type?: true
+    userId?: true
+  }
+
+  export type ReminderLogCountAggregateInputType = {
+    id?: true
+    bookingId?: true
+    sentAt?: true
+    type?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type ReminderLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReminderLog to aggregate.
+     */
+    where?: ReminderLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReminderLogs to fetch.
+     */
+    orderBy?: ReminderLogOrderByWithRelationInput | ReminderLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ReminderLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReminderLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReminderLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ReminderLogs
+    **/
+    _count?: true | ReminderLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ReminderLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ReminderLogMaxAggregateInputType
+  }
+
+  export type GetReminderLogAggregateType<T extends ReminderLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateReminderLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReminderLog[P]>
+      : GetScalarType<T[P], AggregateReminderLog[P]>
+  }
+
+
+
+
+  export type ReminderLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReminderLogWhereInput
+    orderBy?: ReminderLogOrderByWithAggregationInput | ReminderLogOrderByWithAggregationInput[]
+    by: ReminderLogScalarFieldEnum[] | ReminderLogScalarFieldEnum
+    having?: ReminderLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ReminderLogCountAggregateInputType | true
+    _min?: ReminderLogMinAggregateInputType
+    _max?: ReminderLogMaxAggregateInputType
+  }
+
+  export type ReminderLogGroupByOutputType = {
+    id: string
+    bookingId: string
+    sentAt: Date
+    type: string
+    userId: string
+    _count: ReminderLogCountAggregateOutputType | null
+    _min: ReminderLogMinAggregateOutputType | null
+    _max: ReminderLogMaxAggregateOutputType | null
+  }
+
+  type GetReminderLogGroupByPayload<T extends ReminderLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ReminderLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ReminderLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ReminderLogGroupByOutputType[P]>
+            : GetScalarType<T[P], ReminderLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ReminderLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bookingId?: boolean
+    sentAt?: boolean
+    type?: boolean
+    userId?: boolean
+    booking?: boolean | BookingDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reminderLog"]>
+
+  export type ReminderLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bookingId?: boolean
+    sentAt?: boolean
+    type?: boolean
+    userId?: boolean
+    booking?: boolean | BookingDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reminderLog"]>
+
+  export type ReminderLogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bookingId?: boolean
+    sentAt?: boolean
+    type?: boolean
+    userId?: boolean
+    booking?: boolean | BookingDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reminderLog"]>
+
+  export type ReminderLogSelectScalar = {
+    id?: boolean
+    bookingId?: boolean
+    sentAt?: boolean
+    type?: boolean
+    userId?: boolean
+  }
+
+  export type ReminderLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bookingId" | "sentAt" | "type" | "userId", ExtArgs["result"]["reminderLog"]>
+  export type ReminderLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    booking?: boolean | BookingDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ReminderLogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    booking?: boolean | BookingDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ReminderLogIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    booking?: boolean | BookingDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ReminderLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ReminderLog"
+    objects: {
+      booking: Prisma.$BookingPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      bookingId: string
+      sentAt: Date
+      type: string
+      userId: string
+    }, ExtArgs["result"]["reminderLog"]>
+    composites: {}
+  }
+
+  type ReminderLogGetPayload<S extends boolean | null | undefined | ReminderLogDefaultArgs> = $Result.GetResult<Prisma.$ReminderLogPayload, S>
+
+  type ReminderLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ReminderLogFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ReminderLogCountAggregateInputType | true
+    }
+
+  export interface ReminderLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ReminderLog'], meta: { name: 'ReminderLog' } }
+    /**
+     * Find zero or one ReminderLog that matches the filter.
+     * @param {ReminderLogFindUniqueArgs} args - Arguments to find a ReminderLog
+     * @example
+     * // Get one ReminderLog
+     * const reminderLog = await prisma.reminderLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ReminderLogFindUniqueArgs>(args: SelectSubset<T, ReminderLogFindUniqueArgs<ExtArgs>>): Prisma__ReminderLogClient<$Result.GetResult<Prisma.$ReminderLogPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ReminderLog that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ReminderLogFindUniqueOrThrowArgs} args - Arguments to find a ReminderLog
+     * @example
+     * // Get one ReminderLog
+     * const reminderLog = await prisma.reminderLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ReminderLogFindUniqueOrThrowArgs>(args: SelectSubset<T, ReminderLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReminderLogClient<$Result.GetResult<Prisma.$ReminderLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ReminderLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReminderLogFindFirstArgs} args - Arguments to find a ReminderLog
+     * @example
+     * // Get one ReminderLog
+     * const reminderLog = await prisma.reminderLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ReminderLogFindFirstArgs>(args?: SelectSubset<T, ReminderLogFindFirstArgs<ExtArgs>>): Prisma__ReminderLogClient<$Result.GetResult<Prisma.$ReminderLogPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ReminderLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReminderLogFindFirstOrThrowArgs} args - Arguments to find a ReminderLog
+     * @example
+     * // Get one ReminderLog
+     * const reminderLog = await prisma.reminderLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ReminderLogFindFirstOrThrowArgs>(args?: SelectSubset<T, ReminderLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReminderLogClient<$Result.GetResult<Prisma.$ReminderLogPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ReminderLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReminderLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ReminderLogs
+     * const reminderLogs = await prisma.reminderLog.findMany()
+     * 
+     * // Get first 10 ReminderLogs
+     * const reminderLogs = await prisma.reminderLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const reminderLogWithIdOnly = await prisma.reminderLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ReminderLogFindManyArgs>(args?: SelectSubset<T, ReminderLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReminderLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ReminderLog.
+     * @param {ReminderLogCreateArgs} args - Arguments to create a ReminderLog.
+     * @example
+     * // Create one ReminderLog
+     * const ReminderLog = await prisma.reminderLog.create({
+     *   data: {
+     *     // ... data to create a ReminderLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends ReminderLogCreateArgs>(args: SelectSubset<T, ReminderLogCreateArgs<ExtArgs>>): Prisma__ReminderLogClient<$Result.GetResult<Prisma.$ReminderLogPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ReminderLogs.
+     * @param {ReminderLogCreateManyArgs} args - Arguments to create many ReminderLogs.
+     * @example
+     * // Create many ReminderLogs
+     * const reminderLog = await prisma.reminderLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ReminderLogCreateManyArgs>(args?: SelectSubset<T, ReminderLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ReminderLogs and returns the data saved in the database.
+     * @param {ReminderLogCreateManyAndReturnArgs} args - Arguments to create many ReminderLogs.
+     * @example
+     * // Create many ReminderLogs
+     * const reminderLog = await prisma.reminderLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ReminderLogs and only return the `id`
+     * const reminderLogWithIdOnly = await prisma.reminderLog.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ReminderLogCreateManyAndReturnArgs>(args?: SelectSubset<T, ReminderLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReminderLogPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ReminderLog.
+     * @param {ReminderLogDeleteArgs} args - Arguments to delete one ReminderLog.
+     * @example
+     * // Delete one ReminderLog
+     * const ReminderLog = await prisma.reminderLog.delete({
+     *   where: {
+     *     // ... filter to delete one ReminderLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ReminderLogDeleteArgs>(args: SelectSubset<T, ReminderLogDeleteArgs<ExtArgs>>): Prisma__ReminderLogClient<$Result.GetResult<Prisma.$ReminderLogPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ReminderLog.
+     * @param {ReminderLogUpdateArgs} args - Arguments to update one ReminderLog.
+     * @example
+     * // Update one ReminderLog
+     * const reminderLog = await prisma.reminderLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ReminderLogUpdateArgs>(args: SelectSubset<T, ReminderLogUpdateArgs<ExtArgs>>): Prisma__ReminderLogClient<$Result.GetResult<Prisma.$ReminderLogPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ReminderLogs.
+     * @param {ReminderLogDeleteManyArgs} args - Arguments to filter ReminderLogs to delete.
+     * @example
+     * // Delete a few ReminderLogs
+     * const { count } = await prisma.reminderLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ReminderLogDeleteManyArgs>(args?: SelectSubset<T, ReminderLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReminderLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReminderLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ReminderLogs
+     * const reminderLog = await prisma.reminderLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ReminderLogUpdateManyArgs>(args: SelectSubset<T, ReminderLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReminderLogs and returns the data updated in the database.
+     * @param {ReminderLogUpdateManyAndReturnArgs} args - Arguments to update many ReminderLogs.
+     * @example
+     * // Update many ReminderLogs
+     * const reminderLog = await prisma.reminderLog.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ReminderLogs and only return the `id`
+     * const reminderLogWithIdOnly = await prisma.reminderLog.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ReminderLogUpdateManyAndReturnArgs>(args: SelectSubset<T, ReminderLogUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReminderLogPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ReminderLog.
+     * @param {ReminderLogUpsertArgs} args - Arguments to update or create a ReminderLog.
+     * @example
+     * // Update or create a ReminderLog
+     * const reminderLog = await prisma.reminderLog.upsert({
+     *   create: {
+     *     // ... data to create a ReminderLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ReminderLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ReminderLogUpsertArgs>(args: SelectSubset<T, ReminderLogUpsertArgs<ExtArgs>>): Prisma__ReminderLogClient<$Result.GetResult<Prisma.$ReminderLogPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ReminderLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReminderLogCountArgs} args - Arguments to filter ReminderLogs to count.
+     * @example
+     * // Count the number of ReminderLogs
+     * const count = await prisma.reminderLog.count({
+     *   where: {
+     *     // ... the filter for the ReminderLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends ReminderLogCountArgs>(
+      args?: Subset<T, ReminderLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ReminderLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ReminderLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReminderLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ReminderLogAggregateArgs>(args: Subset<T, ReminderLogAggregateArgs>): Prisma.PrismaPromise<GetReminderLogAggregateType<T>>
+
+    /**
+     * Group by ReminderLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReminderLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ReminderLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ReminderLogGroupByArgs['orderBy'] }
+        : { orderBy?: ReminderLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ReminderLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReminderLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ReminderLog model
+   */
+  readonly fields: ReminderLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ReminderLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ReminderLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    booking<T extends BookingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BookingDefaultArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ReminderLog model
+   */
+  interface ReminderLogFieldRefs {
+    readonly id: FieldRef<"ReminderLog", 'String'>
+    readonly bookingId: FieldRef<"ReminderLog", 'String'>
+    readonly sentAt: FieldRef<"ReminderLog", 'DateTime'>
+    readonly type: FieldRef<"ReminderLog", 'String'>
+    readonly userId: FieldRef<"ReminderLog", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ReminderLog findUnique
+   */
+  export type ReminderLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReminderLog
+     */
+    select?: ReminderLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReminderLog
+     */
+    omit?: ReminderLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReminderLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ReminderLog to fetch.
+     */
+    where: ReminderLogWhereUniqueInput
+  }
+
+  /**
+   * ReminderLog findUniqueOrThrow
+   */
+  export type ReminderLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReminderLog
+     */
+    select?: ReminderLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReminderLog
+     */
+    omit?: ReminderLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReminderLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ReminderLog to fetch.
+     */
+    where: ReminderLogWhereUniqueInput
+  }
+
+  /**
+   * ReminderLog findFirst
+   */
+  export type ReminderLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReminderLog
+     */
+    select?: ReminderLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReminderLog
+     */
+    omit?: ReminderLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReminderLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ReminderLog to fetch.
+     */
+    where?: ReminderLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReminderLogs to fetch.
+     */
+    orderBy?: ReminderLogOrderByWithRelationInput | ReminderLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReminderLogs.
+     */
+    cursor?: ReminderLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReminderLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReminderLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReminderLogs.
+     */
+    distinct?: ReminderLogScalarFieldEnum | ReminderLogScalarFieldEnum[]
+  }
+
+  /**
+   * ReminderLog findFirstOrThrow
+   */
+  export type ReminderLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReminderLog
+     */
+    select?: ReminderLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReminderLog
+     */
+    omit?: ReminderLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReminderLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ReminderLog to fetch.
+     */
+    where?: ReminderLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReminderLogs to fetch.
+     */
+    orderBy?: ReminderLogOrderByWithRelationInput | ReminderLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReminderLogs.
+     */
+    cursor?: ReminderLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReminderLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReminderLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReminderLogs.
+     */
+    distinct?: ReminderLogScalarFieldEnum | ReminderLogScalarFieldEnum[]
+  }
+
+  /**
+   * ReminderLog findMany
+   */
+  export type ReminderLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReminderLog
+     */
+    select?: ReminderLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReminderLog
+     */
+    omit?: ReminderLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReminderLogInclude<ExtArgs> | null
+    /**
+     * Filter, which ReminderLogs to fetch.
+     */
+    where?: ReminderLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReminderLogs to fetch.
+     */
+    orderBy?: ReminderLogOrderByWithRelationInput | ReminderLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ReminderLogs.
+     */
+    cursor?: ReminderLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReminderLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReminderLogs.
+     */
+    skip?: number
+    distinct?: ReminderLogScalarFieldEnum | ReminderLogScalarFieldEnum[]
+  }
+
+  /**
+   * ReminderLog create
+   */
+  export type ReminderLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReminderLog
+     */
+    select?: ReminderLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReminderLog
+     */
+    omit?: ReminderLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReminderLogInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ReminderLog.
+     */
+    data: XOR<ReminderLogCreateInput, ReminderLogUncheckedCreateInput>
+  }
+
+  /**
+   * ReminderLog createMany
+   */
+  export type ReminderLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ReminderLogs.
+     */
+    data: ReminderLogCreateManyInput | ReminderLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ReminderLog createManyAndReturn
+   */
+  export type ReminderLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReminderLog
+     */
+    select?: ReminderLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReminderLog
+     */
+    omit?: ReminderLogOmit<ExtArgs> | null
+    /**
+     * The data used to create many ReminderLogs.
+     */
+    data: ReminderLogCreateManyInput | ReminderLogCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReminderLogIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ReminderLog update
+   */
+  export type ReminderLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReminderLog
+     */
+    select?: ReminderLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReminderLog
+     */
+    omit?: ReminderLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReminderLogInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ReminderLog.
+     */
+    data: XOR<ReminderLogUpdateInput, ReminderLogUncheckedUpdateInput>
+    /**
+     * Choose, which ReminderLog to update.
+     */
+    where: ReminderLogWhereUniqueInput
+  }
+
+  /**
+   * ReminderLog updateMany
+   */
+  export type ReminderLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ReminderLogs.
+     */
+    data: XOR<ReminderLogUpdateManyMutationInput, ReminderLogUncheckedUpdateManyInput>
+    /**
+     * Filter which ReminderLogs to update
+     */
+    where?: ReminderLogWhereInput
+    /**
+     * Limit how many ReminderLogs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ReminderLog updateManyAndReturn
+   */
+  export type ReminderLogUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReminderLog
+     */
+    select?: ReminderLogSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReminderLog
+     */
+    omit?: ReminderLogOmit<ExtArgs> | null
+    /**
+     * The data used to update ReminderLogs.
+     */
+    data: XOR<ReminderLogUpdateManyMutationInput, ReminderLogUncheckedUpdateManyInput>
+    /**
+     * Filter which ReminderLogs to update
+     */
+    where?: ReminderLogWhereInput
+    /**
+     * Limit how many ReminderLogs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReminderLogIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ReminderLog upsert
+   */
+  export type ReminderLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReminderLog
+     */
+    select?: ReminderLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReminderLog
+     */
+    omit?: ReminderLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReminderLogInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ReminderLog to update in case it exists.
+     */
+    where: ReminderLogWhereUniqueInput
+    /**
+     * In case the ReminderLog found by the `where` argument doesn't exist, create a new ReminderLog with this data.
+     */
+    create: XOR<ReminderLogCreateInput, ReminderLogUncheckedCreateInput>
+    /**
+     * In case the ReminderLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ReminderLogUpdateInput, ReminderLogUncheckedUpdateInput>
+  }
+
+  /**
+   * ReminderLog delete
+   */
+  export type ReminderLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReminderLog
+     */
+    select?: ReminderLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReminderLog
+     */
+    omit?: ReminderLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReminderLogInclude<ExtArgs> | null
+    /**
+     * Filter which ReminderLog to delete.
+     */
+    where: ReminderLogWhereUniqueInput
+  }
+
+  /**
+   * ReminderLog deleteMany
+   */
+  export type ReminderLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReminderLogs to delete
+     */
+    where?: ReminderLogWhereInput
+    /**
+     * Limit how many ReminderLogs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ReminderLog without action
+   */
+  export type ReminderLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReminderLog
+     */
+    select?: ReminderLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReminderLog
+     */
+    omit?: ReminderLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReminderLogInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -9189,8 +8305,13 @@ export namespace Prisma {
     date: 'date',
     time: 'time',
     userId: 'userId',
+    scheduledAt: 'scheduledAt',
+    reminderSent: 'reminderSent',
     paymentStatus: 'paymentStatus',
     totalAmount: 'totalAmount',
+    paymentIntentId: 'paymentIntentId',
+    cancellationReason: 'cancellationReason',
+    cancelledAt: 'cancelledAt',
     createdAt: 'createdAt'
   };
 
@@ -9204,26 +8325,6 @@ export namespace Prisma {
   };
 
   export type BookingServiceScalarFieldEnum = (typeof BookingServiceScalarFieldEnum)[keyof typeof BookingServiceScalarFieldEnum]
-
-
-  export const AvailabilityScalarFieldEnum: {
-    id: 'id',
-    weekday: 'weekday',
-    time: 'time',
-    createdAt: 'createdAt'
-  };
-
-  export type AvailabilityScalarFieldEnum = (typeof AvailabilityScalarFieldEnum)[keyof typeof AvailabilityScalarFieldEnum]
-
-
-  export const ExceptionScalarFieldEnum: {
-    id: 'id',
-    date: 'date',
-    reason: 'reason',
-    createdAt: 'createdAt'
-  };
-
-  export type ExceptionScalarFieldEnum = (typeof ExceptionScalarFieldEnum)[keyof typeof ExceptionScalarFieldEnum]
 
 
   export const PatientFormScalarFieldEnum: {
@@ -9246,6 +8347,17 @@ export namespace Prisma {
   };
 
   export type PatientFormScalarFieldEnum = (typeof PatientFormScalarFieldEnum)[keyof typeof PatientFormScalarFieldEnum]
+
+
+  export const ReminderLogScalarFieldEnum: {
+    id: 'id',
+    bookingId: 'bookingId',
+    sentAt: 'sentAt',
+    type: 'type',
+    userId: 'userId'
+  };
+
+  export type ReminderLogScalarFieldEnum = (typeof ReminderLogScalarFieldEnum)[keyof typeof ReminderLogScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -9316,6 +8428,13 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -9420,6 +8539,7 @@ export namespace Prisma {
     zipCode?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     bookings?: BookingListRelationFilter
+    ReminderLog?: ReminderLogListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -9436,6 +8556,7 @@ export namespace Prisma {
     zipCode?: SortOrder
     createdAt?: SortOrder
     bookings?: BookingOrderByRelationAggregateInput
+    ReminderLog?: ReminderLogOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -9455,6 +8576,7 @@ export namespace Prisma {
     zipCode?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     bookings?: BookingListRelationFilter
+    ReminderLog?: ReminderLogListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -9501,11 +8623,17 @@ export namespace Prisma {
     date?: DateTimeFilter<"Booking"> | Date | string
     time?: StringFilter<"Booking"> | string
     userId?: StringFilter<"Booking"> | string
+    scheduledAt?: DateTimeFilter<"Booking"> | Date | string
+    reminderSent?: BoolFilter<"Booking"> | boolean
     paymentStatus?: StringFilter<"Booking"> | string
     totalAmount?: IntFilter<"Booking"> | number
+    paymentIntentId?: StringNullableFilter<"Booking"> | string | null
+    cancellationReason?: StringNullableFilter<"Booking"> | string | null
+    cancelledAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     services?: BookingServiceListRelationFilter
+    reminderLogs?: ReminderLogListRelationFilter
   }
 
   export type BookingOrderByWithRelationInput = {
@@ -9513,11 +8641,17 @@ export namespace Prisma {
     date?: SortOrder
     time?: SortOrder
     userId?: SortOrder
+    scheduledAt?: SortOrder
+    reminderSent?: SortOrder
     paymentStatus?: SortOrder
     totalAmount?: SortOrder
+    paymentIntentId?: SortOrderInput | SortOrder
+    cancellationReason?: SortOrderInput | SortOrder
+    cancelledAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
     services?: BookingServiceOrderByRelationAggregateInput
+    reminderLogs?: ReminderLogOrderByRelationAggregateInput
   }
 
   export type BookingWhereUniqueInput = Prisma.AtLeast<{
@@ -9528,11 +8662,17 @@ export namespace Prisma {
     date?: DateTimeFilter<"Booking"> | Date | string
     time?: StringFilter<"Booking"> | string
     userId?: StringFilter<"Booking"> | string
+    scheduledAt?: DateTimeFilter<"Booking"> | Date | string
+    reminderSent?: BoolFilter<"Booking"> | boolean
     paymentStatus?: StringFilter<"Booking"> | string
     totalAmount?: IntFilter<"Booking"> | number
+    paymentIntentId?: StringNullableFilter<"Booking"> | string | null
+    cancellationReason?: StringNullableFilter<"Booking"> | string | null
+    cancelledAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     services?: BookingServiceListRelationFilter
+    reminderLogs?: ReminderLogListRelationFilter
   }, "id">
 
   export type BookingOrderByWithAggregationInput = {
@@ -9540,8 +8680,13 @@ export namespace Prisma {
     date?: SortOrder
     time?: SortOrder
     userId?: SortOrder
+    scheduledAt?: SortOrder
+    reminderSent?: SortOrder
     paymentStatus?: SortOrder
     totalAmount?: SortOrder
+    paymentIntentId?: SortOrderInput | SortOrder
+    cancellationReason?: SortOrderInput | SortOrder
+    cancelledAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: BookingCountOrderByAggregateInput
     _avg?: BookingAvgOrderByAggregateInput
@@ -9558,8 +8703,13 @@ export namespace Prisma {
     date?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
     time?: StringWithAggregatesFilter<"Booking"> | string
     userId?: StringWithAggregatesFilter<"Booking"> | string
+    scheduledAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
+    reminderSent?: BoolWithAggregatesFilter<"Booking"> | boolean
     paymentStatus?: StringWithAggregatesFilter<"Booking"> | string
     totalAmount?: IntWithAggregatesFilter<"Booking"> | number
+    paymentIntentId?: StringNullableWithAggregatesFilter<"Booking"> | string | null
+    cancellationReason?: StringNullableWithAggregatesFilter<"Booking"> | string | null
+    cancelledAt?: DateTimeNullableWithAggregatesFilter<"Booking"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
   }
 
@@ -9609,102 +8759,6 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"BookingService"> | string
     bookingId?: StringWithAggregatesFilter<"BookingService"> | string
     serviceId?: StringWithAggregatesFilter<"BookingService"> | string
-  }
-
-  export type AvailabilityWhereInput = {
-    AND?: AvailabilityWhereInput | AvailabilityWhereInput[]
-    OR?: AvailabilityWhereInput[]
-    NOT?: AvailabilityWhereInput | AvailabilityWhereInput[]
-    id?: StringFilter<"Availability"> | string
-    weekday?: IntFilter<"Availability"> | number
-    time?: StringFilter<"Availability"> | string
-    createdAt?: DateTimeFilter<"Availability"> | Date | string
-  }
-
-  export type AvailabilityOrderByWithRelationInput = {
-    id?: SortOrder
-    weekday?: SortOrder
-    time?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type AvailabilityWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: AvailabilityWhereInput | AvailabilityWhereInput[]
-    OR?: AvailabilityWhereInput[]
-    NOT?: AvailabilityWhereInput | AvailabilityWhereInput[]
-    weekday?: IntFilter<"Availability"> | number
-    time?: StringFilter<"Availability"> | string
-    createdAt?: DateTimeFilter<"Availability"> | Date | string
-  }, "id">
-
-  export type AvailabilityOrderByWithAggregationInput = {
-    id?: SortOrder
-    weekday?: SortOrder
-    time?: SortOrder
-    createdAt?: SortOrder
-    _count?: AvailabilityCountOrderByAggregateInput
-    _avg?: AvailabilityAvgOrderByAggregateInput
-    _max?: AvailabilityMaxOrderByAggregateInput
-    _min?: AvailabilityMinOrderByAggregateInput
-    _sum?: AvailabilitySumOrderByAggregateInput
-  }
-
-  export type AvailabilityScalarWhereWithAggregatesInput = {
-    AND?: AvailabilityScalarWhereWithAggregatesInput | AvailabilityScalarWhereWithAggregatesInput[]
-    OR?: AvailabilityScalarWhereWithAggregatesInput[]
-    NOT?: AvailabilityScalarWhereWithAggregatesInput | AvailabilityScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Availability"> | string
-    weekday?: IntWithAggregatesFilter<"Availability"> | number
-    time?: StringWithAggregatesFilter<"Availability"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"Availability"> | Date | string
-  }
-
-  export type ExceptionWhereInput = {
-    AND?: ExceptionWhereInput | ExceptionWhereInput[]
-    OR?: ExceptionWhereInput[]
-    NOT?: ExceptionWhereInput | ExceptionWhereInput[]
-    id?: StringFilter<"Exception"> | string
-    date?: DateTimeFilter<"Exception"> | Date | string
-    reason?: StringNullableFilter<"Exception"> | string | null
-    createdAt?: DateTimeFilter<"Exception"> | Date | string
-  }
-
-  export type ExceptionOrderByWithRelationInput = {
-    id?: SortOrder
-    date?: SortOrder
-    reason?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type ExceptionWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: ExceptionWhereInput | ExceptionWhereInput[]
-    OR?: ExceptionWhereInput[]
-    NOT?: ExceptionWhereInput | ExceptionWhereInput[]
-    date?: DateTimeFilter<"Exception"> | Date | string
-    reason?: StringNullableFilter<"Exception"> | string | null
-    createdAt?: DateTimeFilter<"Exception"> | Date | string
-  }, "id">
-
-  export type ExceptionOrderByWithAggregationInput = {
-    id?: SortOrder
-    date?: SortOrder
-    reason?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    _count?: ExceptionCountOrderByAggregateInput
-    _max?: ExceptionMaxOrderByAggregateInput
-    _min?: ExceptionMinOrderByAggregateInput
-  }
-
-  export type ExceptionScalarWhereWithAggregatesInput = {
-    AND?: ExceptionScalarWhereWithAggregatesInput | ExceptionScalarWhereWithAggregatesInput[]
-    OR?: ExceptionScalarWhereWithAggregatesInput[]
-    NOT?: ExceptionScalarWhereWithAggregatesInput | ExceptionScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Exception"> | string
-    date?: DateTimeWithAggregatesFilter<"Exception"> | Date | string
-    reason?: StringNullableWithAggregatesFilter<"Exception"> | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"Exception"> | Date | string
   }
 
   export type PatientFormWhereInput = {
@@ -9814,6 +8868,64 @@ export namespace Prisma {
     state?: StringWithAggregatesFilter<"PatientForm"> | string
   }
 
+  export type ReminderLogWhereInput = {
+    AND?: ReminderLogWhereInput | ReminderLogWhereInput[]
+    OR?: ReminderLogWhereInput[]
+    NOT?: ReminderLogWhereInput | ReminderLogWhereInput[]
+    id?: StringFilter<"ReminderLog"> | string
+    bookingId?: StringFilter<"ReminderLog"> | string
+    sentAt?: DateTimeFilter<"ReminderLog"> | Date | string
+    type?: StringFilter<"ReminderLog"> | string
+    userId?: StringFilter<"ReminderLog"> | string
+    booking?: XOR<BookingScalarRelationFilter, BookingWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type ReminderLogOrderByWithRelationInput = {
+    id?: SortOrder
+    bookingId?: SortOrder
+    sentAt?: SortOrder
+    type?: SortOrder
+    userId?: SortOrder
+    booking?: BookingOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type ReminderLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ReminderLogWhereInput | ReminderLogWhereInput[]
+    OR?: ReminderLogWhereInput[]
+    NOT?: ReminderLogWhereInput | ReminderLogWhereInput[]
+    bookingId?: StringFilter<"ReminderLog"> | string
+    sentAt?: DateTimeFilter<"ReminderLog"> | Date | string
+    type?: StringFilter<"ReminderLog"> | string
+    userId?: StringFilter<"ReminderLog"> | string
+    booking?: XOR<BookingScalarRelationFilter, BookingWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type ReminderLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    bookingId?: SortOrder
+    sentAt?: SortOrder
+    type?: SortOrder
+    userId?: SortOrder
+    _count?: ReminderLogCountOrderByAggregateInput
+    _max?: ReminderLogMaxOrderByAggregateInput
+    _min?: ReminderLogMinOrderByAggregateInput
+  }
+
+  export type ReminderLogScalarWhereWithAggregatesInput = {
+    AND?: ReminderLogScalarWhereWithAggregatesInput | ReminderLogScalarWhereWithAggregatesInput[]
+    OR?: ReminderLogScalarWhereWithAggregatesInput[]
+    NOT?: ReminderLogScalarWhereWithAggregatesInput | ReminderLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ReminderLog"> | string
+    bookingId?: StringWithAggregatesFilter<"ReminderLog"> | string
+    sentAt?: DateTimeWithAggregatesFilter<"ReminderLog"> | Date | string
+    type?: StringWithAggregatesFilter<"ReminderLog"> | string
+    userId?: StringWithAggregatesFilter<"ReminderLog"> | string
+  }
+
   export type ServiceCreateInput = {
     id?: string
     name: string
@@ -9902,6 +9014,7 @@ export namespace Prisma {
     zipCode: string
     createdAt?: Date | string
     bookings?: BookingCreateNestedManyWithoutUserInput
+    ReminderLog?: ReminderLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -9918,6 +9031,7 @@ export namespace Prisma {
     zipCode: string
     createdAt?: Date | string
     bookings?: BookingUncheckedCreateNestedManyWithoutUserInput
+    ReminderLog?: ReminderLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -9934,6 +9048,7 @@ export namespace Prisma {
     zipCode?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookings?: BookingUpdateManyWithoutUserNestedInput
+    ReminderLog?: ReminderLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -9950,6 +9065,7 @@ export namespace Prisma {
     zipCode?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookings?: BookingUncheckedUpdateManyWithoutUserNestedInput
+    ReminderLog?: ReminderLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -10001,11 +9117,17 @@ export namespace Prisma {
     id?: string
     date: Date | string
     time: string
+    scheduledAt: Date | string
+    reminderSent?: boolean
     paymentStatus?: string
     totalAmount: number
+    paymentIntentId?: string | null
+    cancellationReason?: string | null
+    cancelledAt?: Date | string | null
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutBookingsInput
     services?: BookingServiceCreateNestedManyWithoutBookingInput
+    reminderLogs?: ReminderLogCreateNestedManyWithoutBookingInput
   }
 
   export type BookingUncheckedCreateInput = {
@@ -10013,21 +9135,33 @@ export namespace Prisma {
     date: Date | string
     time: string
     userId: string
+    scheduledAt: Date | string
+    reminderSent?: boolean
     paymentStatus?: string
     totalAmount: number
+    paymentIntentId?: string | null
+    cancellationReason?: string | null
+    cancelledAt?: Date | string | null
     createdAt?: Date | string
     services?: BookingServiceUncheckedCreateNestedManyWithoutBookingInput
+    reminderLogs?: ReminderLogUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type BookingUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     time?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reminderSent?: BoolFieldUpdateOperationsInput | boolean
     paymentStatus?: StringFieldUpdateOperationsInput | string
     totalAmount?: IntFieldUpdateOperationsInput | number
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    cancellationReason?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutBookingsNestedInput
     services?: BookingServiceUpdateManyWithoutBookingNestedInput
+    reminderLogs?: ReminderLogUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateInput = {
@@ -10035,10 +9169,16 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     time?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reminderSent?: BoolFieldUpdateOperationsInput | boolean
     paymentStatus?: StringFieldUpdateOperationsInput | string
     totalAmount?: IntFieldUpdateOperationsInput | number
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    cancellationReason?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     services?: BookingServiceUncheckedUpdateManyWithoutBookingNestedInput
+    reminderLogs?: ReminderLogUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingCreateManyInput = {
@@ -10046,8 +9186,13 @@ export namespace Prisma {
     date: Date | string
     time: string
     userId: string
+    scheduledAt: Date | string
+    reminderSent?: boolean
     paymentStatus?: string
     totalAmount: number
+    paymentIntentId?: string | null
+    cancellationReason?: string | null
+    cancelledAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -10055,8 +9200,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     time?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reminderSent?: BoolFieldUpdateOperationsInput | boolean
     paymentStatus?: StringFieldUpdateOperationsInput | string
     totalAmount?: IntFieldUpdateOperationsInput | number
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    cancellationReason?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -10065,8 +9215,13 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     time?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reminderSent?: BoolFieldUpdateOperationsInput | boolean
     paymentStatus?: StringFieldUpdateOperationsInput | string
     totalAmount?: IntFieldUpdateOperationsInput | number
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    cancellationReason?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -10108,104 +9263,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     bookingId?: StringFieldUpdateOperationsInput | string
     serviceId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type AvailabilityCreateInput = {
-    id?: string
-    weekday: number
-    time: string
-    createdAt?: Date | string
-  }
-
-  export type AvailabilityUncheckedCreateInput = {
-    id?: string
-    weekday: number
-    time: string
-    createdAt?: Date | string
-  }
-
-  export type AvailabilityUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    weekday?: IntFieldUpdateOperationsInput | number
-    time?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AvailabilityUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    weekday?: IntFieldUpdateOperationsInput | number
-    time?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AvailabilityCreateManyInput = {
-    id?: string
-    weekday: number
-    time: string
-    createdAt?: Date | string
-  }
-
-  export type AvailabilityUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    weekday?: IntFieldUpdateOperationsInput | number
-    time?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AvailabilityUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    weekday?: IntFieldUpdateOperationsInput | number
-    time?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ExceptionCreateInput = {
-    id?: string
-    date: Date | string
-    reason?: string | null
-    createdAt?: Date | string
-  }
-
-  export type ExceptionUncheckedCreateInput = {
-    id?: string
-    date: Date | string
-    reason?: string | null
-    createdAt?: Date | string
-  }
-
-  export type ExceptionUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ExceptionUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ExceptionCreateManyInput = {
-    id?: string
-    date: Date | string
-    reason?: string | null
-    createdAt?: Date | string
-  }
-
-  export type ExceptionUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ExceptionUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PatientFormCreateInput = {
@@ -10339,6 +9396,60 @@ export namespace Prisma {
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ReminderLogCreateInput = {
+    id?: string
+    sentAt?: Date | string
+    type: string
+    booking: BookingCreateNestedOneWithoutReminderLogsInput
+    user: UserCreateNestedOneWithoutReminderLogInput
+  }
+
+  export type ReminderLogUncheckedCreateInput = {
+    id?: string
+    bookingId: string
+    sentAt?: Date | string
+    type: string
+    userId: string
+  }
+
+  export type ReminderLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    booking?: BookingUpdateOneRequiredWithoutReminderLogsNestedInput
+    user?: UserUpdateOneRequiredWithoutReminderLogNestedInput
+  }
+
+  export type ReminderLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookingId?: StringFieldUpdateOperationsInput | string
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ReminderLogCreateManyInput = {
+    id?: string
+    bookingId: string
+    sentAt?: Date | string
+    type: string
+    userId: string
+  }
+
+  export type ReminderLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ReminderLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookingId?: StringFieldUpdateOperationsInput | string
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -10506,7 +9617,17 @@ export namespace Prisma {
     none?: BookingWhereInput
   }
 
+  export type ReminderLogListRelationFilter = {
+    every?: ReminderLogWhereInput
+    some?: ReminderLogWhereInput
+    none?: ReminderLogWhereInput
+  }
+
   export type BookingOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ReminderLogOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -10569,6 +9690,22 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -10579,8 +9716,13 @@ export namespace Prisma {
     date?: SortOrder
     time?: SortOrder
     userId?: SortOrder
+    scheduledAt?: SortOrder
+    reminderSent?: SortOrder
     paymentStatus?: SortOrder
     totalAmount?: SortOrder
+    paymentIntentId?: SortOrder
+    cancellationReason?: SortOrder
+    cancelledAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -10593,8 +9735,13 @@ export namespace Prisma {
     date?: SortOrder
     time?: SortOrder
     userId?: SortOrder
+    scheduledAt?: SortOrder
+    reminderSent?: SortOrder
     paymentStatus?: SortOrder
     totalAmount?: SortOrder
+    paymentIntentId?: SortOrder
+    cancellationReason?: SortOrder
+    cancelledAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -10603,13 +9750,40 @@ export namespace Prisma {
     date?: SortOrder
     time?: SortOrder
     userId?: SortOrder
+    scheduledAt?: SortOrder
+    reminderSent?: SortOrder
     paymentStatus?: SortOrder
     totalAmount?: SortOrder
+    paymentIntentId?: SortOrder
+    cancellationReason?: SortOrder
+    cancelledAt?: SortOrder
     createdAt?: SortOrder
   }
 
   export type BookingSumOrderByAggregateInput = {
     totalAmount?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type BookingScalarRelationFilter = {
@@ -10638,56 +9812,6 @@ export namespace Prisma {
     id?: SortOrder
     bookingId?: SortOrder
     serviceId?: SortOrder
-  }
-
-  export type AvailabilityCountOrderByAggregateInput = {
-    id?: SortOrder
-    weekday?: SortOrder
-    time?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type AvailabilityAvgOrderByAggregateInput = {
-    weekday?: SortOrder
-  }
-
-  export type AvailabilityMaxOrderByAggregateInput = {
-    id?: SortOrder
-    weekday?: SortOrder
-    time?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type AvailabilityMinOrderByAggregateInput = {
-    id?: SortOrder
-    weekday?: SortOrder
-    time?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type AvailabilitySumOrderByAggregateInput = {
-    weekday?: SortOrder
-  }
-
-  export type ExceptionCountOrderByAggregateInput = {
-    id?: SortOrder
-    date?: SortOrder
-    reason?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type ExceptionMaxOrderByAggregateInput = {
-    id?: SortOrder
-    date?: SortOrder
-    reason?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type ExceptionMinOrderByAggregateInput = {
-    id?: SortOrder
-    date?: SortOrder
-    reason?: SortOrder
-    createdAt?: SortOrder
   }
 
   export type PatientFormCountOrderByAggregateInput = {
@@ -10745,6 +9869,30 @@ export namespace Prisma {
     district?: SortOrder
     city?: SortOrder
     state?: SortOrder
+  }
+
+  export type ReminderLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    bookingId?: SortOrder
+    sentAt?: SortOrder
+    type?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type ReminderLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    bookingId?: SortOrder
+    sentAt?: SortOrder
+    type?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type ReminderLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    bookingId?: SortOrder
+    sentAt?: SortOrder
+    type?: SortOrder
+    userId?: SortOrder
   }
 
   export type BookingServiceCreateNestedManyWithoutServiceInput = {
@@ -10812,11 +9960,25 @@ export namespace Prisma {
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
   }
 
+  export type ReminderLogCreateNestedManyWithoutUserInput = {
+    create?: XOR<ReminderLogCreateWithoutUserInput, ReminderLogUncheckedCreateWithoutUserInput> | ReminderLogCreateWithoutUserInput[] | ReminderLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ReminderLogCreateOrConnectWithoutUserInput | ReminderLogCreateOrConnectWithoutUserInput[]
+    createMany?: ReminderLogCreateManyUserInputEnvelope
+    connect?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
+  }
+
   export type BookingUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<BookingCreateWithoutUserInput, BookingUncheckedCreateWithoutUserInput> | BookingCreateWithoutUserInput[] | BookingUncheckedCreateWithoutUserInput[]
     connectOrCreate?: BookingCreateOrConnectWithoutUserInput | BookingCreateOrConnectWithoutUserInput[]
     createMany?: BookingCreateManyUserInputEnvelope
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+  }
+
+  export type ReminderLogUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ReminderLogCreateWithoutUserInput, ReminderLogUncheckedCreateWithoutUserInput> | ReminderLogCreateWithoutUserInput[] | ReminderLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ReminderLogCreateOrConnectWithoutUserInput | ReminderLogCreateOrConnectWithoutUserInput[]
+    createMany?: ReminderLogCreateManyUserInputEnvelope
+    connect?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -10837,6 +9999,20 @@ export namespace Prisma {
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
   }
 
+  export type ReminderLogUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ReminderLogCreateWithoutUserInput, ReminderLogUncheckedCreateWithoutUserInput> | ReminderLogCreateWithoutUserInput[] | ReminderLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ReminderLogCreateOrConnectWithoutUserInput | ReminderLogCreateOrConnectWithoutUserInput[]
+    upsert?: ReminderLogUpsertWithWhereUniqueWithoutUserInput | ReminderLogUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ReminderLogCreateManyUserInputEnvelope
+    set?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
+    disconnect?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
+    delete?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
+    connect?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
+    update?: ReminderLogUpdateWithWhereUniqueWithoutUserInput | ReminderLogUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ReminderLogUpdateManyWithWhereWithoutUserInput | ReminderLogUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ReminderLogScalarWhereInput | ReminderLogScalarWhereInput[]
+  }
+
   export type BookingUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<BookingCreateWithoutUserInput, BookingUncheckedCreateWithoutUserInput> | BookingCreateWithoutUserInput[] | BookingUncheckedCreateWithoutUserInput[]
     connectOrCreate?: BookingCreateOrConnectWithoutUserInput | BookingCreateOrConnectWithoutUserInput[]
@@ -10849,6 +10025,20 @@ export namespace Prisma {
     update?: BookingUpdateWithWhereUniqueWithoutUserInput | BookingUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: BookingUpdateManyWithWhereWithoutUserInput | BookingUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
+  }
+
+  export type ReminderLogUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ReminderLogCreateWithoutUserInput, ReminderLogUncheckedCreateWithoutUserInput> | ReminderLogCreateWithoutUserInput[] | ReminderLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ReminderLogCreateOrConnectWithoutUserInput | ReminderLogCreateOrConnectWithoutUserInput[]
+    upsert?: ReminderLogUpsertWithWhereUniqueWithoutUserInput | ReminderLogUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ReminderLogCreateManyUserInputEnvelope
+    set?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
+    disconnect?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
+    delete?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
+    connect?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
+    update?: ReminderLogUpdateWithWhereUniqueWithoutUserInput | ReminderLogUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ReminderLogUpdateManyWithWhereWithoutUserInput | ReminderLogUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ReminderLogScalarWhereInput | ReminderLogScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutBookingsInput = {
@@ -10864,11 +10054,33 @@ export namespace Prisma {
     connect?: BookingServiceWhereUniqueInput | BookingServiceWhereUniqueInput[]
   }
 
+  export type ReminderLogCreateNestedManyWithoutBookingInput = {
+    create?: XOR<ReminderLogCreateWithoutBookingInput, ReminderLogUncheckedCreateWithoutBookingInput> | ReminderLogCreateWithoutBookingInput[] | ReminderLogUncheckedCreateWithoutBookingInput[]
+    connectOrCreate?: ReminderLogCreateOrConnectWithoutBookingInput | ReminderLogCreateOrConnectWithoutBookingInput[]
+    createMany?: ReminderLogCreateManyBookingInputEnvelope
+    connect?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
+  }
+
   export type BookingServiceUncheckedCreateNestedManyWithoutBookingInput = {
     create?: XOR<BookingServiceCreateWithoutBookingInput, BookingServiceUncheckedCreateWithoutBookingInput> | BookingServiceCreateWithoutBookingInput[] | BookingServiceUncheckedCreateWithoutBookingInput[]
     connectOrCreate?: BookingServiceCreateOrConnectWithoutBookingInput | BookingServiceCreateOrConnectWithoutBookingInput[]
     createMany?: BookingServiceCreateManyBookingInputEnvelope
     connect?: BookingServiceWhereUniqueInput | BookingServiceWhereUniqueInput[]
+  }
+
+  export type ReminderLogUncheckedCreateNestedManyWithoutBookingInput = {
+    create?: XOR<ReminderLogCreateWithoutBookingInput, ReminderLogUncheckedCreateWithoutBookingInput> | ReminderLogCreateWithoutBookingInput[] | ReminderLogUncheckedCreateWithoutBookingInput[]
+    connectOrCreate?: ReminderLogCreateOrConnectWithoutBookingInput | ReminderLogCreateOrConnectWithoutBookingInput[]
+    createMany?: ReminderLogCreateManyBookingInputEnvelope
+    connect?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type UserUpdateOneRequiredWithoutBookingsNestedInput = {
@@ -10893,6 +10105,20 @@ export namespace Prisma {
     deleteMany?: BookingServiceScalarWhereInput | BookingServiceScalarWhereInput[]
   }
 
+  export type ReminderLogUpdateManyWithoutBookingNestedInput = {
+    create?: XOR<ReminderLogCreateWithoutBookingInput, ReminderLogUncheckedCreateWithoutBookingInput> | ReminderLogCreateWithoutBookingInput[] | ReminderLogUncheckedCreateWithoutBookingInput[]
+    connectOrCreate?: ReminderLogCreateOrConnectWithoutBookingInput | ReminderLogCreateOrConnectWithoutBookingInput[]
+    upsert?: ReminderLogUpsertWithWhereUniqueWithoutBookingInput | ReminderLogUpsertWithWhereUniqueWithoutBookingInput[]
+    createMany?: ReminderLogCreateManyBookingInputEnvelope
+    set?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
+    disconnect?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
+    delete?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
+    connect?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
+    update?: ReminderLogUpdateWithWhereUniqueWithoutBookingInput | ReminderLogUpdateWithWhereUniqueWithoutBookingInput[]
+    updateMany?: ReminderLogUpdateManyWithWhereWithoutBookingInput | ReminderLogUpdateManyWithWhereWithoutBookingInput[]
+    deleteMany?: ReminderLogScalarWhereInput | ReminderLogScalarWhereInput[]
+  }
+
   export type BookingServiceUncheckedUpdateManyWithoutBookingNestedInput = {
     create?: XOR<BookingServiceCreateWithoutBookingInput, BookingServiceUncheckedCreateWithoutBookingInput> | BookingServiceCreateWithoutBookingInput[] | BookingServiceUncheckedCreateWithoutBookingInput[]
     connectOrCreate?: BookingServiceCreateOrConnectWithoutBookingInput | BookingServiceCreateOrConnectWithoutBookingInput[]
@@ -10905,6 +10131,20 @@ export namespace Prisma {
     update?: BookingServiceUpdateWithWhereUniqueWithoutBookingInput | BookingServiceUpdateWithWhereUniqueWithoutBookingInput[]
     updateMany?: BookingServiceUpdateManyWithWhereWithoutBookingInput | BookingServiceUpdateManyWithWhereWithoutBookingInput[]
     deleteMany?: BookingServiceScalarWhereInput | BookingServiceScalarWhereInput[]
+  }
+
+  export type ReminderLogUncheckedUpdateManyWithoutBookingNestedInput = {
+    create?: XOR<ReminderLogCreateWithoutBookingInput, ReminderLogUncheckedCreateWithoutBookingInput> | ReminderLogCreateWithoutBookingInput[] | ReminderLogUncheckedCreateWithoutBookingInput[]
+    connectOrCreate?: ReminderLogCreateOrConnectWithoutBookingInput | ReminderLogCreateOrConnectWithoutBookingInput[]
+    upsert?: ReminderLogUpsertWithWhereUniqueWithoutBookingInput | ReminderLogUpsertWithWhereUniqueWithoutBookingInput[]
+    createMany?: ReminderLogCreateManyBookingInputEnvelope
+    set?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
+    disconnect?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
+    delete?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
+    connect?: ReminderLogWhereUniqueInput | ReminderLogWhereUniqueInput[]
+    update?: ReminderLogUpdateWithWhereUniqueWithoutBookingInput | ReminderLogUpdateWithWhereUniqueWithoutBookingInput[]
+    updateMany?: ReminderLogUpdateManyWithWhereWithoutBookingInput | ReminderLogUpdateManyWithWhereWithoutBookingInput[]
+    deleteMany?: ReminderLogScalarWhereInput | ReminderLogScalarWhereInput[]
   }
 
   export type BookingCreateNestedOneWithoutServicesInput = {
@@ -10933,6 +10173,34 @@ export namespace Prisma {
     upsert?: ServiceUpsertWithoutBookingsInput
     connect?: ServiceWhereUniqueInput
     update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutBookingsInput, ServiceUpdateWithoutBookingsInput>, ServiceUncheckedUpdateWithoutBookingsInput>
+  }
+
+  export type BookingCreateNestedOneWithoutReminderLogsInput = {
+    create?: XOR<BookingCreateWithoutReminderLogsInput, BookingUncheckedCreateWithoutReminderLogsInput>
+    connectOrCreate?: BookingCreateOrConnectWithoutReminderLogsInput
+    connect?: BookingWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutReminderLogInput = {
+    create?: XOR<UserCreateWithoutReminderLogInput, UserUncheckedCreateWithoutReminderLogInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReminderLogInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BookingUpdateOneRequiredWithoutReminderLogsNestedInput = {
+    create?: XOR<BookingCreateWithoutReminderLogsInput, BookingUncheckedCreateWithoutReminderLogsInput>
+    connectOrCreate?: BookingCreateOrConnectWithoutReminderLogsInput
+    upsert?: BookingUpsertWithoutReminderLogsInput
+    connect?: BookingWhereUniqueInput
+    update?: XOR<XOR<BookingUpdateToOneWithWhereWithoutReminderLogsInput, BookingUpdateWithoutReminderLogsInput>, BookingUncheckedUpdateWithoutReminderLogsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutReminderLogNestedInput = {
+    create?: XOR<UserCreateWithoutReminderLogInput, UserUncheckedCreateWithoutReminderLogInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReminderLogInput
+    upsert?: UserUpsertWithoutReminderLogInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReminderLogInput, UserUpdateWithoutReminderLogInput>, UserUncheckedUpdateWithoutReminderLogInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -11071,6 +10339,44 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type BookingServiceCreateWithoutServiceInput = {
     id?: string
     booking: BookingCreateNestedOneWithoutServicesInput
@@ -11120,20 +10426,32 @@ export namespace Prisma {
     id?: string
     date: Date | string
     time: string
+    scheduledAt: Date | string
+    reminderSent?: boolean
     paymentStatus?: string
     totalAmount: number
+    paymentIntentId?: string | null
+    cancellationReason?: string | null
+    cancelledAt?: Date | string | null
     createdAt?: Date | string
     services?: BookingServiceCreateNestedManyWithoutBookingInput
+    reminderLogs?: ReminderLogCreateNestedManyWithoutBookingInput
   }
 
   export type BookingUncheckedCreateWithoutUserInput = {
     id?: string
     date: Date | string
     time: string
+    scheduledAt: Date | string
+    reminderSent?: boolean
     paymentStatus?: string
     totalAmount: number
+    paymentIntentId?: string | null
+    cancellationReason?: string | null
+    cancelledAt?: Date | string | null
     createdAt?: Date | string
     services?: BookingServiceUncheckedCreateNestedManyWithoutBookingInput
+    reminderLogs?: ReminderLogUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type BookingCreateOrConnectWithoutUserInput = {
@@ -11143,6 +10461,30 @@ export namespace Prisma {
 
   export type BookingCreateManyUserInputEnvelope = {
     data: BookingCreateManyUserInput | BookingCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReminderLogCreateWithoutUserInput = {
+    id?: string
+    sentAt?: Date | string
+    type: string
+    booking: BookingCreateNestedOneWithoutReminderLogsInput
+  }
+
+  export type ReminderLogUncheckedCreateWithoutUserInput = {
+    id?: string
+    bookingId: string
+    sentAt?: Date | string
+    type: string
+  }
+
+  export type ReminderLogCreateOrConnectWithoutUserInput = {
+    where: ReminderLogWhereUniqueInput
+    create: XOR<ReminderLogCreateWithoutUserInput, ReminderLogUncheckedCreateWithoutUserInput>
+  }
+
+  export type ReminderLogCreateManyUserInputEnvelope = {
+    data: ReminderLogCreateManyUserInput | ReminderLogCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -11170,9 +10512,41 @@ export namespace Prisma {
     date?: DateTimeFilter<"Booking"> | Date | string
     time?: StringFilter<"Booking"> | string
     userId?: StringFilter<"Booking"> | string
+    scheduledAt?: DateTimeFilter<"Booking"> | Date | string
+    reminderSent?: BoolFilter<"Booking"> | boolean
     paymentStatus?: StringFilter<"Booking"> | string
     totalAmount?: IntFilter<"Booking"> | number
+    paymentIntentId?: StringNullableFilter<"Booking"> | string | null
+    cancellationReason?: StringNullableFilter<"Booking"> | string | null
+    cancelledAt?: DateTimeNullableFilter<"Booking"> | Date | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
+  }
+
+  export type ReminderLogUpsertWithWhereUniqueWithoutUserInput = {
+    where: ReminderLogWhereUniqueInput
+    update: XOR<ReminderLogUpdateWithoutUserInput, ReminderLogUncheckedUpdateWithoutUserInput>
+    create: XOR<ReminderLogCreateWithoutUserInput, ReminderLogUncheckedCreateWithoutUserInput>
+  }
+
+  export type ReminderLogUpdateWithWhereUniqueWithoutUserInput = {
+    where: ReminderLogWhereUniqueInput
+    data: XOR<ReminderLogUpdateWithoutUserInput, ReminderLogUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ReminderLogUpdateManyWithWhereWithoutUserInput = {
+    where: ReminderLogScalarWhereInput
+    data: XOR<ReminderLogUpdateManyMutationInput, ReminderLogUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ReminderLogScalarWhereInput = {
+    AND?: ReminderLogScalarWhereInput | ReminderLogScalarWhereInput[]
+    OR?: ReminderLogScalarWhereInput[]
+    NOT?: ReminderLogScalarWhereInput | ReminderLogScalarWhereInput[]
+    id?: StringFilter<"ReminderLog"> | string
+    bookingId?: StringFilter<"ReminderLog"> | string
+    sentAt?: DateTimeFilter<"ReminderLog"> | Date | string
+    type?: StringFilter<"ReminderLog"> | string
+    userId?: StringFilter<"ReminderLog"> | string
   }
 
   export type UserCreateWithoutBookingsInput = {
@@ -11188,6 +10562,7 @@ export namespace Prisma {
     state: string
     zipCode: string
     createdAt?: Date | string
+    ReminderLog?: ReminderLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBookingsInput = {
@@ -11203,6 +10578,7 @@ export namespace Prisma {
     state: string
     zipCode: string
     createdAt?: Date | string
+    ReminderLog?: ReminderLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBookingsInput = {
@@ -11230,6 +10606,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ReminderLogCreateWithoutBookingInput = {
+    id?: string
+    sentAt?: Date | string
+    type: string
+    user: UserCreateNestedOneWithoutReminderLogInput
+  }
+
+  export type ReminderLogUncheckedCreateWithoutBookingInput = {
+    id?: string
+    sentAt?: Date | string
+    type: string
+    userId: string
+  }
+
+  export type ReminderLogCreateOrConnectWithoutBookingInput = {
+    where: ReminderLogWhereUniqueInput
+    create: XOR<ReminderLogCreateWithoutBookingInput, ReminderLogUncheckedCreateWithoutBookingInput>
+  }
+
+  export type ReminderLogCreateManyBookingInputEnvelope = {
+    data: ReminderLogCreateManyBookingInput | ReminderLogCreateManyBookingInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutBookingsInput = {
     update: XOR<UserUpdateWithoutBookingsInput, UserUncheckedUpdateWithoutBookingsInput>
     create: XOR<UserCreateWithoutBookingsInput, UserUncheckedCreateWithoutBookingsInput>
@@ -11254,6 +10654,7 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     zipCode?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ReminderLog?: ReminderLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBookingsInput = {
@@ -11269,6 +10670,7 @@ export namespace Prisma {
     state?: StringFieldUpdateOperationsInput | string
     zipCode?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ReminderLog?: ReminderLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BookingServiceUpsertWithWhereUniqueWithoutBookingInput = {
@@ -11287,14 +10689,36 @@ export namespace Prisma {
     data: XOR<BookingServiceUpdateManyMutationInput, BookingServiceUncheckedUpdateManyWithoutBookingInput>
   }
 
+  export type ReminderLogUpsertWithWhereUniqueWithoutBookingInput = {
+    where: ReminderLogWhereUniqueInput
+    update: XOR<ReminderLogUpdateWithoutBookingInput, ReminderLogUncheckedUpdateWithoutBookingInput>
+    create: XOR<ReminderLogCreateWithoutBookingInput, ReminderLogUncheckedCreateWithoutBookingInput>
+  }
+
+  export type ReminderLogUpdateWithWhereUniqueWithoutBookingInput = {
+    where: ReminderLogWhereUniqueInput
+    data: XOR<ReminderLogUpdateWithoutBookingInput, ReminderLogUncheckedUpdateWithoutBookingInput>
+  }
+
+  export type ReminderLogUpdateManyWithWhereWithoutBookingInput = {
+    where: ReminderLogScalarWhereInput
+    data: XOR<ReminderLogUpdateManyMutationInput, ReminderLogUncheckedUpdateManyWithoutBookingInput>
+  }
+
   export type BookingCreateWithoutServicesInput = {
     id?: string
     date: Date | string
     time: string
+    scheduledAt: Date | string
+    reminderSent?: boolean
     paymentStatus?: string
     totalAmount: number
+    paymentIntentId?: string | null
+    cancellationReason?: string | null
+    cancelledAt?: Date | string | null
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutBookingsInput
+    reminderLogs?: ReminderLogCreateNestedManyWithoutBookingInput
   }
 
   export type BookingUncheckedCreateWithoutServicesInput = {
@@ -11302,9 +10726,15 @@ export namespace Prisma {
     date: Date | string
     time: string
     userId: string
+    scheduledAt: Date | string
+    reminderSent?: boolean
     paymentStatus?: string
     totalAmount: number
+    paymentIntentId?: string | null
+    cancellationReason?: string | null
+    cancelledAt?: Date | string | null
     createdAt?: Date | string
+    reminderLogs?: ReminderLogUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type BookingCreateOrConnectWithoutServicesInput = {
@@ -11352,10 +10782,16 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     time?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reminderSent?: BoolFieldUpdateOperationsInput | boolean
     paymentStatus?: StringFieldUpdateOperationsInput | string
     totalAmount?: IntFieldUpdateOperationsInput | number
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    cancellationReason?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    reminderLogs?: ReminderLogUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutServicesInput = {
@@ -11363,9 +10799,15 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     time?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reminderSent?: BoolFieldUpdateOperationsInput | boolean
     paymentStatus?: StringFieldUpdateOperationsInput | string
     totalAmount?: IntFieldUpdateOperationsInput | number
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    cancellationReason?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reminderLogs?: ReminderLogUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type ServiceUpsertWithoutBookingsInput = {
@@ -11399,6 +10841,166 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
   }
 
+  export type BookingCreateWithoutReminderLogsInput = {
+    id?: string
+    date: Date | string
+    time: string
+    scheduledAt: Date | string
+    reminderSent?: boolean
+    paymentStatus?: string
+    totalAmount: number
+    paymentIntentId?: string | null
+    cancellationReason?: string | null
+    cancelledAt?: Date | string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutBookingsInput
+    services?: BookingServiceCreateNestedManyWithoutBookingInput
+  }
+
+  export type BookingUncheckedCreateWithoutReminderLogsInput = {
+    id?: string
+    date: Date | string
+    time: string
+    userId: string
+    scheduledAt: Date | string
+    reminderSent?: boolean
+    paymentStatus?: string
+    totalAmount: number
+    paymentIntentId?: string | null
+    cancellationReason?: string | null
+    cancelledAt?: Date | string | null
+    createdAt?: Date | string
+    services?: BookingServiceUncheckedCreateNestedManyWithoutBookingInput
+  }
+
+  export type BookingCreateOrConnectWithoutReminderLogsInput = {
+    where: BookingWhereUniqueInput
+    create: XOR<BookingCreateWithoutReminderLogsInput, BookingUncheckedCreateWithoutReminderLogsInput>
+  }
+
+  export type UserCreateWithoutReminderLogInput = {
+    id?: string
+    name: string
+    email: string
+    phone: string
+    address: string
+    number: string
+    complement?: string | null
+    district: string
+    city: string
+    state: string
+    zipCode: string
+    createdAt?: Date | string
+    bookings?: BookingCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutReminderLogInput = {
+    id?: string
+    name: string
+    email: string
+    phone: string
+    address: string
+    number: string
+    complement?: string | null
+    district: string
+    city: string
+    state: string
+    zipCode: string
+    createdAt?: Date | string
+    bookings?: BookingUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutReminderLogInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutReminderLogInput, UserUncheckedCreateWithoutReminderLogInput>
+  }
+
+  export type BookingUpsertWithoutReminderLogsInput = {
+    update: XOR<BookingUpdateWithoutReminderLogsInput, BookingUncheckedUpdateWithoutReminderLogsInput>
+    create: XOR<BookingCreateWithoutReminderLogsInput, BookingUncheckedCreateWithoutReminderLogsInput>
+    where?: BookingWhereInput
+  }
+
+  export type BookingUpdateToOneWithWhereWithoutReminderLogsInput = {
+    where?: BookingWhereInput
+    data: XOR<BookingUpdateWithoutReminderLogsInput, BookingUncheckedUpdateWithoutReminderLogsInput>
+  }
+
+  export type BookingUpdateWithoutReminderLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    time?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reminderSent?: BoolFieldUpdateOperationsInput | boolean
+    paymentStatus?: StringFieldUpdateOperationsInput | string
+    totalAmount?: IntFieldUpdateOperationsInput | number
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    cancellationReason?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    services?: BookingServiceUpdateManyWithoutBookingNestedInput
+  }
+
+  export type BookingUncheckedUpdateWithoutReminderLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    time?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reminderSent?: BoolFieldUpdateOperationsInput | boolean
+    paymentStatus?: StringFieldUpdateOperationsInput | string
+    totalAmount?: IntFieldUpdateOperationsInput | number
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    cancellationReason?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    services?: BookingServiceUncheckedUpdateManyWithoutBookingNestedInput
+  }
+
+  export type UserUpsertWithoutReminderLogInput = {
+    update: XOR<UserUpdateWithoutReminderLogInput, UserUncheckedUpdateWithoutReminderLogInput>
+    create: XOR<UserCreateWithoutReminderLogInput, UserUncheckedCreateWithoutReminderLogInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutReminderLogInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutReminderLogInput, UserUncheckedUpdateWithoutReminderLogInput>
+  }
+
+  export type UserUpdateWithoutReminderLogInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    complement?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    zipCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bookings?: BookingUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutReminderLogInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    number?: StringFieldUpdateOperationsInput | string
+    complement?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    zipCode?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bookings?: BookingUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type BookingServiceCreateManyServiceInput = {
     id?: string
     bookingId: string
@@ -11423,43 +11025,100 @@ export namespace Prisma {
     id?: string
     date: Date | string
     time: string
+    scheduledAt: Date | string
+    reminderSent?: boolean
     paymentStatus?: string
     totalAmount: number
+    paymentIntentId?: string | null
+    cancellationReason?: string | null
+    cancelledAt?: Date | string | null
     createdAt?: Date | string
+  }
+
+  export type ReminderLogCreateManyUserInput = {
+    id?: string
+    bookingId: string
+    sentAt?: Date | string
+    type: string
   }
 
   export type BookingUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     time?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reminderSent?: BoolFieldUpdateOperationsInput | boolean
     paymentStatus?: StringFieldUpdateOperationsInput | string
     totalAmount?: IntFieldUpdateOperationsInput | number
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    cancellationReason?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     services?: BookingServiceUpdateManyWithoutBookingNestedInput
+    reminderLogs?: ReminderLogUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     time?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reminderSent?: BoolFieldUpdateOperationsInput | boolean
     paymentStatus?: StringFieldUpdateOperationsInput | string
     totalAmount?: IntFieldUpdateOperationsInput | number
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    cancellationReason?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     services?: BookingServiceUncheckedUpdateManyWithoutBookingNestedInput
+    reminderLogs?: ReminderLogUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     time?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reminderSent?: BoolFieldUpdateOperationsInput | boolean
     paymentStatus?: StringFieldUpdateOperationsInput | string
     totalAmount?: IntFieldUpdateOperationsInput | number
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    cancellationReason?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReminderLogUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    booking?: BookingUpdateOneRequiredWithoutReminderLogsNestedInput
+  }
+
+  export type ReminderLogUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookingId?: StringFieldUpdateOperationsInput | string
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ReminderLogUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookingId?: StringFieldUpdateOperationsInput | string
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
   }
 
   export type BookingServiceCreateManyBookingInput = {
     id?: string
     serviceId: string
+  }
+
+  export type ReminderLogCreateManyBookingInput = {
+    id?: string
+    sentAt?: Date | string
+    type: string
+    userId: string
   }
 
   export type BookingServiceUpdateWithoutBookingInput = {
@@ -11475,6 +11134,27 @@ export namespace Prisma {
   export type BookingServiceUncheckedUpdateManyWithoutBookingInput = {
     id?: StringFieldUpdateOperationsInput | string
     serviceId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ReminderLogUpdateWithoutBookingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    user?: UserUpdateOneRequiredWithoutReminderLogNestedInput
+  }
+
+  export type ReminderLogUncheckedUpdateWithoutBookingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ReminderLogUncheckedUpdateManyWithoutBookingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
 

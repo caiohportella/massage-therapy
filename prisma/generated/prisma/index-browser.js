@@ -150,8 +150,13 @@ exports.Prisma.BookingScalarFieldEnum = {
   date: 'date',
   time: 'time',
   userId: 'userId',
+  scheduledAt: 'scheduledAt',
+  reminderSent: 'reminderSent',
   paymentStatus: 'paymentStatus',
   totalAmount: 'totalAmount',
+  paymentIntentId: 'paymentIntentId',
+  cancellationReason: 'cancellationReason',
+  cancelledAt: 'cancelledAt',
   createdAt: 'createdAt'
 };
 
@@ -159,20 +164,6 @@ exports.Prisma.BookingServiceScalarFieldEnum = {
   id: 'id',
   bookingId: 'bookingId',
   serviceId: 'serviceId'
-};
-
-exports.Prisma.AvailabilityScalarFieldEnum = {
-  id: 'id',
-  weekday: 'weekday',
-  time: 'time',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.ExceptionScalarFieldEnum = {
-  id: 'id',
-  date: 'date',
-  reason: 'reason',
-  createdAt: 'createdAt'
 };
 
 exports.Prisma.PatientFormScalarFieldEnum = {
@@ -192,6 +183,14 @@ exports.Prisma.PatientFormScalarFieldEnum = {
   district: 'district',
   city: 'city',
   state: 'state'
+};
+
+exports.Prisma.ReminderLogScalarFieldEnum = {
+  id: 'id',
+  bookingId: 'bookingId',
+  sentAt: 'sentAt',
+  type: 'type',
+  userId: 'userId'
 };
 
 exports.Prisma.SortOrder = {
@@ -215,9 +214,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   Booking: 'Booking',
   BookingService: 'BookingService',
-  Availability: 'Availability',
-  Exception: 'Exception',
-  PatientForm: 'PatientForm'
+  PatientForm: 'PatientForm',
+  ReminderLog: 'ReminderLog'
 };
 
 /**

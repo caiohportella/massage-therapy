@@ -14,7 +14,7 @@ export function Footer() {
       </div>
       <div className="flex items-center justify-center gap-4 pb-4">
         <Link
-          href="https://wa.me/5511986999989"
+          href="https://wa.me/5511946469989"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:text-accent/80 transition-colors"

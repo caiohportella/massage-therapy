@@ -70,3 +70,9 @@ export const isValidBirthDate = (date: string) => {
 export function convertToSubcurrency(amount: number, factor = 100) {
   return Math.round(amount * factor);
 }
+
+export function formatNumberToInternational(phone: string) {
+  const cleaned = phone.replace(/\D/g, "");
+  if (cleaned.startsWith("55")) return `+${cleaned}`;
+  return `+55${cleaned}`;
+}

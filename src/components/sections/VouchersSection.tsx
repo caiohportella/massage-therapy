@@ -23,9 +23,9 @@ export function VouchersSection() {
               image="/services/detox.jpg"
               coupon="DETOX40"
             />
-    
+
             <Button
-              className="mt-4"
+              className="mt-4 cursor-pointer"
               onClick={() =>
                 (window.location.href =
                   "https://buy.stripe.com/9B63cv0mS4Sx9aC3yVe7m01")

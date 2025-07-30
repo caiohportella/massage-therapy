@@ -13,14 +13,22 @@ export async function sendWhatsAppMessage({
   to: string;
   message: string;
 }) {
-  const formattedTo = `whatsapp:+55${to.replace(/\D/g, "")}`;
+  try {
+    const cleaned = to.replace(/\D/g, "");
+    const formattedTo = cleaned.startsWith("55")
+      ? `whatsapp:+${cleaned}`
+      : `whatsapp:+55${cleaned}`;
 
-  const res = await client.messages.create({
-    from,
-    to: formattedTo,
-    body: message,
-  });
+    const res = await client.messages.create({
+      from,
+      to: formattedTo,
+      body: message,
+    });
 
-  return res;
+    console.log("✅ Mensagem enviada via WhatsApp:", formattedTo);
+    return res;
+  } catch (err) {
+    console.error("❌ Erro ao enviar WhatsApp:", err);
+    throw err;
+  }
 }
-

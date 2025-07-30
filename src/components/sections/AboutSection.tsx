@@ -61,7 +61,7 @@ export function AboutSection() {
 
             <div className="mt-6 text-center md:text-start">
               <ActionButton
-                href="https://wa.me/5511986999989"
+                href="https://wa.me/5511946469989"
                 span="Entre em contato"
               />
             </div>

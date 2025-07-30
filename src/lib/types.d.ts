@@ -14,6 +14,36 @@ declare type Service = {
   durations: Duration[];
 };
 
+declare type Booking = {
+  id: string;
+  date: string; // ISO
+  time: string; // "HH:mm"
+  scheduledAt: string; // ISO
+  totalAmount: number;
+  paymentStatus: string;
+
+  user: {
+    name: string;
+    email: string;
+    phone: string;
+  };
+
+  services: {
+    service: {
+      name: string;
+      price: number;
+      productId: string;
+    };
+  }[];
+
+  reminderLogs: {
+    id: string;
+    sentAt: string;
+    type: string;
+  }[];
+};
+
+
 declare type BusyTime = {
   start: string;
   end: string;

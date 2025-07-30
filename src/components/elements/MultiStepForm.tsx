@@ -157,7 +157,7 @@ export function MultiStepForm() {
           variant="ghost"
           disabled={step === 0}
           onClick={handleBack}
-          className="flex gap-2"
+          className="flex gap-2 cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
           Voltar
@@ -171,7 +171,11 @@ export function MultiStepForm() {
           )}
 
           {step === STEPS.length - 1 ? (
-            <Button onClick={handleFinalize} disabled={isLoading}>
+            <Button
+              onClick={handleFinalize}
+              disabled={isLoading}
+              className="cursor-pointer"
+            >
               {isLoading ? (
                 <>
                   Processando...
@@ -184,7 +188,11 @@ export function MultiStepForm() {
               )}
             </Button>
           ) : (
-            <Button onClick={handleNext} disabled={!isStepValid}>
+            <Button
+              onClick={handleNext}
+              disabled={!isStepValid}
+              className="cursor-pointer"
+            >
               Próximo <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           )}
