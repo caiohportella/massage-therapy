@@ -5,13 +5,28 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 
 const {
+  PrismaClientKnownRequestError,
+  PrismaClientUnknownRequestError,
+  PrismaClientRustPanicError,
+  PrismaClientInitializationError,
+  PrismaClientValidationError,
+  getPrismaClient,
+  sqltag,
+  empty,
+  join,
+  raw,
+  skip,
   Decimal,
+  Debug,
   objectEnumValues,
   makeStrictEnum,
+  Extensions,
+  warnOnce,
+  defineDmmfProperty,
   Public,
   getRuntime,
-  skip
-} = require('./runtime/index-browser.js')
+  createParam,
+} = require('./runtime/wasm-engine-edge.js')
 
 
 const Prisma = {}
@@ -20,79 +35,35 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.13.0
- * Query Engine version: 361e86d0ea4987e9f53a565309b3eed797a6bcbd
+ * Prisma Client JS version: 6.16.1
+ * Query Engine version: 1c57fdcd7e44b29b9313256c76699e91c3ac3c43
  */
 Prisma.prismaVersion = {
-  client: "6.13.0",
-  engine: "361e86d0ea4987e9f53a565309b3eed797a6bcbd"
+  client: "6.16.1",
+  engine: "1c57fdcd7e44b29b9313256c76699e91c3ac3c43"
 }
 
-Prisma.PrismaClientKnownRequestError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientKnownRequestError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)};
-Prisma.PrismaClientUnknownRequestError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientUnknownRequestError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.PrismaClientRustPanicError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientRustPanicError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.PrismaClientInitializationError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientInitializationError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.PrismaClientValidationError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientValidationError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
+Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
+Prisma.PrismaClientUnknownRequestError = PrismaClientUnknownRequestError
+Prisma.PrismaClientRustPanicError = PrismaClientRustPanicError
+Prisma.PrismaClientInitializationError = PrismaClientInitializationError
+Prisma.PrismaClientValidationError = PrismaClientValidationError
 Prisma.Decimal = Decimal
 
 /**
  * Re-export of sql-template-tag
  */
-Prisma.sql = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`sqltag is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.empty = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`empty is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.join = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`join is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.raw = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`raw is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
+Prisma.sql = sqltag
+Prisma.empty = empty
+Prisma.join = join
+Prisma.raw = raw
 Prisma.validator = Public.validator
 
 /**
 * Extensions
 */
-Prisma.getExtensionContext = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`Extensions.getExtensionContext is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.defineExtension = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`Extensions.defineExtension is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
+Prisma.getExtensionContext = Extensions.getExtensionContext
+Prisma.defineExtension = Extensions.defineExtension
 
 /**
  * Shorthand utilities for JSON filtering
@@ -109,10 +80,11 @@ Prisma.NullTypes = {
 
 
 
+
+
 /**
  * Enums
  */
-
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
   ReadCommitted: 'ReadCommitted',
@@ -166,6 +138,15 @@ exports.Prisma.BookingServiceScalarFieldEnum = {
   serviceId: 'serviceId'
 };
 
+exports.Prisma.WorkingHoursScalarFieldEnum = {
+  id: 'id',
+  dayOfWeek: 'dayOfWeek',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.PatientFormScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
@@ -214,37 +195,95 @@ exports.Prisma.ModelName = {
   User: 'User',
   Booking: 'Booking',
   BookingService: 'BookingService',
+  WorkingHours: 'WorkingHours',
   PatientForm: 'PatientForm',
   ReminderLog: 'ReminderLog'
 };
-
 /**
- * This is a stub Prisma Client that will error at runtime if called.
+ * Create the Client
  */
-class PrismaClient {
-  constructor() {
-    return new Proxy(this, {
-      get(target, prop) {
-        let message
-        const runtime = getRuntime()
-        if (runtime.isEdge) {
-          message = `PrismaClient is not configured to run in ${runtime.prettyName}. In order to run Prisma Client on edge runtime, either:
-- Use Prisma Accelerate: https://pris.ly/d/accelerate
-- Use Driver Adapters: https://pris.ly/d/driver-adapters
-`;
-        } else {
-          message = 'PrismaClient is unable to run in this browser environment, or has been bundled for the browser (running in `' + runtime.prettyName + '`).'
-        }
-
-        message += `
-If this is unexpected, please open an issue: https://pris.ly/prisma-prisma-bug-report`
-
-        throw new Error(message)
+const config = {
+  "generator": {
+    "name": "client",
+    "provider": {
+      "fromEnvVar": null,
+      "value": "prisma-client-js"
+    },
+    "output": {
+      "value": "C:\\Users\\caio\\Documents\\ritha-portella\\prisma\\generated\\prisma",
+      "fromEnvVar": null
+    },
+    "config": {
+      "engineType": "library"
+    },
+    "binaryTargets": [
+      {
+        "fromEnvVar": null,
+        "value": "windows",
+        "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "rhel-openssl-3.0.x"
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
-    })
+    ],
+    "previewFeatures": [],
+    "sourceFilePath": "C:\\Users\\caio\\Documents\\ritha-portella\\prisma\\schema.prisma",
+    "isCustomOutput": true
+  },
+  "relativeEnvPaths": {
+    "rootEnvPath": null,
+    "schemaEnvPath": "../../../.env"
+  },
+  "relativePath": "../..",
+  "clientVersion": "6.16.1",
+  "engineVersion": "1c57fdcd7e44b29b9313256c76699e91c3ac3c43",
+  "datasourceNames": [
+    "db"
+  ],
+  "activeProvider": "postgresql",
+  "postinstall": false,
+  "inlineDatasources": {
+    "db": {
+      "url": {
+        "fromEnvVar": "DATABASE_URL",
+        "value": null
+      }
+    }
+  },
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  output        = \"./generated/prisma\"\n  binaryTargets = [\"native\", \"rhel-openssl-3.0.x\", \"debian-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Service {\n  id          String  @id @default(cuid())\n  name        String\n  description String\n  price       Int\n  image       String?\n  productId   String  @unique\n  duration    Int\n\n  bookings BookingService[]\n}\n\nmodel User {\n  id         String  @id @default(cuid())\n  name       String\n  email      String  @unique\n  phone      String\n  address    String\n  number     String\n  complement String?\n  district   String\n  city       String\n  state      String\n  zipCode    String\n\n  bookings Booking[]\n\n  createdAt   DateTime      @default(now())\n  ReminderLog ReminderLog[]\n}\n\nmodel Booking {\n  id           String   @id @default(cuid())\n  user         User     @relation(fields: [userId], references: [id])\n  date         DateTime\n  time         String\n  userId       String\n  scheduledAt  DateTime\n  reminderSent Boolean  @default(false)\n\n  services BookingService[]\n\n  paymentStatus String @default(\"pending\")\n  totalAmount   Int\n\n  paymentIntentId    String?\n  cancellationReason String?\n  cancelledAt        DateTime?\n\n  createdAt    DateTime      @default(now())\n  reminderLogs ReminderLog[]\n}\n\nmodel BookingService {\n  id        String  @id @default(cuid())\n  booking   Booking @relation(fields: [bookingId], references: [id])\n  bookingId String\n\n  service   Service @relation(fields: [serviceId], references: [id])\n  serviceId String\n}\n\nmodel WorkingHours {\n  id        String   @id @default(cuid())\n  dayOfWeek Int // 0 = domingo, 1 = segunda, ..., 6 = sábado\n  startTime Int // minutos desde 00:00 (ex: 14 * 60 = 840)\n  endTime   Int\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel PatientForm {\n  id        String   @id @default(uuid())\n  createdAt DateTime @default(now())\n\n  // PersonalDataForm\n  fullName      String\n  preferredName String?\n  email         String\n  phone         String\n  birthDate     DateTime\n  gender        String\n  profession    String?\n  zipCode       String\n  address       String\n  number        String\n  complement    String?\n  district      String\n  city          String\n  state         String\n\n  // // ClinicalProfileForm\n  // hasChronicDisease         String\n  // chronicDiseaseDescription String?\n  // usesMedication            String\n  // medicationDescription     String?\n  // hasAllergies              String\n  // allergiesDescription      String?\n  // hadSurgery                String\n  // surgeryDescription        String?\n  // hasPain                   String\n  // painDescription           String?\n  // isPregnant                String\n\n  // // GeneralConsiderationsForm\n  // underMedicalCare              String\n  // medicalCareDescription        String?\n  // hasCirculatoryProblem         String\n  // circulatoryProblemDescription String?\n  // hasPressureProblem            String\n  // pressureProblemDescription    String?\n  // hasRespiratoryProblem         String\n  // respiratoryProblemDescription String?\n  // hasVaricoseVeins              String\n  // hasThrombosisHistory          String\n  // hasSpineProblem               String\n  // spineProblemDescription       String?\n  // additionalInfo                String?\n\n  // // MtcAnamneseForm\n  // sleepQuality                    String\n  // appetite                        String\n  // bowelFunction                   String\n  // hasUrinaryAlterations           String\n  // urinaryAlterationsDescription   String?\n  // hasMenstrualCycle               String\n  // hasMenstrualAlterations         String\n  // menstrualAlterationsDescription String?\n  // predominantEmotion              String\n  // hasPainOrDiscomfort             String\n  // painOrDiscomfortDescription     String?\n  // observations                    String?\n}\n\nmodel ReminderLog {\n  id        String   @id @default(cuid())\n  booking   Booking  @relation(fields: [bookingId], references: [id])\n  bookingId String\n  sentAt    DateTime @default(now())\n  type      String // exemplo: \"2h antes\", \"24h antes\"\n\n  user   User   @relation(fields: [userId], references: [id])\n  userId String\n}\n",
+  "inlineSchemaHash": "4781418efa8afe20061d7305c6e9bb288a6c1a93ae7bb105c9608e27db342f97",
+  "copyEngine": true
+}
+config.dirname = '/'
+
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Service\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"image\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"productId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"duration\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"bookings\",\"kind\":\"object\",\"type\":\"BookingService\",\"relationName\":\"BookingServiceToService\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"number\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"complement\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"district\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"city\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"state\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"zipCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bookings\",\"kind\":\"object\",\"type\":\"Booking\",\"relationName\":\"BookingToUser\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"ReminderLog\",\"kind\":\"object\",\"type\":\"ReminderLog\",\"relationName\":\"ReminderLogToUser\"}],\"dbName\":null},\"Booking\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"BookingToUser\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"time\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"scheduledAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"reminderSent\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"services\",\"kind\":\"object\",\"type\":\"BookingService\",\"relationName\":\"BookingToBookingService\"},{\"name\":\"paymentStatus\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"totalAmount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"paymentIntentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"cancellationReason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"cancelledAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"reminderLogs\",\"kind\":\"object\",\"type\":\"ReminderLog\",\"relationName\":\"BookingToReminderLog\"}],\"dbName\":null},\"BookingService\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"booking\",\"kind\":\"object\",\"type\":\"Booking\",\"relationName\":\"BookingToBookingService\"},{\"name\":\"bookingId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"service\",\"kind\":\"object\",\"type\":\"Service\",\"relationName\":\"BookingServiceToService\"},{\"name\":\"serviceId\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"WorkingHours\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dayOfWeek\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"startTime\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"endTime\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"PatientForm\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"fullName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"preferredName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"birthDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"gender\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"profession\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"zipCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"number\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"complement\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"district\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"city\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"state\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"ReminderLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"booking\",\"kind\":\"object\",\"type\":\"Booking\",\"relationName\":\"BookingToReminderLog\"},{\"name\":\"bookingId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sentAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ReminderLogToUser\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
+config.engineWasm = {
+  getRuntime: async () => require('./query_engine_bg.js'),
+  getQueryEngineWasmModule: async () => {
+    const loader = (await import('#wasm-engine-loader')).default
+    const engine = (await loader).default
+    return engine
   }
 }
+config.compilerWasm = undefined
 
+config.injectableEdgeEnv = () => ({
+  parsed: {
+    DATABASE_URL: typeof globalThis !== 'undefined' && globalThis['DATABASE_URL'] || typeof process !== 'undefined' && process.env && process.env.DATABASE_URL || undefined
+  }
+})
+
+if (typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined) {
+  Debug.enable(typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined)
+}
+
+const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient
-
 Object.assign(exports, Prisma)
+

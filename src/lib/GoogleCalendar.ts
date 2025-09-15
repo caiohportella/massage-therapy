@@ -23,12 +23,12 @@ export const calendar = google.calendar({ version: "v3", auth });
 
 export async function getBusyTimes(date: string) {
   const now = Date.now();
-  const cached = busyCache.get(date);
+  // const cached = busyCache.get(date);
 
   // Se estiver no cache e for recente (< 1 dia)
-  if (cached && now - cached.timestamp < 86_400_000) {
-    return cached.data;
-  }
+  // if (cached && now - cached.timestamp < 86_400_000) {
+  //   return cached.data;
+  // }
 
   const day = new Date(date);
   const start = new Date(day.setHours(0, 0, 0, 0)).toISOString();

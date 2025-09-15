@@ -10,6 +10,7 @@ export async function GET() {
         const prices = await stripe.prices.list({
           product: product.id,
           active: true,
+          currency: "brl", // Filter prices by BRL
           limit: 10, // permitir múltiplos preços
         });
 

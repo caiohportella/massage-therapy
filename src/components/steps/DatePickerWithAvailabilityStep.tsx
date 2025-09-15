@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { motion, AnimatePresence } from "framer-motion";
@@ -18,30 +18,43 @@ export function DatePickerWithAvailabilityStep() {
 
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
   const [loadingTimes, setLoadingTimes] = useState(false);
+  const [showTimeSlots, setShowTimeSlots] = useState(false);
 
-  // Buscar horários disponíveis para a data selecionada
-  useEffect(() => {
-    if (!selectedDate) return;
-
+  // New function to fetch available times
+  const fetchAvailableTimesForDate = async (date: Date) => {
     setLoadingTimes(true);
-    fetch(
-      `/api/calendar/available-times?date=${format(selectedDate, "yyyy-MM-dd")}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setAvailableTimes(data.available ?? []);
-      })
-      .catch(() => {
-        setAvailableTimes([]);
-      })
-      .finally(() => setLoadingTimes(false));
-  }, [selectedDate]);
+    try {
+      const response = await fetch(
+        `/api/calendar/available-times?date=${format(date, "yyyy-MM-dd")}`
+      );
+      const data = await response.json();
+      setAvailableTimes(data.available ?? []);
+    } catch (error) {
+      console.error("Error fetching available times:", error);
+      setAvailableTimes([]);
+    } finally {
+      setLoadingTimes(false);
+    }
+  };
+
+  const handleDateChange = (date: Date | undefined, isAvailable: boolean, isUserInteraction: boolean) => {
+    setSelectedDate(date);
+    setSelectedTime(""); // Clear selected time on date change
+
+    if (date && isAvailable && isUserInteraction) {
+      fetchAvailableTimesForDate(date);
+      setShowTimeSlots(true);
+    } else {
+      setAvailableTimes([]);
+      setShowTimeSlots(false);
+    }
+  };
 
   return (
     <motion.div
       animate={{
-        maxWidth: selectedDate ? "80rem" : "26rem",
-        minHeight: selectedDate ? "36rem" : "auto",
+        maxWidth: showTimeSlots ? "80rem" : "26rem",
+        minHeight: showTimeSlots ? "36rem" : "auto",
       }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
       className="
@@ -60,7 +73,7 @@ export function DatePickerWithAvailabilityStep() {
       <div
         className={cn(
           "w-full",
-          selectedDate
+          showTimeSlots
             ? "md:w-1/2"
             : "flex justify-center items-center min-h-[340px]"
         )}
@@ -72,14 +85,14 @@ export function DatePickerWithAvailabilityStep() {
 
           <BookingCalendar
             selectedDate={selectedDate}
-            onDateChange={setSelectedDate}
+            onDateChange={handleDateChange}
           />
         </div>
       </div>
 
       {/* Horários */}
       <AnimatePresence mode="wait">
-        {selectedDate && (
+        {selectedDate && showTimeSlots && (
           <motion.div
             key={selectedDate.toDateString()}
             initial={{ x: 50, opacity: 0 }}

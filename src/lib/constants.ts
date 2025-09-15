@@ -103,3 +103,14 @@ export const MAX_APPOINTMENTS_PER_DAY = 5;
 
 export const APPOINTMENT_DURATION_IN_MINUTES = 60;
 export const INTERVAL_BETWEEN_APPOINTMENTS_IN_MINUTES = 15;
+
+// Duração de cada atendimento (em minutos)
+export const SLOT_DURATION = 60;
+// Intervalo entre atendimentos (em minutos)
+export const SLOT_PADDING = 15;
+// Fuso horário do calendário
+export const TIMEZONE = "America/Sao_Paulo";
+
+export const days = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+
+export const CALENDAR_ID = process.env.GOOGLE_CALENDAR_ID;

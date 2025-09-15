@@ -77,6 +77,15 @@ model BookingService {
   serviceId String
 }
 
+model WorkingHours {
+  id        String   @id @default(cuid())
+  dayOfWeek Int      // 0 = domingo, 1 = segunda, ..., 6 = sábado
+  startTime Int      // minutos desde 00:00 (ex: 14 * 60 = 840)
+  endTime   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model PatientForm {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())

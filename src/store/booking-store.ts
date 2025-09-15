@@ -87,7 +87,7 @@ export const useBookingStore = create<BookingState>((set) => ({
   saveDataToStore: (step, data) => {
     switch (step) {
       case 2:
-        set({ personalData: data });
+        set({ personalData: data as PersonalData });
         break;
       // case 3:
       //   set({ clinicalProfile: data });

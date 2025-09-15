@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getBusyTimes } from "@/lib/GoogleCalendar";
-import { eachDayOfInterval, format } from "date-fns";
+import { eachDayOfInterval, format, parseISO } from "date-fns";
+import { getAvailableSlotsForDate } from "@/lib/schedule";
 
 export async function GET(req: NextRequest) {
   const url = new URL(
@@ -18,7 +18,6 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  // Verifica se a data está dentro dos 20 dias permitidos (conforme regra anterior)
   const today = new Date();
   const monthStart = new Date(year, month - 1, 1);
   const monthEnd = new Date(year, month, 0);
@@ -26,25 +25,24 @@ export async function GET(req: NextRequest) {
   today.setHours(0, 0, 0, 0);
 
   const days = eachDayOfInterval({ start: monthStart, end: monthEnd }).filter(
-    (day) => day >= today
+    (day) => parseISO(format(day, "yyyy-MM-dd")) >= today // Use parseISO to ensure correct date comparison
   );
   const unavailableDates: string[] = [];
 
-  // Checar cada dia individualmente (pode ser paralelo, mas limitado para evitar burst)
   for (const day of days) {
     const formattedDate = format(day, "yyyy-MM-dd");
 
     try {
-      const busy = await getBusyTimes(formattedDate);
+      const availableSlots = await getAvailableSlotsForDate(day);
 
-      // Regra: se já houverem 5 atendimentos ou mais → dia indisponível
-      if (busy.length >= 5) {
+      if (availableSlots.length === 0) {
         unavailableDates.push(formattedDate);
       }
-    } catch (err) {
-      console.error(`Erro ao buscar busy times para ${formattedDate}:`, err);
+    } catch (error) { // Changed 'err' to 'error' and used it
+      console.error(`Erro ao buscar slots disponíveis para ${formattedDate}:`, error);
     }
   }
 
+  // console.log("API /unavailable-times returning:", { unavailable: unavailableDates });
   return NextResponse.json({ unavailable: unavailableDates });
 }

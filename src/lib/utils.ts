@@ -76,3 +76,14 @@ export function formatNumberToInternational(phone: string) {
   if (cleaned.startsWith("55")) return `+${cleaned}`;
   return `+55${cleaned}`;
 }
+
+export function formatMinutes(min: number) {
+  const h = String(Math.floor(min / 60)).padStart(2, "0");
+  const m = String(min % 60).padStart(2, "0");
+  return `${h}:${m}`;
+}
+
+export function timeToMinutes(time: string): number {
+  const [h, m] = time.split(":").map(Number);
+  return h * 60 + m;
+}

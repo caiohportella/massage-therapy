@@ -11,6 +11,7 @@ export async function POST(req: Request) {
     for (const service of services) {
       // Se vier priceId diretamente, use
       if (service.priceId) {
+        // console.log("Using direct priceId:", service.priceId);
         lineItems.push({
           price: service.priceId,
           quantity: service.quantity || 1,
@@ -30,6 +31,7 @@ export async function POST(req: Request) {
           );
         }
 
+        // console.log("Using priceId from product:", prices.data[0].id);
         lineItems.push({
           price: prices.data[0].id,
           quantity: service.quantity || 1,
@@ -42,6 +44,7 @@ export async function POST(req: Request) {
       }
     }
 
+    // console.log("Stripe Checkout Line Items:", lineItems);
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card", "pix"],
       mode: "payment",

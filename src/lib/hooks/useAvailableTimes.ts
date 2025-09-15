@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getTimeSlotsForDate } from "@/lib/schedule";
+import { getAvailableSlotsForDate } from "@/lib/schedule";
 import { getBusyTimes } from "@/lib/GoogleCalendar";
 
 export async function GET(req: Request) {
@@ -24,7 +24,7 @@ export async function GET(req: Request) {
   }
 
   const busy = await getBusyTimes(date);
-  const allSlots = getTimeSlotsForDate(date);
+  const allSlots = await getAvailableSlotsForDate(new Date(date));
 
   const available = allSlots.filter((slot) => {
     const [hour, minute] = slot.split(":").map(Number);

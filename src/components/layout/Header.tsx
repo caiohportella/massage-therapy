@@ -18,6 +18,24 @@ const links = [
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [hasVouchers, setHasVouchers] = useState(false);
+  const [loadingVouchers, setLoadingVouchers] = useState(true);
+
+  useEffect(() => {
+    // Directly fetch vouchers without using the calendar store cache
+    fetch("/api/vouchers")
+      .then((res) => res.json())
+      .then((data) => {
+        setHasVouchers(data.vouchers.length > 0);
+      })
+      .catch(() => { // Removed 'error' parameter as it's not used
+        // console.error("Failed to fetch voucher status for header:", error);
+        setHasVouchers(false);
+      })
+      .finally(() => {
+        setLoadingVouchers(false);
+      });
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -29,6 +47,10 @@ export function Header() {
       document.body.classList.remove("menu-open");
     };
   }, [isOpen]);
+
+  const filteredLinks = loadingVouchers
+    ? [] // Show no links while loading
+    : links.filter((link) => link.href !== "#vouchers" || hasVouchers);
 
   return (
     <>
@@ -55,23 +77,30 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="
-                  text-sm 
-                  font-medium 
-                  text-foreground 
-                  hover:text-accent 
-                  transition-colors
-                "
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
+          {!loadingVouchers && (
+            <motion.nav
+              initial={{ x: "100%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="hidden md:flex items-center gap-8"
+            >
+              {filteredLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="
+                    text-sm
+                    font-medium
+                    text-foreground
+                    hover:text-accent
+                    transition-colors
+                  "
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </motion.nav>
+          )}
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
@@ -112,24 +141,31 @@ export function Header() {
             </button>
 
             {/* Mobile Navigation */}
-            <nav className="flex flex-col gap-6">
-              {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="
-                    text-2xl 
-                    font-semibold 
-                    text-foreground 
-                    hover:text-accent 
-                    transition-colors
-                  "
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
+            {!loadingVouchers && (
+              <motion.nav
+                initial={{ x: "100%", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }} // Slightly delayed from desktop
+                className="flex flex-col gap-6"
+              >
+                {filteredLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className="
+                      text-2xl
+                      font-semibold
+                      text-foreground
+                      hover:text-accent
+                      transition-colors
+                    "
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </motion.nav>
+            )}
           </motion.aside>
         )}
       </AnimatePresence>

@@ -43,12 +43,6 @@ declare type Booking = {
   }[];
 };
 
-
-declare type BusyTime = {
-  start: string;
-  end: string;
-};
-
 declare type PersonalData = {
   fullName: string;
   preferredName?: string;
@@ -92,3 +86,25 @@ declare type StepFormValuesMap = {
 };
 
 export type StepWithForm = keyof StepFormValuesMap;
+
+declare enum DayOfWeek {
+  Domingo = 0,
+  Segunda = 1,
+  Terca = 2,
+  Quarta = 3,
+  Quinta = 4,
+  Sexta = 5,
+  Sabado = 6,
+}
+
+declare type WorkingHour = {
+  id: string;
+  dayOfWeek: number;
+  startTime: number;
+  endTime: number;
+};
+
+declare type BusyTime = {
+  start: string;
+  end: string;
+};

@@ -1,88 +1,85 @@
-import { getBusyTimes } from "./GoogleCalendar";
+import { addMinutes, format, isBefore, isSameDay, addHours } from "date-fns";
+import { calendar } from "./GoogleCalendar";
+import { CALENDAR_ID, SLOT_DURATION, SLOT_PADDING, TIMEZONE } from "./constants";
+import { BusyTime } from "@/lib/types"; // Removed WorkingHour from import
+import { prisma } from "./prisma";
 
-export function getTimeSlotsForDate(date: string) {
-  const day = new Date(date);
-  const dayOfWeek = day.getDay(); // 0 (domingo) a 6 (sábado)
+if (!CALENDAR_ID) throw new Error("GOOGLE_CALENDAR_ID não definido.");
 
-  const slots: string[] = [];
+export async function getAvailableSlotsForDate(date: Date) {
+  const normalizedDate = new Date(date);
+  normalizedDate.setHours(0, 0, 0, 0);
+  // console.log("getAvailableSlotsForDate called for date:", normalizedDate.toDateString(), normalizedDate.toISOString());
+  const dayOfWeek = normalizedDate.getDay(); // 0 = domingo, 1 = segunda, ...
+  // console.log("Day of week:", dayOfWeek);
 
-  let workingPeriods: { start: number; end: number }[] = [];
+  // 1. Buscar os horários configurados para esse dia da semana
+  const workingHours = await prisma.workingHours.findMany({
+    where: { dayOfWeek },
+  });
+  // console.log("Working hours for dayOfWeek", dayOfWeek, ":", workingHours);
 
-  if (dayOfWeek >= 1 && dayOfWeek <= 5) {
-    // Segunda a sexta: 14h às 20h
-    workingPeriods = [{ start: 14, end: 20 }];
-  } else if (dayOfWeek === 6) {
-    // Sábado: 8h às 12h e 14h às 15h
-    workingPeriods = [
-      { start: 8, end: 12 },
-      { start: 14, end: 15 },
-    ];
-  } else {
-    // Domingo não trabalha
+  if (!workingHours.length) {
+    // console.log("No working hours found, returning empty array.");
     return [];
   }
 
-  workingPeriods.forEach(({ start, end }) => {
-    let currentHour = start;
-    let currentMinute = 0;
+  // 2. Buscar os horários ocupados no Google Calendar
+  const startOfDay = new Date(normalizedDate.setHours(0, 0, 0, 0));
+  const endOfDay = new Date(normalizedDate.setHours(23, 59, 59, 999));
+  // console.log("startOfDay:", startOfDay.toISOString(), "endOfDay:", endOfDay.toISOString());
 
-    while (currentHour + 1 <= end) {
-      const hourStr = currentHour.toString().padStart(2, "0");
-      const minuteStr = currentMinute.toString().padStart(2, "0");
-      slots.push(`${hourStr}:${minuteStr}`);
-
-      // Incrementa com duração + intervalo
-      const next = new Date(0, 0, 0, currentHour, currentMinute);
-      next.setMinutes(next.getMinutes() + 60 + 15); // 1h atendimento + 15min intervalo
-
-      currentHour = next.getHours();
-      currentMinute = next.getMinutes();
-    }
+  const res = await calendar.freebusy.query({
+    requestBody: {
+      timeMin: startOfDay.toISOString(),
+      timeMax: endOfDay.toISOString(),
+      timeZone: TIMEZONE,
+      items: [{ id: CALENDAR_ID }],
+    },
   });
 
-  return slots;
-}
+  const busySlots = res.data.calendars?.[CALENDAR_ID!]?.busy as BusyTime[] ?? [];
+  // console.log("Busy slots from Google Calendar:", busySlots);
 
-export async function getUnavailableSlotsForDate(date: string) {
-  const busyTimes = await getBusyTimes(date);
-  const allSlots = getTimeSlotsForDate(date);
+  // 3. Gerar todos os slots disponíveis com base nos working hours
+  const slots: string[] = [];
+  const now = new Date();
+  const cutoffTime = addHours(now, 2); // Current time + 2 hours for booking cut-off
+  const isToday = isSameDay(normalizedDate, now);
 
-  const unavailableSlots = allSlots.filter((slot) => {
-    const [hour, minute] = slot.split(":").map(Number);
-
+  for (const period of workingHours) {
+    // console.log("Processing working period:", period);
     const slotStart = new Date(
-      `${date}T${hour.toString().padStart(2, "0")}:${minute
-        .toString()
-        .padStart(2, "0")}:00`
+      startOfDay.getTime() + period.startTime * 60_000
     );
-    const slotEnd = new Date(slotStart.getTime() + 60 * 60 * 1000); // 1h de duração
+    const slotEnd = new Date(startOfDay.getTime() + period.endTime * 60_000);
+    // console.log("Period slotStart:", slotStart.toISOString(), "Period slotEnd:", slotEnd.toISOString());
 
-    return busyTimes.some(
-      (busy: {
-        start: string | number | Date;
-        end: string | number | Date;
-      }) => {
-        if (!busy.start || !busy.end) return false;
+    let current = slotStart;
 
-        const busyStart = new Date(busy.start);
-        const busyEnd = new Date(busy.end);
+    while (addMinutes(current, SLOT_DURATION) <= slotEnd) {
+      const currentSlotStart = current;
+      const currentSlotEnd = addMinutes(current, SLOT_DURATION);
 
-        const bufferStart = new Date(busyStart.getTime() - 15 * 60 * 1000);
-        const bufferEnd = new Date(busyEnd.getTime() + 15 * 60 * 1000);
+      const overlap = busySlots.some(
+        (busy) =>
+          new Date(busy.start) < currentSlotEnd && new Date(busy.end) > currentSlotStart
+      );
 
-        return slotStart < bufferEnd && slotEnd > bufferStart;
+      // Filter out past slots for today's date only, considering a 2-hour buffer
+      const isPastForTodayWithBuffer = isToday && isBefore(currentSlotStart, cutoffTime);
+
+      // console.log(`    Slot ${format(currentSlotStart, "HH:mm")}-${format(currentSlotEnd, "HH:mm")}: overlap=${overlap}, isPastForTodayWithBuffer=${isPastForTodayWithBuffer}`);
+
+      if (!overlap && !isPastForTodayWithBuffer) {
+        slots.push(format(currentSlotStart, "HH:mm"));
+        // console.log("      Slot added:", format(currentSlotStart, "HH:mm"));
       }
-    );
-  });
 
-  return unavailableSlots;
-}
+      current = addMinutes(current, SLOT_DURATION + SLOT_PADDING);
+    }
+  }
 
-export async function getAvailableSlotsForDate(date: string) {
-  const allSlots = getTimeSlotsForDate(date);
-  const unavailable = await getUnavailableSlotsForDate(date);
-
-  const availableSlots = allSlots.filter((slot) => !unavailable.includes(slot));
-
-  return availableSlots;
+  // console.log("Final generated slots:", slots);
+  return slots;
 }
