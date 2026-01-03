@@ -94,7 +94,7 @@ export function MultiStepForm() {
       // Map PersonalData fields to AbacatePay Customer format
       const customer = {
         name: personalData.fullName,
-        taxId: "", // TODO: Add CPF field to PersonalData if needed
+        taxId: personalData.cpf,
         cellphone: personalData.phone,
         email: personalData.email,
       };

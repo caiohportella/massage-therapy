@@ -13,6 +13,10 @@ export const personalDataSchema = z.object({
     .min(1, requiredMessage)
     .email("O formato do e-mail é inválido."),
   phone: z.string({ required_error: requiredMessage }).min(1, requiredMessage),
+  cpf: z
+    .string({ required_error: requiredMessage })
+    .min(11, "CPF inválido")
+    .max(14, "CPF inválido"),
   birthDate: z
     .string({ required_error: requiredMessage })
     .min(1, "Data de nascimento obrigatória")

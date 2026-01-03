@@ -84,6 +84,21 @@ export function PersonalDataForm({ form }: PersonalDataFormProps) {
             )}
           />
 
+          {/* CPF */}
+          <FormField
+            control={form.control}
+            name="cpf"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>CPF *</FormLabel>
+                <FormControl>
+                  <Input placeholder="000.000.000-00" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           {/* Data de nascimento */}
           <FormField
             control={form.control}

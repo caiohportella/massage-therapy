@@ -1,3 +1,5 @@
+"use server";
+
 interface Product {
     externalId: string;
     name: string;

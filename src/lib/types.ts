@@ -74,6 +74,7 @@ export type PersonalData = {
   email: string;
   phone: string;
   birthDate: string;
+  cpf: string;
   gender: string;
   profession?: string;
 

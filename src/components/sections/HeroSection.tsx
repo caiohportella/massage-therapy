@@ -2,9 +2,59 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { Button } from "../ui/button";
+import { createPixPayment } from "@/app/actions/abacate-pay";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 // import { GlassBackground } from "@/components/layout/GlassBackground";
 
 export function HeroSection() {
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function handleTestPixPayment() {
+    setIsLoading(true);
+
+    try {
+      // Fake product for testing - R$1.00 (100 centavos)
+      const products = [
+        {
+          externalId: "test-product-001",
+          name: "Produto Teste",
+          description: "Produto de teste para validar integração Pix",
+          quantity: 1,
+          price: 100, // R$1.00 in centavos
+        },
+      ];
+
+      // Fake customer for testing
+      const customer = {
+        name: "Cliente Teste",
+        taxId: "39709528831",
+        cellphone: "(11) 99999-9999",
+        email: "teste@exemplo.com",
+      };
+
+      const response = await createPixPayment(products, customer);
+
+      if ("error" in response && response.error) {
+        console.error("Erro ao criar pagamento:", response.error);
+        setIsLoading(false);
+        return;
+      }
+
+      // Redirect to AbacatePay checkout page
+      if ("data" in response && response.data?.url) {
+        window.location.href = response.data.url;
+      } else {
+        console.error("URL de pagamento não encontrada");
+        setIsLoading(false);
+      }
+    } catch (err) {
+      console.error("Erro ao processar pagamento:", err);
+      setIsLoading(false);
+    }
+  }
+
   return (
     <section className="relative w-full py-24 md:py-32">
       {/* <div className="absolute inset-0 flex items-center justify-center">
@@ -21,7 +71,6 @@ export function HeroSection() {
             "
         />
       </div> */}
-
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-24 mt-12">
@@ -60,6 +109,29 @@ export function HeroSection() {
               Atendimentos terapêuticos que despertam o equilíbrio, aliviam tensões e reconectam você à sua essência.
               Um espaço de acolhimento, cura e bem-estar energético.
             </motion.p>
+
+            {/* CTA Button - Test Pix Payment */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
+              viewport={{ amount: 0.3 }}
+            >
+              <Button
+                onClick={handleTestPixPayment}
+                disabled={isLoading}
+                className="cursor-pointer"
+              >
+                {isLoading ? (
+                  <>
+                    Processando...
+                    <Loader2 className="w-4 h-4 ml-2 animate-spin" />
+                  </>
+                ) : (
+                  "Testar Pagamento Pix (R$1,00)"
+                )}
+              </Button>
+            </motion.div>
           </div>
 
           {/* Imagem */}
