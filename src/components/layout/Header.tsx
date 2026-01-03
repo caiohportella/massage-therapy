@@ -146,7 +146,7 @@ export function Header() {
                 initial={{ x: "100%", opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }} // Slightly delayed from desktop
-                className="flex flex-col gap-6"
+                className="flex flex-col flex-1 gap-6 items-center justify-center mb-36"
               >
                 {filteredLinks.map((link) => (
                   <Link

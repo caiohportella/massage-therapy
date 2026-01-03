@@ -7,6 +7,8 @@ export async function POST(req: Request) {
 
   try {
     const lineItems = [];
+    const headers = req.headers;
+    const origin = headers.get("origin");
 
     for (const service of services) {
       // Se vier priceId diretamente, use
@@ -46,7 +48,7 @@ export async function POST(req: Request) {
 
     // console.log("Stripe Checkout Line Items:", lineItems);
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card", "pix"],
+      payment_method_types: ["card"],
       mode: "payment",
       currency: "brl",
       line_items: lineItems,
@@ -57,10 +59,8 @@ export async function POST(req: Request) {
         selectedServices: JSON.stringify(selectedServices),
         personalData: JSON.stringify(personalData),
       },
-      success_url: `${req.headers.get(
-        "origin"
-      )}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.get("origin")}/cancel`,
+      success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/cancel`,
     });
 
     return NextResponse.json({ url: session.url });

@@ -8,9 +8,10 @@ interface ActionButtonProps {
   href: string;
   span: string;
   className?: string;
+  target?: string;
 }
 
-export function ActionButton({ href, span }: ActionButtonProps) {
+export function ActionButton({ href, span, target }: ActionButtonProps) {
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
@@ -19,6 +20,7 @@ export function ActionButton({ href, span }: ActionButtonProps) {
     >
       <Link
         href={href}
+        target={target}
         className="
           relative z-10 px-6 py-3
           rounded-full

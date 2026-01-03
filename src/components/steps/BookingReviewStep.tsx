@@ -118,7 +118,7 @@ export function BookingReviewStep() {
             <span>Frete</span>
             <span className="font-semibold text-accent">
               {deliveryFee === 0
-                ? "A calcular"
+                ? "Grátis"
                 : deliveryFee.toLocaleString("pt-BR", {
                     style: "currency",
                     currency: "BRL",

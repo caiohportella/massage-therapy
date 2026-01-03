@@ -63,6 +63,7 @@ export function AboutSection() {
               <ActionButton
                 href="https://wa.me/5511946469989"
                 span="Entre em contato"
+                target="_blank"
               />
             </div>
           </motion.div>
