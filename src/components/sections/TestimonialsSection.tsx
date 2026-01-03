@@ -1,18 +1,28 @@
 import { SectionHeader } from "@/components/elements/SectionHeader";
 
 import { getPlaceDetails, GoogleReview } from "@/lib/GoogleMaps";
-import { TestimonialsGrid } from "../elements/TestimonialsGrid";
+import { TestimonialCard } from "../elements/TestimonialCard";
 import Link from "next/link";
 import { Star, StarIcon } from "lucide-react";
 
+// Testimonial type
+type Testimonial = {
+  name: string;
+  role: string;
+  avatar: string;
+  message: string;
+  rating?: number;
+};
+
 // Fallback testimonials for when Google API is unavailable
-const fallbackTestimonials = [
+const fallbackTestimonials: Testimonial[] = [
   {
     name: "Ana Souza",
     role: "Cliente",
     avatar: "/avatars/ana.png",
     message:
       "Me senti completamente renovada após a sessão. Atendimento incrível, recomendo demais!",
+    rating: 5,
   },
   {
     name: "Carlos Oliveira",
@@ -20,6 +30,7 @@ const fallbackTestimonials = [
     avatar: "/avatars/carlos.png",
     message:
       "Profissional excelente, atenciosa e muito competente. Saí muito mais leve e relaxado.",
+    rating: 5,
   },
   {
     name: "Juliana Lima",
@@ -27,6 +38,7 @@ const fallbackTestimonials = [
     avatar: "/avatars/juliana.png",
     message:
       "Experiência maravilhosa! Ambiente acolhedor e técnica impecável. Recomendo de olhos fechados.",
+    rating: 5,
   },
 ];
 
@@ -89,7 +101,19 @@ export async function TestimonialSection() {
         )}
 
         {/* Grid de Depoimentos */}
-        <TestimonialsGrid testimonials={testimonials} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
+          {testimonials.map((testimonial, index) => (
+            <TestimonialCard
+              key={`${testimonial.name}-${index}`}
+              name={testimonial.name}
+              role={testimonial.role}
+              message={testimonial.message}
+              avatar={testimonial.avatar}
+              rating={testimonial.rating}
+              fullWidth
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

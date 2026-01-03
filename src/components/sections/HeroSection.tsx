@@ -2,28 +2,26 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { GlassBackground } from "@/components/layout/GlassBackground";
+// import { GlassBackground } from "@/components/layout/GlassBackground";
 
 export function HeroSection() {
   return (
     <section className="relative w-full py-24 md:py-32">
-      {/* Glassmorphism + Logo no fundo */}
-      <GlassBackground className="z-0">
-        {/* <div className="absolute inset-0 flex items-center justify-center">
-          <Image
-            src="/logo.png"
-            alt="Logo Background"
-            width={600}
-            height={600}
-            className="
+      {/* <div className="absolute inset-0 flex items-center justify-center">
+        <Image
+          src="/hero_background.png"
+          alt="Shiatsu Hero"
+          width={1910}
+          height={720}
+          className="
               opacity-5 
-              w-[400px] md:w-[600px] 
+              w-full h-full
               pointer-events-none 
               select-none
             "
-          />
-        </div> */}
-      </GlassBackground>
+        />
+      </div> */}
+
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-24 mt-12">
@@ -59,8 +57,8 @@ export function HeroSection() {
               viewport={{ amount: 0.3 }}
               className="text-base text-center md:text-start md:text-lg text-muted-foreground max-w-[500px] mt-2"
             >
-           Atendimentos terapêuticos que despertam o equilíbrio, aliviam tensões e reconectam você à sua essência. 
-           Um espaço de acolhimento, cura e bem-estar energético.
+              Atendimentos terapêuticos que despertam o equilíbrio, aliviam tensões e reconectam você à sua essência.
+              Um espaço de acolhimento, cura e bem-estar energético.
             </motion.p>
           </div>
 

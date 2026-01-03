@@ -1,14 +1,15 @@
 "use client";
 
-import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+
 
 export default function SuccessPage() {
   const router = useRouter();
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-background text-center px-4">
-      <Image src={"/logo.png"} alt="logo" width={256} height={256} className="pb-24" />
+      <Image src={"/logo_alt.png"} alt="logo" width={256} height={256} className="pb-24" />
       
       <h1 className="text-3xl font-bold text-green-600 mb-4">
         ✅ Pagamento confirmado!

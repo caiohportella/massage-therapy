@@ -11,6 +11,7 @@ interface TestimonialCardProps {
   role: string;
   avatar: string;
   rating?: number;
+  fullWidth?: boolean;
 }
 
 // Trim message to a reasonable length
@@ -25,9 +26,10 @@ export function TestimonialCard({
   role,
   avatar,
   rating,
+  fullWidth = false,
 }: TestimonialCardProps) {
   return (
-    <div className="relative flex flex-row gap-4 w-[380px] min-w-[380px] h-[200px] rounded-xl bg-card border border-border p-4 shadow-md shrink-0">
+    <div className={`relative flex flex-row gap-4 ${fullWidth ? "w-full" : "w-[380px] min-w-[380px]"} min-h-[180px] rounded-xl bg-card border border-border p-4 shadow-md shrink-0`}>
       {/* Avatar */}
       <div className="relative size-12 rounded-full overflow-hidden border-2 border-accent shrink-0">
         <Image
@@ -46,16 +48,15 @@ export function TestimonialCard({
             <span className="font-semibold text-foreground text-sm text-muted">{name}</span>
             <span className="text-xs text-accent">{role}</span>
           </div>
-          
+
           {/* Star Rating */}
           {rating && (
             <div className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`size-3 ${
-                    i < rating ? "fill-yellow-400 text-yellow-400" : "text-muted"
-                  }`}
+                  className={`size-3 ${i < rating ? "fill-yellow-400 text-yellow-400" : "text-muted"
+                    }`}
                 />
               ))}
             </div>
@@ -68,7 +69,7 @@ export function TestimonialCard({
         </p>
 
       </div>
-        <Quote className="text-accent" size={20} />
+      <Quote className="text-accent" size={20} />
     </div>
   );
 }

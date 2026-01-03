@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { GlassBackground } from "@/components/layout/GlassBackground";
+import { FaInstagram, FaWhatsapp } from "react-icons/fa";
 
 const links = [
   { href: "#about", label: "Sobre" },
@@ -68,11 +69,11 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center px-6">
             <Image
-              src="/logo.png"
+              src="/logo_alt.png"
               alt="Logo"
               width={256}
               height={256}
-              className="w-32 h-16 object-contain"
+              className="w-32 h-24 object-contain"
             />
           </Link>
 
@@ -106,11 +107,10 @@ export function Header() {
           <div className="md:hidden">
             <Button
               variant="ghost"
-              size="icon"
               onClick={() => setIsOpen(true)}
-              className="z-50"
+              className="z-50 w-20 h-20 hover:bg-transparent"
             >
-              <Menu className="w-6 h-6 text-foreground" />
+              <Image src="/bamboo.png" alt="Bamboo" width={1920} height={1080} className="w-20 h-20 object-contain" />
             </Button>
           </div>
         </div>
@@ -156,7 +156,7 @@ export function Header() {
                     className="
                       text-2xl
                       font-semibold
-                      text-foreground
+                      text-muted-foreground
                       hover:text-accent
                       transition-colors
                     "
@@ -164,8 +164,27 @@ export function Header() {
                     {link.label}
                   </Link>
                 ))}
+
               </motion.nav>
             )}
+            <div className="flex items-center justify-center gap-6">
+              <Link
+                href="https://wa.me/5511946469989"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-accent/80 transition-colors"
+              >
+                <FaWhatsapp className="w-6 h-6" />
+              </Link>
+              <Link
+                href="https://www.instagram.com/rithaportellamassoterapeuta"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-accent/80 transition-colors"
+              >
+                <FaInstagram className="w-6 h-6" />
+              </Link>
+            </div>
           </motion.aside>
         )}
       </AnimatePresence>

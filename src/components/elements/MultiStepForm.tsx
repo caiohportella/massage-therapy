@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Check, Loader2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, CreditCard, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useBookingStore } from "@/store/booking-store";
@@ -19,6 +19,10 @@ import { PersonalDataStep } from "@/components/steps/PersonalDataStep";
 import { BookingReviewStep } from "@/components/steps/BookingReviewStep";
 import { StepFormValuesMap } from "@/lib/types";
 import { useState } from "react";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPix } from '@fortawesome/free-brands-svg-icons'
+import { createPixPayment } from "@/app/actions/abacate-pay";
 
 export function MultiStepForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -68,6 +72,52 @@ export function MultiStepForm() {
 
   function handleBack() {
     prevStep();
+  }
+
+  async function handleFinalizeWithPix() {
+    setIsLoading(true);
+
+    try {
+      const selectedServices = useBookingStore.getState().selectedServices;
+      const personalData = useBookingStore.getState().personalData;
+
+      // Create products array matching AbacatePay API format
+      const products = selectedServices.map((s) => ({
+        externalId: s.productId,
+        name: s.name,
+        description: s.name, // Use service name as description
+        quantity: s.quantity,
+        price: s.price,
+      }));
+
+      // Create customer object matching AbacatePay API format
+      // Map PersonalData fields to AbacatePay Customer format
+      const customer = {
+        name: personalData.fullName,
+        taxId: "", // TODO: Add CPF field to PersonalData if needed
+        cellphone: personalData.phone,
+        email: personalData.email,
+      };
+
+      const response = await createPixPayment(products, customer);
+
+      if ("error" in response && response.error) {
+        console.error("Erro ao criar pagamento:", response.error);
+        setIsLoading(false);
+        return;
+      }
+
+      // Type guard: if no error, response is BillingResponse with data
+      if ("data" in response && response.data?.url) {
+        window.location.href = response.data.url;
+      } else {
+        console.error("URL de pagamento não encontrada");
+        setIsLoading(false);
+      }
+    } catch (err) {
+      console.error("Erro ao processar pagamento:", err);
+      setIsLoading(false);
+    }
   }
 
   function handleFinalize() {
@@ -171,22 +221,41 @@ export function MultiStepForm() {
           )}
 
           {step === STEPS.length - 1 ? (
-            <Button
-              onClick={handleFinalize}
-              disabled={isLoading}
-              className="cursor-pointer"
-            >
-              {isLoading ? (
-                <>
-                  Processando...
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                </>
-              ) : (
-                <>
-                  Finalizar <Check className="w-4 h-4 ml-2" />
-                </>
-              )}
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                onClick={handleFinalizeWithPix}
+                disabled={isLoading}
+                className="cursor-pointer"
+              >
+                {isLoading ? (
+                  <>
+                    Processando...
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  </>
+                ) : (
+                  <>
+                    Finalizar com Pix <FontAwesomeIcon icon={faPix} className="w-4 h-4 ml-2" />
+                  </>
+                )}
+              </Button>
+              <Button
+                onClick={handleFinalize}
+                disabled={isLoading}
+                className="cursor-pointer"
+              >
+                {isLoading ? (
+                  <>
+                    Processando...
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  </>
+                ) : (
+                  <>
+                    Finalizar com cartão <CreditCard className="w-4 h-4 ml-2" />
+                  </>
+                )}
+              </Button>
+            </div>
           ) : (
             <Button
               onClick={handleNext}
