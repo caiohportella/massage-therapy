@@ -4,10 +4,9 @@ import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import { calendar } from "@/lib/GoogleCalendar";
 import { sendWhatsAppMessage } from "@/lib/twilio";
-import { sendEmail } from "@/lib/email";
 import { formatConfirmationMessage } from "@/lib/whatsapp-messages/FormatConfirmationMessage";
-import { generateReceiptEmailHtml } from "@/lib/email/templates/receipt";
 import { SelectedService } from "@/lib/types";
+import { TIMEZONE } from "@/lib/constants";
 
 export async function POST(req: NextRequest) {
   const sig = req.headers.get("stripe-signature")!;
@@ -47,24 +46,12 @@ export async function POST(req: NextRequest) {
       const personalData = JSON.parse(metadata.personalData);
       const services = JSON.parse(metadata.selectedServices);
 
-      const start = new Date(`${metadata.date}T${metadata.time}`);
+      // Parse time components
+      const [hours, minutes] = metadata.time.split(":").map(Number);
 
-      // const serviceRecords = await Promise.all(
-      //   services.map(async (s: SelectedService) => {
-      //     const found = await prisma.service.findUnique({
-      //       where: { productId: s.productId },
-      //     });
-
-      //     if (!found) {
-      //       console.error(`❌ Serviço não encontrado para ID: ${s.productId}`);
-      //       throw new Error("Serviço inválido no agendamento.");
-      //     }
-
-      //     console.log(`✅ Serviço encontrado: ${found.name} (${s.productId})`);
-
-      //     return { ...found, duration: s.duration };
-      //   })
-      // );
+      // Create a date string that will be interpreted in São Paulo timezone
+      // Format: YYYY-MM-DDTHH:MM:SS (without timezone suffix, so Google Calendar uses the specified timeZone)
+      const startDateTimeStr = `${metadata.date}T${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:00`;
 
       const serviceRecords = await Promise.all(
         services.map(async (s: SelectedService) => {
@@ -87,7 +74,13 @@ export async function POST(req: NextRequest) {
         0
       );
 
-      const end = new Date(start.getTime() + totalMinutes * 60 * 1000);
+      // Calculate end time
+      const endHours = hours + Math.floor((minutes + totalMinutes) / 60);
+      const endMinutes = (minutes + totalMinutes) % 60;
+      const endDateTimeStr = `${metadata.date}T${endHours.toString().padStart(2, "0")}:${endMinutes.toString().padStart(2, "0")}:00`;
+
+      // For database storage, create proper Date objects in UTC
+      const startForDb = new Date(`${metadata.date}T${metadata.time}:00-03:00`);
 
       // Criar ou atualizar usuário
       const user = await prisma.user.upsert({
@@ -122,7 +115,7 @@ export async function POST(req: NextRequest) {
         data: {
           totalAmount: session.amount_total ? session.amount_total / 100 : 0,
           userId: user.id,
-          date: new Date(metadata.date), // Convert string to Date object
+          date: new Date(metadata.date),
           time: metadata.time,
           paymentStatus: "paid",
           services: {
@@ -131,7 +124,7 @@ export async function POST(req: NextRequest) {
             })),
           },
           paymentIntentId: session.payment_intent as string,
-          scheduledAt: start,
+          scheduledAt: startForDb,
         },
         include: {
           services: { include: { service: true } },
@@ -139,6 +132,7 @@ export async function POST(req: NextRequest) {
       });
 
       // Criar evento no Google Calendar
+      // Use datetime strings without timezone suffix - Google Calendar will use the timeZone parameter
       await calendar.events.insert({
         calendarId: process.env.GOOGLE_CALENDAR_ID!,
         requestBody: {
@@ -147,12 +141,12 @@ export async function POST(req: NextRequest) {
             .map((s) => s.service.name)
             .join(", ")}`,
           start: {
-            dateTime: start.toISOString(),
-            timeZone: "America/Sao_Paulo",
+            dateTime: startDateTimeStr,
+            timeZone: TIMEZONE,
           },
           end: {
-            dateTime: end.toISOString(),
-            timeZone: "America/Sao_Paulo",
+            dateTime: endDateTimeStr,
+            timeZone: TIMEZONE,
           },
         },
       });
@@ -168,26 +162,6 @@ export async function POST(req: NextRequest) {
       await sendWhatsAppMessage({
         to: user.phone,
         message,
-      });
-
-      // Enviar email de confirmação/recibo
-      const receiptEmailHtml = generateReceiptEmailHtml({
-        name: user.name,
-        date: metadata.date,
-        time: metadata.time,
-        services: booking.services.map((s) => ({
-          name: s.service.name,
-          price: s.service.price,
-          duration: s.service.duration,
-        })),
-        totalAmount: session.amount_total || 0,
-        transactionId: session.payment_intent as string,
-      });
-
-      await sendEmail({
-        to: user.email,
-        subject: "✅ Confirmação de Pagamento - Massoterapia",
-        html: receiptEmailHtml,
       });
 
       console.log("✅ Agendamento completo com sucesso.");

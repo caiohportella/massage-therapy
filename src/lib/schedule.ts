@@ -1,8 +1,7 @@
 import { addMinutes, format, isBefore, isSameDay, addHours, startOfDay as dateFnsStartOfDay, endOfDay as dateFnsEndOfDay } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
-import { calendar } from "./GoogleCalendar";
+import { getAllCalendarsBusyTimes } from "./GoogleCalendar";
 import { CALENDAR_ID, SLOT_DURATION, SLOT_PADDING, TIMEZONE } from "./constants";
-import { BusyTime } from "@/lib/types";
 import { prisma } from "./prisma";
 
 if (!CALENDAR_ID) throw new Error("GOOGLE_CALENDAR_ID não definido.");
@@ -21,20 +20,14 @@ export async function getAvailableSlotsForDate(date: Date) {
     return [];
   }
 
-  // 2. Buscar os horários ocupados no Google Calendar
+  // 2. Buscar os horários ocupados no Google Calendar (check ALL calendars)
   const startOfDay = dateFnsStartOfDay(normalizedDate);
   const endOfDay = dateFnsEndOfDay(normalizedDate);
 
-  const res = await calendar.freebusy.query({
-    requestBody: {
-      timeMin: startOfDay.toISOString(),
-      timeMax: endOfDay.toISOString(),
-      timeZone: TIMEZONE,
-      items: [{ id: CALENDAR_ID }],
-    },
-  });
-
-  const busySlots = res.data.calendars?.[CALENDAR_ID!]?.busy as BusyTime[] ?? [];
+  const busySlots = await getAllCalendarsBusyTimes(
+    startOfDay.toISOString(),
+    endOfDay.toISOString()
+  );
 
   // 3. Gerar todos os slots disponíveis com base nos working hours
   const slots: string[] = [];
@@ -72,4 +65,3 @@ export async function getAvailableSlotsForDate(date: Date) {
 
   return slots;
 }
-

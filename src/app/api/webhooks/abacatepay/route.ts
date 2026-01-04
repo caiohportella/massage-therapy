@@ -7,11 +7,8 @@ import {
     getAvailableSlots,
 } from "@/lib/GoogleCalendar";
 import { sendWhatsAppMessage } from "@/lib/twilio";
-import { sendEmail } from "@/lib/email";
 import { formatConfirmationMessage } from "@/lib/whatsapp-messages/FormatConfirmationMessage";
 import { formatConflictMessage } from "@/lib/whatsapp-messages/FormatConflictMessage";
-import { generateReceiptEmailHtml } from "@/lib/email/templates/receipt";
-import { generateConflictEmailHtml } from "@/lib/email/templates/conflict";
 
 interface AbacatePayWebhookEvent {
     event: string;
@@ -91,7 +88,6 @@ export async function POST(req: NextRequest) {
     if (event.event === "BILLING_PAID" || event.event === "billing.paid") {
         const billing = event.data.billing;
         const metadata = billing.metadata;
-        const customer = billing.customer?.metadata;
 
         if (!metadata?.bookingId) {
             console.warn("❗ No bookingId in metadata, skipping...");
@@ -155,21 +151,6 @@ export async function POST(req: NextRequest) {
                     },
                 });
 
-                // Send conflict email
-                const conflictEmailHtml = generateConflictEmailHtml({
-                    name: user.name,
-                    requestedDate: dateStr,
-                    requestedTime: timeStr,
-                    alternativeSlots,
-                    rescheduleUrl,
-                });
-
-                await sendEmail({
-                    to: user.email,
-                    subject: "⚠️ Conflito de Horário - Reagendamento Necessário",
-                    html: conflictEmailHtml,
-                });
-
                 // Send conflict WhatsApp message
                 const conflictMessage = formatConflictMessage({
                     name: user.name,
@@ -208,26 +189,6 @@ export async function POST(req: NextRequest) {
                     paymentStatus: "paid",
                     paymentIntentId: billing.id,
                 },
-            });
-
-            // Send receipt email
-            const receiptEmailHtml = generateReceiptEmailHtml({
-                name: user.name,
-                date: dateStr,
-                time: timeStr,
-                services: services.map((s) => ({
-                    name: s.name,
-                    price: s.price,
-                    duration: s.duration,
-                })),
-                totalAmount: billing.paidAmount || billing.amount,
-                transactionId: billing.id,
-            });
-
-            await sendEmail({
-                to: user.email,
-                subject: "✅ Confirmação de Pagamento - Massoterapia",
-                html: receiptEmailHtml,
             });
 
             // Send WhatsApp confirmation
