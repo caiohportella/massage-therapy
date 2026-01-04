@@ -4,7 +4,9 @@ import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import { calendar } from "@/lib/GoogleCalendar";
 import { sendWhatsAppMessage } from "@/lib/twilio";
+import { sendEmail } from "@/lib/email";
 import { formatConfirmationMessage } from "@/lib/whatsapp-messages/FormatConfirmationMessage";
+import { generateReceiptEmailHtml } from "@/lib/email/templates/receipt";
 import { SelectedService } from "@/lib/types";
 
 export async function POST(req: NextRequest) {
@@ -120,7 +122,7 @@ export async function POST(req: NextRequest) {
         data: {
           totalAmount: session.amount_total ? session.amount_total / 100 : 0,
           userId: user.id,
-          date: metadata.date,
+          date: new Date(metadata.date), // Convert string to Date object
           time: metadata.time,
           paymentStatus: "paid",
           services: {
@@ -166,6 +168,26 @@ export async function POST(req: NextRequest) {
       await sendWhatsAppMessage({
         to: user.phone,
         message,
+      });
+
+      // Enviar email de confirmação/recibo
+      const receiptEmailHtml = generateReceiptEmailHtml({
+        name: user.name,
+        date: metadata.date,
+        time: metadata.time,
+        services: booking.services.map((s) => ({
+          name: s.service.name,
+          price: s.service.price,
+          duration: s.service.duration,
+        })),
+        totalAmount: session.amount_total || 0,
+        transactionId: session.payment_intent as string,
+      });
+
+      await sendEmail({
+        to: user.email,
+        subject: "✅ Confirmação de Pagamento - Massoterapia",
+        html: receiptEmailHtml,
       });
 
       console.log("✅ Agendamento completo com sucesso.");
