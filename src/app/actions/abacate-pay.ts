@@ -54,7 +54,7 @@ export async function createPixPayment(
 ) {
     try {
         const totalPrice = products.reduce((sum, p) => sum + p.price * p.quantity, 0);
-        if (totalPrice < 100) throw new Error("O valor mínimo para pagamento é de R$1,00.");
+        if (totalPrice < 1) throw new Error("O valor mínimo para pagamento é de R$1,00.");
 
         if (!customer) throw new Error("Cliente inválido.");
 
