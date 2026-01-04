@@ -80,8 +80,39 @@ export function MultiStepForm() {
     try {
       const selectedServices = useBookingStore.getState().selectedServices;
       const personalData = useBookingStore.getState().personalData;
+      const bookingDate = useBookingStore.getState().selectedDate;
+      const bookingTime = useBookingStore.getState().selectedTime;
 
-      // Create products array matching AbacatePay API format
+      if (!bookingDate || !bookingTime) {
+        console.error("Data ou horário não selecionados");
+        setIsLoading(false);
+        return;
+      }
+
+      const dateStr = bookingDate.toISOString().split("T")[0];
+
+      // Step 1: Create pending booking in database
+      const pendingResponse = await fetch("/api/bookings/pending", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          date: dateStr,
+          time: bookingTime,
+          selectedServices,
+          personalData,
+          totalDuration: selectedServices.reduce((sum, s) => sum + (s.duration || 60), 0),
+        }),
+      });
+
+      const pendingData = await pendingResponse.json();
+
+      if (!pendingResponse.ok || !pendingData.bookingId) {
+        console.error("Erro ao criar agendamento pendente:", pendingData.error);
+        setIsLoading(false);
+        return;
+      }
+
+      // Step 2: Create products array matching AbacatePay API format
       const products = selectedServices.map((s) => ({
         externalId: s.productId,
         name: s.name,
@@ -90,8 +121,7 @@ export function MultiStepForm() {
         price: s.price,
       }));
 
-      // Create customer object matching AbacatePay API format
-      // Map PersonalData fields to AbacatePay Customer format
+      // Step 3: Create customer object matching AbacatePay API format
       const customer = {
         name: personalData.fullName,
         taxId: personalData.cpf,
@@ -99,10 +129,29 @@ export function MultiStepForm() {
         email: personalData.email,
       };
 
-      const response = await createPixPayment(products, customer);
+      // Step 4: Create Pix payment with booking metadata
+      const response = await createPixPayment(products, customer, {
+        bookingId: pendingData.bookingId,
+        date: dateStr,
+        time: bookingTime,
+      });
+
+      // Handle null/undefined response
+      if (!response) {
+        console.error("Resposta vazia do servidor de pagamento");
+        await fetch(`/api/bookings/pending?id=${pendingData.bookingId}`, {
+          method: "DELETE",
+        });
+        setIsLoading(false);
+        return;
+      }
 
       if ("error" in response && response.error) {
         console.error("Erro ao criar pagamento:", response.error);
+        // Clean up pending booking on payment error
+        await fetch(`/api/bookings/pending?id=${pendingData.bookingId}`, {
+          method: "DELETE",
+        });
         setIsLoading(false);
         return;
       }
@@ -112,6 +161,10 @@ export function MultiStepForm() {
         window.location.href = response.data.url;
       } else {
         console.error("URL de pagamento não encontrada");
+        // Clean up pending booking
+        await fetch(`/api/bookings/pending?id=${pendingData.bookingId}`, {
+          method: "DELETE",
+        });
         setIsLoading(false);
       }
     } catch (err) {

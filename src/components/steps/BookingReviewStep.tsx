@@ -27,7 +27,7 @@ export function BookingReviewStep() {
             Revisão e Confirmação
           </CardTitle>
           <Image
-            src="/logo-receipt.png"
+            src="/logo_alt.png"
             alt="Logo"
             width={96}
             height={48}
@@ -106,12 +106,19 @@ export function BookingReviewStep() {
             <span>📍</span>Endereço
           </h3>
           <p>
-            {personalData.address}, {personalData.number}
+            Rua Bela Vista, 395  <br />
+            Apartamento 62
+            <br />
+            Bela Vista - Jundiai/SP
+            <br />
+            CEP 13207-780
+            <br />
+            {/* {personalData.address}, {personalData.number}
             {personalData.complement && ` - ${personalData.complement}`}
             <br />
             {personalData.district} - {personalData.city} / {personalData.state}
             <br />
-            CEP {personalData.zipCode}
+            CEP {personalData.zipCode} */}
           </p>
 
           <div className="flex justify-between">

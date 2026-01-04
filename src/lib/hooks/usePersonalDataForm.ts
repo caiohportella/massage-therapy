@@ -10,6 +10,7 @@ export const personalDataDefaultValues = {
   preferredName: "",
   email: "",
   phone: "",
+  cpf: "",
   birthDate: "",
   gender: "",
   profession: "",

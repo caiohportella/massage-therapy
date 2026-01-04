@@ -37,7 +37,7 @@ export default function RootLayout({
         className={`${sora.variable} ${croissant.variable} ${azeret.variable} antialiased font-sans bg-background text-foreground`}
       >
         <main className="overflow-x-hidden">{children}</main>
-        <Toaster />
+        <Toaster position="top-right" />
       </body>
     </html>
   );

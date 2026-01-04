@@ -15,6 +15,12 @@ interface Customer {
     email: string;
 }
 
+interface PaymentMetadata {
+    bookingId: string;
+    date: string;
+    time: string;
+}
+
 interface BillingResponse {
     error: null | string;
     data: {
@@ -41,7 +47,11 @@ interface BillingResponse {
     }
 }
 
-export async function createPixPayment(products: Product[], customer: Customer) {
+export async function createPixPayment(
+    products: Product[],
+    customer: Customer,
+    metadata?: PaymentMetadata
+) {
     try {
         const totalPrice = products.reduce((sum, p) => sum + p.price * p.quantity, 0);
         if (totalPrice < 100) throw new Error("O valor mínimo para pagamento é de R$1,00.");
@@ -56,7 +66,7 @@ export async function createPixPayment(products: Product[], customer: Customer) 
                 name: p.name,
                 description: p.description || p.name,
                 quantity: p.quantity,
-                price: p.price,
+                price: Math.round(p.price * 100), // Convert reais to centavos
             })),
             customer: {
                 name: customer.name,
@@ -64,6 +74,11 @@ export async function createPixPayment(products: Product[], customer: Customer) 
                 cellphone: customer.cellphone,
                 email: customer.email,
             },
+            metadata: metadata ? {
+                bookingId: metadata.bookingId,
+                date: metadata.date,
+                time: metadata.time,
+            } : undefined,
             returnUrl: process.env.NEXT_PUBLIC_APP_URL,
             completionUrl: `${process.env.NEXT_PUBLIC_APP_URL}/success`,
         })

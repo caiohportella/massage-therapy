@@ -26,6 +26,8 @@ export function ServicePickerStep() {
     Record<string, string>
   >({});
 
+  const [expandedServiceId, setExpandedServiceId] = useState<string | null>(null);
+
   useEffect(() => {
     if (isFetched) return;
 
@@ -76,95 +78,164 @@ export function ServicePickerStep() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      {/* Mobile: Scroll horizontal */}
+      {/* Mobile: Compact vertical list */}
       <div className="block md:hidden">
-        <ScrollArea className="w-full">
-          <div className="flex gap-4 pb-2">
-            {services.map((service) => {
-              const alreadySelected = selectedServices.some(
-                (s) => s.productId === service.id
-              );
+        <div className="flex flex-col gap-2">
+          {services.map((service) => {
+            const alreadySelected = selectedServices.some(
+              (s) => s.productId === service.id
+            );
+            const isExpanded = expandedServiceId === service.id;
+            const hasMultipleDurations = service.durations.length > 1;
+            const selectedOption = selectedOptions[service.id] ?? service.durations[0]?.label;
+            const currentDuration = service.durations.find(d => d.label === selectedOption) ?? service.durations[0];
 
-              return (
+            return (
+              <div
+                key={service.id}
+                className={`
+                  border rounded-lg p-3 bg-background transition-all
+                  ${alreadySelected ? 'border-primary ring-1 ring-primary/30' : 'border-border'}
+                  ${service.durations.length === 0 ? 'opacity-50' : ''}
+                `}
+              >
+                {/* Main row - always visible */}
                 <div
-                  key={service.id}
-                  className="min-w-[85vw] shrink-0 border rounded-xl p-4 shadow-sm bg-background flex flex-col justify-between"
+                  className="flex items-center justify-between gap-3 cursor-pointer"
+                  onClick={() => {
+                    if (service.durations.length === 0) {
+                      toast.error("Não é possível selecionar este serviço: nenhum preço BRL ativo.");
+                      return;
+                    }
+
+                    if (hasMultipleDurations && !alreadySelected) {
+                      // Toggle expand for multi-duration services
+                      setExpandedServiceId(isExpanded ? null : service.id);
+                    } else {
+                      // Direct toggle for single-duration services
+                      if (alreadySelected) {
+                        setSelectedServices(
+                          selectedServices.filter((s) => s.productId !== service.id)
+                        );
+                        toast.success("Serviço removido");
+                      } else {
+                        handleSelectService(service);
+                        toast.success("Serviço adicionado");
+                      }
+                    }
+                  }}
                 >
-                  <div className="space-y-4 flex-grow">
-                    {service.image && (
-                      <Image
-                        src={service.image}
-                        alt={service.name}
-                        width={400}
-                        height={200}
-                        className="rounded-md object-cover w-full h-[180px]"
-                      />
-                    )}
-                    <h3 className="text-xl font-semibold">{service.name}</h3>
-                    {service.durations.length > 1 ? (
-                      <Select
-                        onValueChange={(value) =>
-                          setSelectedOptions((prev) => ({
-                            ...prev,
-                            [service.id]: value,
-                          }))
-                        }
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Escolha a duração" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {service.durations.map((duration) => (
-                            <SelectItem
-                              key={duration.label}
-                              value={duration.label}
-                            >
-                              {duration.label} — R$ {duration.price.toFixed(2)}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    ) : service.durations.length === 1 ? (
-                      <p className="text-muted-foreground text-sm">
-                        {service.durations[0].label} — R${" "}
-                        {service.durations[0].price.toFixed(2)}
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-medium text-sm truncate">{service.name}</h4>
+                    {currentDuration && (
+                      <p className="text-xs text-muted-foreground">
+                        {hasMultipleDurations && !alreadySelected ? (
+                          <span className="text-primary">Toque para ver opções</span>
+                        ) : (
+                          <span>{currentDuration.label} — R$ {currentDuration.price.toFixed(2)}</span>
+                        )}
                       </p>
-                    ) : (
-                      <p className="text-red-500 text-sm">Nenhum preço BRL ativo configurado.</p>
+                    )}
+                    {service.durations.length === 0 && (
+                      <p className="text-xs text-red-500">Indisponível</p>
                     )}
                   </div>
 
-                  <Button
-                    className="w-full mt-6"
-                    variant={alreadySelected ? "destructive" : "default"}
-                    onClick={() => {
-                      if (alreadySelected) {
-                        setSelectedServices(
-                          selectedServices.filter(
-                            (s) => s.productId !== service.id
-                          )
-                        );
-                        toast.success("Serviço removido do agendamento");
-                      } else if (service.durations.length > 0) {
-                        handleSelectService(service);
-                      } else {
-                        toast.error("Não é possível selecionar este serviço: nenhum preço BRL ativo.");
-                      }
-                    }}
-                    disabled={service.durations.length === 0} // Disable button if no durations
-                  >
-                    {alreadySelected
-                      ? "Remover serviço"
-                      : service.durations.length === 0
-                      ? "Indisponível"
-                      : "Selecionar serviço"}
-                  </Button>
+                  {/* Selection indicator */}
+                  <div className={`
+                    w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors
+                    ${alreadySelected ? 'bg-primary border-primary text-primary-foreground' : 'border-muted-foreground/30'}
+                  `}>
+                    {alreadySelected && (
+                      <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                        <path d="M5 12l5 5L19 7" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    )}
+                  </div>
                 </div>
-              );
-            })}
+
+                {/* Expanded section for duration selection */}
+                {isExpanded && hasMultipleDurations && !alreadySelected && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="mt-3 pt-3 border-t border-border"
+                  >
+                    <p className="text-xs text-muted-foreground mb-2">Escolha a duração:</p>
+                    <div className="flex flex-col gap-1.5">
+                      {service.durations.map((duration) => (
+                        <button
+                          key={duration.label}
+                          className={`
+                            w-full text-left px-3 py-2 rounded-md text-sm transition-colors
+                            ${selectedOptions[service.id] === duration.label
+                              ? 'bg-primary/10 text-primary border border-primary/30'
+                              : 'bg-muted/50 hover:bg-muted'}
+                          `}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedOptions((prev) => ({
+                              ...prev,
+                              [service.id]: duration.label,
+                            }));
+                          }}
+                        >
+                          <span className="font-medium">{duration.label}</span>
+                          <span className="text-muted-foreground ml-2">— R$ {duration.price.toFixed(2)}</span>
+                        </button>
+                      ))}
+                    </div>
+                    <Button
+                      className="w-full mt-3"
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleSelectService(service);
+                        setExpandedServiceId(null);
+                      }}
+                    >
+                      Adicionar serviço
+                    </Button>
+                  </motion.div>
+                )}
+
+                {/* Show remove button for selected multi-duration services */}
+                {alreadySelected && (
+                  <div className="mt-2 pt-2 border-t border-border">
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <span>{selectedOptions[service.id] ?? service.durations[0]?.label}</span>
+                      <button
+                        className="text-red-500 hover:text-red-600 font-medium"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedServices(
+                            selectedServices.filter((s) => s.productId !== service.id)
+                          );
+                          toast.success("Serviço removido");
+                        }}
+                      >
+                        Remover
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Selection summary */}
+        {selectedServices.length > 0 && (
+          <div className="mt-4 p-3 bg-primary/10 rounded-lg border border-primary/20">
+            <p className="text-sm font-medium text-primary">
+              {selectedServices.length} serviço{selectedServices.length > 1 ? 's' : ''} selecionado{selectedServices.length > 1 ? 's' : ''}
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">
+              Total: R$ {selectedServices.reduce((sum, s) => sum + s.price, 0).toFixed(2)}
+            </p>
           </div>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
+        )}
       </div>
 
       {/* Desktop: grid padrão */}
@@ -240,8 +311,8 @@ export function ServicePickerStep() {
                 {alreadySelected
                   ? "Remover serviço"
                   : service.durations.length === 0
-                  ? "Indisponível"
-                  : "Selecionar serviço"}
+                    ? "Indisponível"
+                    : "Selecionar serviço"}
               </Button>
             </div>
           );
