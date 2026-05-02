@@ -45,7 +45,7 @@ export function TestimonialCard({
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="font-semibold text-foreground text-sm text-muted">{name}</span>
+            <span className="font-semibold text-sm text-muted">{name}</span>
             <span className="text-xs text-accent">{role}</span>
           </div>
 
@@ -64,7 +64,7 @@ export function TestimonialCard({
         </div>
 
         {/* Message */}
-        <p className="text-foreground/80 text-sm leading-relaxed line-clamp-5 text-muted">
+        <p className="text-muted text-sm leading-relaxed line-clamp-5">
           {trimMessage(message)}
         </p>
 

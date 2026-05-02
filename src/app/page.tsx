@@ -3,10 +3,10 @@ import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { ServicesCarouselSection } from "@/components/sections/ServicesCarouselSection";
 import { AboutSection } from "@/components/sections/AboutSection";
-import { BookingSection } from "@/components/sections/BookingSection";
 import { TestimonialSection } from "@/components/sections/TestimonialsSection";
-import { VouchersSection } from "@/components/sections/VouchersSection";
-import {BenefitsSection} from "@/components/sections/BenefitsSection";
+import { BenefitsSection } from "@/components/sections/BenefitsSection";
+import { PartnersSection } from "@/components/sections/PartnersSection";
+import BookingSection from "@/components/sections/BookingSection";
 
 export default function Home() {
   return (
@@ -25,11 +25,11 @@ export default function Home() {
         <section id="services">
           <ServicesCarouselSection />
         </section>
+        <section id="partners">
+          <PartnersSection />
+        </section>
         <section id="testimonials">
           <TestimonialSection />
-        </section>
-        <section id="vouchers">
-          <VouchersSection />
         </section>
         <section id="booking">
           <BookingSection />

@@ -1,9 +1,9 @@
 import { SectionHeader } from "@/components/elements/SectionHeader";
 
-import { getPlaceDetails, GoogleReview } from "@/lib/GoogleMaps";
+import { getPlaceDetails, type GoogleReview } from "@/lib/GoogleMaps";
 import { TestimonialCard } from "../elements/TestimonialCard";
 import Link from "next/link";
-import { Star, StarIcon } from "lucide-react";
+import { Star } from "lucide-react";
 
 // Testimonial type
 type Testimonial = {
@@ -58,8 +58,8 @@ export async function TestimonialSection() {
   // Use Google reviews if available, otherwise use fallback
   const testimonials = placeDetails?.reviews?.length
     ? placeDetails.reviews
-      .filter((review) => review.rating >= 4) // Only show 4+ star reviews
-      .map(mapGoogleReviewToTestimonial)
+        .filter((review) => review.rating >= 4) // Only show 4+ star reviews
+        .map(mapGoogleReviewToTestimonial)
     : fallbackTestimonials;
 
   return (
@@ -92,7 +92,11 @@ export async function TestimonialSection() {
                 </span>
               ))}
             </div>
-            <Link className="hover:underline" target="_blank" href="https://www.google.com/search?client=ms-google-coop&q=Ritha+Portella+%7C+Massoterapeuta+Integrativa&cx=005326727925058575645:u2hfjb_gpuk#lrd=0x94cf27929b039e8d:0x11a42c2572859876,1,,,,">
+            <Link
+              className="hover:underline"
+              target="_blank"
+              href="https://www.google.com/search?client=ms-google-coop&q=Ritha+Portella+%7C+Massoterapeuta+Integrativa&cx=005326727925058575645:u2hfjb_gpuk#lrd=0x94cf27929b039e8d:0x11a42c2572859876,1,,,,"
+            >
               <span className="text-sm">
                 ({placeDetails.userRatingCount} avaliações no Google)
               </span>
