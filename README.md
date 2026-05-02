@@ -6,7 +6,8 @@
   <br />
 
   <!-- Note: Replace this placeholder with a real screenshot of the project -->
-  <img width="1838" height="940" alt="ritha-portella" src="https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=1838&auto=format&fit=crop" />
+  <img width="1838" height="940" alt="ritha-portella" src="https://github.com/user-attachments/assets/dc58309b-0096-4a94-899f-5daabe6bb7f9" alt="ritha" />
+
 
   <br />
 
